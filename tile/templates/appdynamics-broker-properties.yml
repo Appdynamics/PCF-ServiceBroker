@@ -1,0 +1,102 @@
+properties:
+  # EDIT ME -- change the domain names
+  domain: 10.244.0.34.xip.io
+  app_domains: 10.244.0.34.xip.io
+  uaa:
+    clients:
+      appdynamics_broker:
+        secret: 'test'
+  ssl:
+    skip_cert_verify: true
+  appdynamics_broker:
+    encryption_key: 'test'
+    # EDIT ME -- Change the app name and URI as needed
+    app_name: AppdynamicsServiceBroker
+    app_version: v1
+    app_uri: appdynamics-broker
+    create_open_security_group: false
+    enable_global_access_to_plans: true
+    ### CUSTOM_VARIABLE_MANIFEST_BEGIN_MARKER
+    ### CUSTOM_VARIABLE_MANIFEST_END_MARKER
+    on_demand_service_plans_collection:
+              - guid: a1f57de3-b174-46cb-b283-58a9bd599ab4
+                plan_name: test1
+                plan_description: test 1 plan
+                account_access_key: 6c84b8a94a7f667a3a92c802b6e81ceda1537cd5
+                account_name: test account
+                controller_host: 10.11.12.13
+                controller_port: 8888
+                ssl_enabled: true
+              - guid: adasfas23-b174-46cb-b283-58a9bd599ab4
+                plan_name: test2
+                plan_description: test 2 plan
+                account_access_key: ad234qasfasf2342412
+                account_name: test account2
+                controller_host: 11.12.13.14
+                controller_port: 9999
+                ssl_enabled: false
+
+    app_push:
+      memory: 512
+      org_quota: 1024
+      timeout: 180
+    # Set the persistence type to 'mysql' for using my sql instance to store data
+    # Set the persistence type to 'custom' for using custom db (non-my sql) instance to store data
+    # Set the persistence type to 'none' if its all in-memory
+    persistence_store_type: none
+
+    #
+    # EDIT ME - remove if there are no On-Demand Plans that need to be created
+
+    cf:
+      admin_user: admin
+      admin_password: admin
+      # EDIT ME - These are supposed to refer to inbuilt plans which needs to be made public accessible from the Broker
+    broker:
+      user: testuser
+      password: testuser
+      internal_service_names: ""
+  appdynamics_machine_agent:
+    encryption_key: 'test'
+    # EDIT ME -- Change the app name and URI as needed
+    app_name: AppdynamicsMachineAgent
+    app_version: v1
+    app_uri: appdynamics-machineagent
+    create_open_security_group: false
+    enable_global_access_to_plans: true
+    account_access_key: 6c84b8a94a7f667a3a92c802b6e81ceda1537cd5
+    account_name: test account
+    controller_host: 10.11.12.13
+    controller_port: 8888
+    ssl_enabled: true
+    tier_name: 'machineagenttier'
+    node_name: 'machineagentnode'
+    ops_metrics_host: 10.10.10.10
+    ops_metrics_port: 8080
+    ops_metrics_jmx_user: admin
+    ops_metrics_jmx_password: admin
+    ### CUSTOM_VARIABLE_MANIFEST_BEGIN_MARKER
+    ### CUSTOM_VARIABLE_MANIFEST_END_MARKER
+
+    app_push:
+      memory: 512
+      org_quota: 1024
+      timeout: 180
+    # Set the persistence type to 'mysql' for using my sql instance to store data
+    # Set the persistence type to 'custom' for using custom db (non-my sql) instance to store data
+    # Set the persistence type to 'none' if its all in-memory
+    persistence_store_type: none
+
+    #
+    # EDIT ME - remove if there are no On-Demand Plans that need to be created
+
+    cf:
+      admin_user: admin
+      admin_password: admin
+    broker:
+      user: testuser
+      password: testuser
+      # EDIT ME - These are supposed to refer to inbuilt plans which needs to be made public accessible from the Broker
+      internal_service_names: ""
+
+

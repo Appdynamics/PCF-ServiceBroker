@@ -1,0 +1,6 @@
+---
+blobstore:
+  provider: local
+  options:
+    blobstore_path: /tmp/appdynamics_broker-blobs
+final_name: appdynamics_broker_blobstore

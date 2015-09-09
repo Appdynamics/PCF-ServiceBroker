@@ -1,0 +1,49 @@
+networks: (( merge ))
+
+meta:
+  environment: ~
+  job_templates: (( merge ))
+
+jobs:
+  - name: deploy-service-broker
+    templates:
+    - name: deploy-service-broker
+    instances: 1
+    lifecycle: errand
+    resource_pool: small_z1
+    networks:
+      - name: appdynamics_broker_network
+  - name: deploy-machine-agent
+    templates:
+    - name: deploy-machine-agent
+    instances: 1
+    lifecycle: errand
+    resource_pool: small_z1
+    networks:
+      - name: appdynamics_broker_network
+  - name: register-broker
+    instances: 1
+    templates:
+    - name: register-broker
+    lifecycle: errand
+    resource_pool: small_z1
+    networks:
+      - name: appdynamics_broker_network
+  - name: destroy-broker
+    instances: 1
+    templates:
+    - name: destroy-broker
+    lifecycle: errand
+    resource_pool: small_z1
+    networks:
+      - name: appdynamics_broker_network
+  - name: destroy-machine-agent
+    instances: 1
+    templates:
+    - name: destroy-machine-agent
+    lifecycle: errand
+    resource_pool: small_z1
+    networks:
+      - name: appdynamics_broker_network
+
+

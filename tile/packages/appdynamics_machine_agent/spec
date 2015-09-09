@@ -1,0 +1,8 @@
+---
+name: appdynamics_machine_agent
+
+dependencies: []
+
+files:
+- templates/all_open.json
+- appdynamics-machine-agent/machineagent-bundle-64bit-linux.zip

@@ -1,0 +1,224 @@
+#!/bin/bash
+set -e -x
+
+  <%
+    def grab_app_domain_name
+      app_domains_str = properties.app_domains.to_s
+      array_start = ( app_domains_str =~ /^\[/ )
+      if (array_start == 0)
+        app_domain_entry = app_domains_str.gsub(/^\[/, '').gsub(/\]/,'').gsub(/,.*/, '')
+      else
+        app_domain_entry = app_domains_str
+      end
+      app_domain_entry
+    end
+    app_domain = grab_app_domain_name
+  %>
+
+export PATH="/var/vcap/packages/cf_cli/bin:$PATH"
+
+export SCHEME=https
+export ADMIN_USER=<%= properties.appdynamics_machine_agent.cf.admin_user %>
+export ADMIN_PASSWORD=<%= properties.appdynamics_machine_agent.cf.admin_password %>
+export DOMAIN=<%= properties.domain %>
+export APP_DOMAIN=<%="#{app_domain}"%>
+export API_ENDPOINT=$SCHEME://api.${DOMAIN}
+export APP_NAME=<%= properties.appdynamics_machine_agent.app_name %>
+export APP_VERSION=<%= properties.appdynamics_machine_agent.app_version %>
+export APP_URI=<%= properties.appdynamics_machine_agent.app_uri %>
+export ORG=${APP_NAME}-service-org
+export SPACE=${APP_NAME}-service-space
+export QUOTA=${APP_NAME}-service-quota
+export CF_TARGET=$API_ENDPOINT
+export CF_ORG=$ORG
+export CF_SPACE=$SPACE
+export CF_USER=$ADMIN_USER
+export CF_PASSWORD=$ADMIN_PASSWORD
+export CF_SKIP_SSL=<%= properties.ssl.skip_cert_verify %>
+export ORG_QUOTA=<%= properties.appdynamics_machine_agent.app_push.org_quota %>
+export APP_PUSH_TIMEOUT=<%= properties.appdynamics_machine_agent.app_push.timeout %>
+export APP_PUSH_MEMORY=<%= properties.appdynamics_machine_agent.app_push.memory %>
+
+# Use this only if app needs additional libraries that need to be downloaded
+#
+
+
+# Use these variables only if app needs to know how to connect to a remote target that it brokers
+
+export SECURITY_USER_NAME=<%= properties.appdynamics_machine_agent.broker.user %>
+export SECURITY_USER_PASSWORD=<%= properties.appdynamics_machine_agent.broker.password %>
+
+export CREATE_OPEN_SECURITY_GROUP=<%= properties.appdynamics_machine_agent.create_open_security_group %>
+export DELETE_PREV_APP_INSTANCE=<%= properties.appdynamics_machine_agent.delete_prev_app_instance %>
+
+export SB_APP_ENV="setupServiceBrokerEnv.sh"
+
+### CUSTOM_VARIABLE_BEGIN_MARKER
+
+export OPS_METRICS_IP=<%= properties.appdynamics_machine_agent.ops_metrics_host %>
+export OPS_METRICS_PORT=<%= properties.appdynamics_machine_agent.ops_metrics_port %>
+export OPS_METRICS_JMX_USER=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_user %>
+export OPS_METRICS_JMX_PASSWORD=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_password %>
+export OPS_METRICS_AUTHENTICATE=<%= properties.appdynamics_machine_agent.ops_metrics_authenticate %>
+export APPDYNAMICS_CONTROLLER_HOST_NAME=<%= properties.appdynamics_machine_agent.controller_host %>
+export APPDYNAMICS_CONTROLLER_PORT=<%= properties.appdynamics_machine_agent.controller_port %>
+export APPDYNAMICS_AGENT_ACCOUNT_NAME=<%= properties.appdynamics_machine_agent.account_name %>
+export APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=<%= properties.appdynamics_machine_agent.account_access_key %>
+export APPDYNAMICS_CONTROLLER_SSL_ENABLED=<%= properties.appdynamics_machine_agent.ssl_enabled %>
+export APPDYNAMICS_AGENT_APPLICATION_NAME=<%= properties.appdynamics_machine_agent.app_name %>
+export APPDYNAMICS_AGENT_TIER_NAME=<%= properties.appdynamics_machine_agent.tier_name %>
+export APPDYNAMICS_AGENT_NODE_NAME=<%= properties.appdynamics_machine_agent.broker.user %>
+
+## #CUSTOM_VARIABLE_END_MARKER
+
+export CF_HOME=`pwd`/home/cf
+mkdir -p $CF_HOME
+
+# Following variables would be replaced based on blobs that get added and are considered as app bits
+# Modify extension type for App file - modify as needed
+APP_PREFIX_NAME=machineagent-bundle-64bit-linux
+EXTENSION_TYPE=zip
+
+TARGET_APP=${APP_PREFIX_NAME}.${EXTENSION_TYPE}
+JOB_NAME=deploy-machine-agent
+PACKAGE_NAME_SUFFIX=machine_agent
+PACKAGE_PATH=`echo /var/vcap/packages/*_${PACKAGE_NAME_SUFFIX}`
+
+RUN_DIR=/var/vcap/sys/run/$JOB_NAME
+LOG_DIR=/var/vcap/sys/log/$JOB_NAME
+PIDFILE=${RUN_DIR}/pid
+
+export DEBUG_LOG=$LOG_DIR/deploy-machine-agent.log
+
+mkdir -p $RUN_DIR $LOG_DIR
+chown -R vcap:vcap $RUN_DIR $LOG_DIR
+
+function log_debug() {
+  echo `date` $1 >> $DEBUG_LOG
+}
+
+function authenticate_and_target() {
+  cf api $API_ENDPOINT <% if properties.ssl.skip_cert_verify %>--skip-ssl-validation<% end %>
+  cf auth $ADMIN_USER $ADMIN_PASSWORD
+  cf create-org $ORG
+  cf target -o $ORG
+  cf create-space $SPACE
+  cf target -s $SPACE
+}
+
+function create_quota() {
+  cf create-quota $QUOTA -m ${ORG_QUOTA}m -r 10 -s 10
+  cf update-quota $QUOTA -m ${ORG_QUOTA}m -r 10 -s 10 --disallow-paid-service-plans
+  cf set-quota $ORG $QUOTA
+}
+
+function create_open_security_group() {
+  if [ "${CREATE_OPEN_SECURITY_GROUP}" == "true" ]; then
+    echo "Creating open security group"
+
+    cf create-security-group all_open $PACKAGE_PATH/templates/all_open.json
+    cf bind-running-security-group all_open
+  else
+    echo "Not creating open security group"
+  fi
+}
+
+function restart_app() {
+  CF_TRACE=true cf restart ${APP_NAME}-${APP_VERSION}
+  cf logs ${APP_NAME}-${APP_VERSION} --recent
+}
+
+function add_env_vars() {
+#  cf set-env ${APP_NAME}-${APP_VERSION} BASIC_AUTH_PASSWORD <%= properties.appdynamics_machine_agent.broker.password %>
+#  cf set-env ${APP_NAME}-${APP_VERSION} BASIC_AUTH_USERNAME <%= properties.appdynamics_machine_agent.broker.user %>
+#  cf set-env ${APP_NAME}-${APP_VERSION} ENCRYPTION_KEY <%= properties.appdynamics_machine_agent.encryption_key %>
+#  cf set-env ${APP_NAME}-${APP_VERSION} UAA_CLIENT_ID appdynamics-sb-service
+#  cf set-env ${APP_NAME}-${APP_VERSION} UAA_CLIENT_SECRET <%= properties.uaa.clients.appdynamics_machine_agent.secret %>
+#  cf set-env ${APP_NAME}-${APP_VERSION} UAA_HOST $SCHEME://uaa.$DOMAIN
+#  cf set-env ${APP_NAME}-${APP_VERSION} CC_HOST $API_ENDPOINT
+#  cf set-env ${APP_NAME}-${APP_VERSION} LOGIN_HOST $SCHEME://login.$DOMAIN
+#  cf set-env ${APP_NAME}-${APP_VERSION} ROOT "\$HOME"
+#  cf set-env ${APP_NAME}-${APP_VERSION} SCHEME $SCHEME
+#  cf set-env ${APP_NAME}-${APP_VERSION} VERIFY_SSL <%= !properties.ssl.skip_cert_verify %>
+
+  # Adding additional properties that most spring based apps or internal apps seem to be expecting
+#  cf set-env ${APP_NAME}-${APP_VERSION} CF_ORG $CF_ORG
+#  cf set-env ${APP_NAME}-${APP_VERSION} CF_SPACE $CF_SPACE
+#  cf set-env ${APP_NAME}-${APP_VERSION} CF_USER $CF_USER
+#  cf set-env ${APP_NAME}-${APP_VERSION} CF_PASSWORD $CF_PASSWORD
+#  cf set-env ${APP_NAME}-${APP_VERSION} CF_TARGET $CF_TARGET
+#  cf set-env ${APP_NAME}-${APP_VERSION} SECURITY_USER_NAME $SECURITY_USER_NAME
+#  cf set-env ${APP_NAME}-${APP_VERSION} SECURITY_USER_PASSWORD $SECURITY_USER_PASSWORD
+
+  # CUSTOM_VARIABLE_ENV_BEGIN_MARKER
+  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_CONTROLLER_HOST_NAME     $APPDYNAMICS_CONTROLLER_HOST_NAME
+  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_CONTROLLER_PORT          $APPDYNAMICS_CONTROLLER_PORT
+  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_ACCOUNT_NAME       $APPDYNAMICS_AGENT_ACCOUNT_NAME
+  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY $APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_APPLICATION_NAME   $APPDYNAMICS_AGENT_APPLICATION_NAME
+  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_TIER_NAME          $APPDYNAMICS_AGENT_TIER_NAME
+  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_NODE_NAME          $APPDYNAMICS_AGENT_NODE_NAME
+  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_CONTROLLER_SSL_ENABLED   $APPDYNAMICS_CONTROLLER_SSL_ENABLED
+  cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_IP                       $OPS_METRICS_IP
+  cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_PORT                     $OPS_METRICS_PORT
+  cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_JMX_USER                 $OPS_METRICS_JMX_USER
+  cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_JMX_PASSWORD             $OPS_METRICS_JMX_PASSWORD
+  cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_AUTHENTICATE             $OPS_METRICS_AUTHENTICATE
+
+  # CUSTOM_VARIABLE_ENV_END_MARKER
+
+  # Add app specific env variables using the setup script definition
+  #add_parameterized_env_vars
+}
+
+# Use this only to bind any additional files/libraries or modify app contents
+function modify_app() {
+  pushd $PACKAGE_PATH
+  cp ${PACKAGE_PATH}/lib/${APP_PREFIX_NAME}*.${EXTENSION_TYPE}  ${PACKAGE_PATH}/${TARGET_APP}
+  popd
+}
+
+function delete_prev_app_instance() {
+
+  cf apps | grep ${APP_NAME}-${APP_VERSION}
+  existing_app_check=$?
+
+  if [ "$existing_app_check" == "0" ]; then
+
+    # Look for User-Provided env variables and stop after the first blank line after that
+    cf env ${APP_NAME}-${APP_VERSION} | awk 'f{print}/User-Provided/{f=1};/^ *$/{f=0}' \
+                | grep '.' | awk -F ':' '{print $1}' | while read env_variable_name
+    do
+      cf unset-env $env_variable_name
+    done
+    cf delete -f ${APP_NAME}-${APP_VERSION}  > /dev/null
+  fi
+}
+
+function push_app() {
+  pushd $PACKAGE_PATH
+    mkdir -p /var/vcap/data/tmp
+    export TMPDIR=/var/vcap/data/tmp
+
+    # Cleanup any older version of the app
+    <% if properties.delete_prev_app_instance%>
+    delete_prev_app_instance
+    <% end %>
+
+    CF_TRACE=true cf push ${APP_NAME}-${APP_VERSION} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c "/home/vcap/app/bin/machine-agent"
+    cf logs ${APP_NAME}-${APP_VERSION} --recent
+  popd
+}
+
+
+cf -v
+authenticate_and_target
+create_open_security_group
+create_quota
+
+modify_app
+push_app
+add_env_vars
+
+restart_app
+

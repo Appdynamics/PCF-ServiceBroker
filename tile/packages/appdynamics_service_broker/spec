@@ -1,0 +1,10 @@
+---
+name: appdynamics_service_broker
+
+dependencies: []
+
+files:
+- templates/config/application.properties
+- templates/all_open.json
+- templates/setupServiceBrokerEnv.sh
+- appdynamics-service-broker/appdynamics-service-broker.jar

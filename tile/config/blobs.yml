@@ -1,0 +1,13 @@
+---
+cf_cli/cf-linux-amd64.tgz:
+  object_id: 15a5eb5b-340c-46d3-a97c-e589d1ca9bdc
+  sha: 0abe4fe2a4ad6a1b610009c5b959fdaadf1219a2
+  size: 4743214
+appdynamics-service-broker/appdynamics-service-broker.jar:
+  object_id: 31d34355-d64f-494d-aceb-0454b1918243
+  sha: 3e4ff09d12f8e77af6a2b13b9a899daca6ac3cae
+  size: 13332604
+appdynamics-machine-agent/machineagent-bundle-64bit-linux.zip:
+  object_id: f3bef4d4-7d4a-4457-b108-a812baf8e6a1
+  sha: 001636e8c6bb87dde07d578061846f1f3c07e41c
+  size: 72616919

@@ -1,0 +1,13 @@
+---
+applications:
+- name: AppDynamicsServiceBroker-v1
+  host: appdynamics-service-broker
+  memory: 512M
+  instances: 1
+  path: target/appdynamics-service-broker.jar
+#  env:
+#    APPD_PLANS: '{"Plan1": {"account-name":"appdynamics","account-access-key":"bb6604c1-fbe0-400a-a76b-87c26254fe5e","host-name":"54.245.245.19","port":"443","tier-name":"webtier","ssl-enabled":"true","application-name":"sb-spring-music"}}'
+#    SECURITY_USER_NAME: admin
+#    SECURITY_USER_PASSWORD: default
+#    SERVICEBROKER_PLANID: 59752770-A700-4D79-83AA-FAE90300BB00
+#    SERVICEBROKER_SERVICEID: 1036C6BE-6DC4-4AE4-ABAC-125FDB7C4C2C

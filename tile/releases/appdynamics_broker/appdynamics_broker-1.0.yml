@@ -1,0 +1,42 @@
+---
+packages:
+- name: appdynamics_machine_agent
+  version: 0b0fccb5cf60aaea62906b531e0d27f10a9a07f7
+  fingerprint: 0b0fccb5cf60aaea62906b531e0d27f10a9a07f7
+  sha1: 118fdd986da0eaa6796ff9f1554454b8ee3ad64f
+  dependencies: []
+- name: appdynamics_service_broker
+  version: 040f0061a3801c4644341347e46b266dfcf072a7
+  fingerprint: 040f0061a3801c4644341347e46b266dfcf072a7
+  sha1: 3f78e5b214d74103b369eb7bd31a113fa6a2f339
+  dependencies: []
+- name: cf_cli
+  version: 18419dedadebe8031a294f92af9fd47715fb1406
+  fingerprint: 18419dedadebe8031a294f92af9fd47715fb1406
+  sha1: 149ee4789e638de6f1069cbdddb1da18d250fd40
+  dependencies: []
+jobs:
+- name: deploy-machine-agent
+  version: 506281709ba13c451b6b39673583badd66041a16
+  fingerprint: 506281709ba13c451b6b39673583badd66041a16
+  sha1: 2ad2975d58a847655ef31e040f629cdda690e26d
+- name: deploy-service-broker
+  version: 36d972ba0a77c389c79e3481afd69bcbb5249ddd
+  fingerprint: 36d972ba0a77c389c79e3481afd69bcbb5249ddd
+  sha1: d38f41ac1be9b604f9346db97152f15f3107681f
+- name: destroy-broker
+  version: f96510b4f4404f66b96ded953abcbc9ab175f00a
+  fingerprint: f96510b4f4404f66b96ded953abcbc9ab175f00a
+  sha1: a96ba361106fb790772e4f8c75fce741a254ab8d
+- name: destroy-machine-agent
+  version: 09d8f4f9818381a5e5c8cff9781a7d5f55e7254e
+  fingerprint: 09d8f4f9818381a5e5c8cff9781a7d5f55e7254e
+  sha1: 0a6be678184fe67aaa4fcfd6cd02027752bbedcc
+- name: register-broker
+  version: 939613df244cac2500cd8e67dd80235c8c24a649
+  fingerprint: 939613df244cac2500cd8e67dd80235c8c24a649
+  sha1: 1c5449fd14f7cc1c07074ca4fb48ce240ada80c3
+commit_hash: '00000000'
+uncommitted_changes: false
+name: appdynamics_broker
+version: '1.0'
