@@ -8,10 +8,12 @@ Steps to delete the tile
 -------------
 
  1. Uninstall/Delete the tile.
+      Delete the tile(garbage icon) and then click on **Apply Changes**
+      
      ![image](https://github.com/Appdynamics/ServiceBroker-PCF/blob/master/images/PCF1.png)
- 2. Wait for the app dynamics section to go through and get removed...
-    even if the rest of the steps are still running.
- 3. Then run bosh deployments
+      
+      Wait till the entire process of **Applying Changes** goes through
+ 3. Run `bosh deployments`
  4. Make sure bosh does not show appdynamics as still part of deployed
     components. Then run bosh releases
  5. Then run bosh delete release <appD-release-name>
