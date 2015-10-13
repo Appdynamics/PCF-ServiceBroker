@@ -1,8 +1,8 @@
 AppDynamics Service Broker Tile 
 ===================
-Version of the Machine Agent packaged with the SB tile: Machine Agent v4.1.2.2 GA
-----------
 
+----------
+Version of the Machine Agent packaged with the SB tile: Machine Agent v4.1.2.2 GA
 
 Steps to delete the tile
 -------------
