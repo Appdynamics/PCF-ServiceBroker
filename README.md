@@ -2,7 +2,7 @@ AppDynamics Service Broker Tile
 ===================
 
 ----------
-Version of the Machine Agent packaged with the SB tile: Machine Agent v4.1.2.2 GA
+Version of the Machine Agent packaged with the SB tile: Machine Agent v4.1.5.1 GA (Machine Agent ZIP 64 bit Linux with a bundled JRE for 64-bit Linux)
 
 Steps to delete the tile
 -------------
