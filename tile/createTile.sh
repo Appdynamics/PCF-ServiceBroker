@@ -1,8 +1,9 @@
 #!/bin/sh
 
-TILE_VERSION=1.5
+PCF_VERSION=1.5
+TILE_VERSION=4.2.0.0.0-PCFv${PCF_VERSION}
 TILE_NAME=AppDynamics-Broker
-TILE_FILE=`pwd`/*tile-v${TILE_VERSION}.yml
+TILE_FILE=`pwd`/*tile-v${PCF_VERSION}.yml
 RELEASE_TARFILE=`pwd`/releases/*/*.tgz
 
 #BOSH_STEMCELL_FILE=`cat ${TILE_FILE} | grep "bosh-stemcell" | grep "^ *file:" | awk '{print $2}' `

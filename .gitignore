@@ -1,0 +1,5 @@
+# Temp Folder
+/tile/tmp/
+
+# Logs 
+*.log

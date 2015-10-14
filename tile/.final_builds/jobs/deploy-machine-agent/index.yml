@@ -2,6 +2,6 @@
 builds:
   506281709ba13c451b6b39673583badd66041a16:
     version: 506281709ba13c451b6b39673583badd66041a16
-    sha1: 2ad2975d58a847655ef31e040f629cdda690e26d
-    blobstore_id: 2f825402-5f2e-413e-9e9e-fc68f7380c5a
+    sha1: d1ce07bae809ea67edd72a012c17342eb9665e4c
+    blobstore_id: 00978154-c58a-44fd-a4d7-39f41be72180
 format-version: '2'
