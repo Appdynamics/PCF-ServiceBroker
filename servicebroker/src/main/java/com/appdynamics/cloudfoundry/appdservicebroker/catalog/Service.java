@@ -220,6 +220,10 @@ public final class Service {
                     .bullets("JVM Performance analyzer", "Browser End User Monitoring", "Database call response time & throughput",
                         "Performance data API access", "Synthetics Monitoring", "Software Analytics")
                     .displayName(appd_plan_name.toUpperCase())
+		    .cost()
+		    	.amount("usd", 0.0) 
+		    	.unit("MONTHLY") 
+		    	.and()
                     .and()
                 .free(true);
         }
