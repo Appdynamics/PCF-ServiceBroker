@@ -18,6 +18,13 @@ stemcell_criteria:                                                  # [3]
   version: '3026'
   requires_cpi: false
 
+install_time_verifiers:
+- name: Verifiers::DomainVerifier
+  ignorable: true
+  properties:
+    domain: ".properties.on_demand_service_plans_collection.controller_host"
+    domain: ".properties.controller_host"
+
 property_blueprints:
 - name: encryption_key
   type: secret
@@ -71,7 +78,7 @@ property_blueprints:
   type: string
   configurable: true
 - name: controller_host
-  type: string
+  type: domain
   configurable: true
 - name: controller_port
   type: integer
@@ -137,7 +144,7 @@ property_blueprints:
     type: string
     configurable: true
   - name: controller_host
-    type: string
+    type: domain
     configurable: true
   - name: controller_port
     type: integer
@@ -186,7 +193,7 @@ form_types:
       slug: false
     - reference: controller_host
       label: AppDynamics Controller Host Address/IP
-      description: "AppDynamics Controller Host Address/IP"
+      description: "AppDynamics Controller FQDN Address/IP"
       slug: false
     - reference: controller_port
       label: AppDynamics Controller Port
