@@ -26,28 +26,3 @@ Steps to delete the tile
 
 
 ----------
-
-
- Steps to bundle latest machine agent
--------------------
-
-
-----------
-
-
-Steps to make changes to service broker code
--------------
-
-
-
-
-----------
-
-
-Steps to create the tile
---------------------
-
-
-
-
-----------
