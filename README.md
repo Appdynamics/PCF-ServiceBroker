@@ -24,11 +24,6 @@ AppDynamics Service Broker Tile 4.2.0.0.0 is bundled with 4.2.0.0 Machine Agent 
 
 > Docs
 
-Check docs folder for detailed documentation for
-
- 1. [Import New Tile](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/docs/IMPORT_NEW_TILE.md)
- 2. [Delete Old Tile](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/docs/DELETE_TILE.md)
- 3. [Bundle Latest Machine Agent](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/docs/BUNDLE_LATEST_MACHINEAGENT.md)
- 4. [Update .yml file](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/docs/UPDATE_yml_file_AND_create_NEW_TILE.md)
+Check [this](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/docs/README.md) file for detailed documentation
 
 ----------
