@@ -12,16 +12,15 @@ Steps to delete the tile
      ![image](https://github.com/Appdynamics/ServiceBroker-PCF/blob/master/images/PCF1.png)
       
       Wait till the entire process of **Applying Changes** goes through
- 3. Login to ops-manager and run the following commands
-    Run `bosh deployments`
+ 3. Run `bosh deployments`
     Make sure bosh does not show appdynamics as still part of deployed
     components. 
      If it still shows up as part of deployment, then do the following
      
     Then run bosh releases
- 5. In the ops-manager, then run bosh delete release <appD-release-name>
+ 5. Then run bosh delete release <appD-release-name>
  6. Wait for Ops Mgr to complete the full cleanup
- 7. In the ops-manager, then remove the metadata file for appd from
+ 7. Then remove the metadata file for appd from
     /var/tempest/default/workspaces/metadata/ directory
  8. Then reinstall the tile
 
