@@ -2,11 +2,7 @@ Import new tile
 ===================
 ----------
 
-**Delete the old tile**
-First follow the steps for [deleting old tile](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/docs/DELETE_TILE.md)
-
-**Import new tile**
-Assuming that the new **.pivotal** file is already created, follow the steps to import the new tile
+We will now import the new **.pivotal** file which is created using [this](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/docs/CREATE_TILE.md) step.
 
  1. Click on Import Product
   ![enter image description here](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/images/ImportTile.png)
