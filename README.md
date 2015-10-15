@@ -15,11 +15,16 @@ AppDynamics Service Broker Tile
 
 > Versioning
 
-PCF tile 4.2.0.0.0.0 is bundled with 4.2.0.0 Machine Agent for PCF Ops Manager 1.5
+AppDynamics Service Broker Tile 4.2.0.0.0 is bundled with 4.2.0.0 Machine Agent for PCF 1.5
+
+| AppDynamics Service Broker Tile Version  | Machine Agent Version | PCF Version  |
+| ------------- | ------------- | ------------ |
+| 4.2.0.0.0  | 4.2.0.0  | 1.5 |
+
 
 > Docs
 
-Check docs folder for detailed documentation on
+Check docs folder for detailed documentation for
 
  1. [Import New Tile](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/docs/IMPORT_NEW_TILE.md)
  2. [Delete Old Tile](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/docs/DELETE_TILE.md)
