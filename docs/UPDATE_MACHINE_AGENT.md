@@ -17,14 +17,4 @@ Replace the old machineagent-bundle-64bit-linux.zip file with the new one
 
 This will add updated machine-agent in **tile/blobs/** directory
 
-**CreateRelease Step**
-
-> [root@cent7-npm-perf-01 tile]#./createRelease.sh
-
-**CreateTile Step**
-
-    [root@cent7-npm-perf-01 tile]#./createTile.sh
-
-Now follow the steps for [deleting old tile](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/docs/DELETE_TILE.md) and then [importing new tile](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/docs/IMPORT_NEW_TILE.md)
-
 ----------
