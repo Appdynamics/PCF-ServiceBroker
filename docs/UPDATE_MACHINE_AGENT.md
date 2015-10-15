@@ -1,14 +1,13 @@
-Update to latest Machine Agent and Create new tile
+Update Machine Agent
 ===================
 ----------
 
-**Clone the repository**
-
-> nikhil.katre@Nikhils-Mac-Book-Pro:~/Downloads$ git clone https://github.com/Appdynamics/PCF-ServiceBroker
-> nikhil.katre@Nikhils-Mac-Book-Pro:~/Downloads$ cd PCF-ServiceBroker/
+**Create new machine agent .zip file**
+Follow till Step 5 mentioned [here](https://singularity.jira.com/wiki/display/CORE/PCF+-+Machine+Agent+Extension+Configuration) to create new machineagent-bundle-64bit-linux.zip file
 
 **Replace machine agent .zip file**
-Replace the machineagent-bundle-64bit-linux.zip file with the latest machine agent .zip file which contains the binaries of  [CloudfoundryExtension](https://github.com/Appdynamics/cloud-foundry-extension)
+Replace the old machineagent-bundle-64bit-linux.zip file with the new one
+> [root@cent7-npm-perf-01 PCF-ServiceBroker]# mv **path_to_new_.zip_file** .
 
 **AddBlob Step**
 
