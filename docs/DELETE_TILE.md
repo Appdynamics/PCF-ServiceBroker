@@ -1,17 +1,18 @@
-Delete AppDynamics Tile From Ops-Manager Application 
-===================
-
+Delete AppDynamics Tile from Ops-Manager
+=================== 
 ----------
-Steps to delete the tile
--------------
-**Delete the old tile from OpsManager**
-Remove the old tile and then click on **Apply Changes**
+ - Remove the old tile and then click on **Apply Changes**
+ 
 ![RemoveOldTile](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/images/RemoveTile.png)
 
-Let the changes completely go through till you get the screen where it mentions **Changes Applied**
+ - Let the changes completely go through till you get the screen where  
+   it mentions **Changes Applied**
+
 ![ApplyChanges](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/images/ApplyChangesOnOpsManager.png)
 
-Now, verify that **appdynamics** is removed both from bosh deployments and bosh releases in the ops-manager, to verify this, follow the next step
+ - Now, verify that **appdynamics** is removed both from bosh   
+   deployments and bosh releases in the ops-manager, to verify this,   
+   follow the next step
 
 **SSH into pivotal-ops-manager**
 
@@ -56,7 +57,7 @@ Now, verify that **appdynamics** is removed both from bosh deployments and bosh 
 
 Thus, we have verified that **appdynamcis**  is removed from releases and deployments of bosh
 
-**NOTE:**  If the bosh deployments and releases show **appdynamics** in it. Then do the following to delete **appdynamics**
+ - **NOTE:**  If the bosh deployments and releases show **appdynamics** in it. Then do the following to delete **appdynamics**
 
 > ubuntu@pivotal-ops-manager:~$ bosh deployments Acting as user
 > 'director' on 'microbosh-56d69d339e2b073b5c52'
@@ -104,26 +105,32 @@ This will delete **appdynamics** from deployments. Now lets delete **appdynamics
 
 This will delete **appdynamics** from bosh releases.
 
-Now, lets delete the metadata file from metadata directory. This is how the ops-manager application looks which shows AppDynamics before deleting the **appdynamics** metadata file
-![enter image description here](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/images/BeforeRefresh.png)
+ - Now, lets delete the metadata file from metadata directory. This is  
+   how the ops-manager application looks which shows AppDynamics before 
+   deleting the **appdynamics** metadata file
+   
+   ![enter image description
+   here](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/images/BeforeRefresh.png)
 
 **Go to metadata dir in pivotal ops-manager**
-ubuntu@pivotal-ops-manager:~$cd /var/tempest/workspaces/default/metadata
-ubuntu@pivotal-ops-manager:/var/tempest/workspaces/default/metadata ls -la
-total 196
-drwxr-xr-x 2 tempest-web tempest-web   4096 Oct 14 21:35 .
-drwxr-xr-x 7 tempest-web tempest-web   4096 Sep  9 17:22 ..
--rw------- 1 tempest-web tempest-web  15552 Sep  9 17:24 07a781ebe2a3.yml
--rw------- 1 tempest-web tempest-web  27005 Oct 15 19:11 2bee14872afc.yml  **<- AppDynamics Metadata File**
--rw------- 1 tempest-web tempest-web 116532 Aug  6 01:34 50cfd2792e78.yml
+
+> ubuntu@pivotal-ops-manager:~$cd
+> /var/tempest/workspaces/default/metadata
+> ubuntu@pivotal-ops-manager:/var/tempest/workspaces/default/metadata ls
+> -la total 196 drwxr-xr-x 2 tempest-web tempest-web   4096 Oct 14 21:35 . drwxr-xr-x 7 tempest-web tempest-web   4096 Sep  9 17:22 ..
+> -rw------- 1 tempest-web tempest-web  15552 Sep  9 17:24 07a781ebe2a3.yml
+> -rw------- 1 tempest-web tempest-web  27005 Oct 15 19:11 2bee14872afc.yml  **<- AppDynamics Metadata File**
+> -rw------- 1 tempest-web tempest-web 116532 Aug  6 01:34 50cfd2792e78.yml
 
 Out of these three files, check which of these is for **apppdynamics**
 
-**Move the appdynamics metadata file to /tmp/**
-ubuntu@pivotal-ops-manager:/var/tempest/workspaces/default/metadata$ sudo mv 2bee14872afc.yml /tmp/
+ - **Move the appdynamics metadata file to /tmp/**
 
+> ubuntu@pivotal-ops-manager:/var/tempest/workspaces/default/metadata$
+> sudo mv 2bee14872afc.yml /tmp/
 
-**Refresh the ops-manager page**
+ - **Refresh the ops-manager page**
+
 Refresh the ops-manager page. After refreshing, AppDynamics is now removed from the ops-manager application
 ![enter image description here](https://github.com/Appdynamics/PCF-ServiceBroker/blob/master/images/RemovedLeftPanel.png)
 
