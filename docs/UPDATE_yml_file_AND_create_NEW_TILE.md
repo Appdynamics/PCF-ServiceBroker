@@ -8,8 +8,10 @@ Update .yml file and Create new tile
 > nikhil.katre@Nikhils-Mac-Book-Pro:~/Downloads$ cd PCF-ServiceBroker/tile
 
 **Make changes to .yml file**
-nikhil.katre@nikhilscbookpro:~/Downloads/PCF-ServiceBroker/tile$ vim appdynamics-broker-tile-v1.5.yml
-Make changes to the .yml file and save those changes
+
+> nikhil.katre@nikhilscbookpro:~/Downloads/PCF-ServiceBroker/tile$ vim appdynamics-broker-tile-v1.5.yml 
+
+Now, make changes to the .yml file and save those changes
 
 **CreateTile Step**
 > nikhil.katre@nikhilscbookpro:~/Downloads/PCF-ServiceBroker/tile$./createTile.sh
