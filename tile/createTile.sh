@@ -1,14 +1,14 @@
 #!/bin/sh
 
 PCF_VERSION=1.5
-TILE_VERSION=4.2.0.0.0-PCFv${PCF_VERSION}
+TILE_VERSION=4.1.5.2.0-PCFv${PCF_VERSION}
 TILE_NAME=AppDynamics-Broker
 TILE_FILE=`pwd`/*tile-v${PCF_VERSION}.yml
 RELEASE_TARFILE=`pwd`/releases/*/*.tgz
 
 #BOSH_STEMCELL_FILE=`cat ${TILE_FILE} | grep "bosh-stemcell" | grep "^ *file:" | awk '{print $2}' `
 #BOSH_STEMCELL_LOCATION=https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/vsphere
-
+rm -rf tmp
 mkdir -p tmp
 pushd tmp
 #Dont bundle the stemcell into the .pivotal Tile file as the stemcell must already be available in the Ops Mgr.

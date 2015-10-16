@@ -8,6 +8,6 @@ appdynamics-service-broker/appdynamics-service-broker.jar:
   sha: d72de1e7ce8645b67da7a3ac5a604347cba29df2
   size: 13332752
 appdynamics-machine-agent/machineagent-bundle-64bit-linux.zip:
-  object_id: bb9a3dcc-4661-410b-be8f-5d522057a0fd
-  sha: 065f71c4bf0610ed893c87bf9c97997193445041
-  size: 88532164
+  object_id: f93b6106-0c9f-41ba-966f-62edef6eec60
+  sha: 40d0f7050a57968c1d5d244e39505329cdcd9f43
+  size: 88532402
