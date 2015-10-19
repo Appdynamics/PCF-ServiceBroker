@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PCF_VERSION=1.5
+PCF_VERSION=1.4
 TILE_VERSION=4.1.5.2.0-PCFv${PCF_VERSION}
 TILE_NAME=AppDynamics-Broker
 TILE_FILE=`pwd`/*tile-v${PCF_VERSION}.yml
