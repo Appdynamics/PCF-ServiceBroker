@@ -17,9 +17,9 @@ AppDynamics Service Broker Tile
 
 AppDynamics Service Broker Tile 4.2.0.0.0 is bundled with 4.2.0.0 Machine Agent for PCF 1.5
 
-| AppDynamics Service Broker Tile Version  | Machine Agent Version | PCF Version  |
+| AppDynamics Service Broker Tile Version  | Machine Agent Version | PCF Version  | Java BP Version  | PHP BP Version  |
 | ------------- | ------------- | ------------ |
-| 4.1.5.2.0  | 4.1.5.2  | 1.5 |
+| 4.1.5.2.0  | 4.1.5.2  | 1.5 | 3.3 and above | latest |
 
 
 > Docs
