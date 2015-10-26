@@ -9,7 +9,7 @@ AppDynamics Service Broker Tile
 
 > NOTE
 
-  **If using the AppDynamics tile, please ensure that you are using the *latest buildpack* for instrumenting applications using AppDynamics** 
+  **If using the AppDynamics tile, please ensure that you are using the *latest buildpack* for instrumenting applications using AppDynamics Service Broker Tile** 
 
 > Useful Links
 
