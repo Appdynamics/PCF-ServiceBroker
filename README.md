@@ -7,6 +7,10 @@ AppDynamics Service Broker Tile
  1. [Private install](http://docs.pivotal.io/pivotalcf/getstarted/) of PCF
  2. [Ops Manager](https://network.pivotal.io/) and [Ops Metrics Tile](https://network.pivotal.io/)
 
+> NOTE
+
+  If using the AppDynamics tile, please ensure that you are using the **latest buildpack** for instrumenting applications using AppDynamics 
+
 > Useful Links
 
  1. [Video Link For Demo](https://drive.google.com/drive/folders/0B5Y66q8ImLmTNVd1SktXNnNRb0k)
