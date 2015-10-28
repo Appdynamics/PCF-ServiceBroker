@@ -51,13 +51,13 @@ properties:
     default: false
   appdynamics_machine_agent.app_push.org_quota:
     description: 'Org Memory Quota for the ApppDynamics Machine Agent Application'
-    default: 1024
+    default: 3072
   appdynamics_machine_agent.app_push.timeout:
     description: 'App Push timeout for the ApppDynamics Machine Agent Application'
     default: 180
   appdynamics_machine_agent.app_push.memory:
     description: 'App Push Memory limit for the ApppDynamics Machine Agent Application'
-    default: 512
+    default: 2048
   appdynamics_machine_agent.encryption_key:
     description: 'Specifies the key to be used when encrypting sessions'
   appdynamics_machine_agent.cf.admin_user:

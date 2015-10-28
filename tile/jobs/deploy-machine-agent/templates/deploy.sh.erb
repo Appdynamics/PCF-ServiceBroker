@@ -25,6 +25,7 @@ export APP_DOMAIN=<%="#{app_domain}"%>
 export API_ENDPOINT=$SCHEME://api.${DOMAIN}
 export APP_NAME=<%= properties.appdynamics_machine_agent.app_name %>
 export APP_VERSION=<%= properties.appdynamics_machine_agent.app_version %>
+export APPDYNAMICS_AGENT_APPLICATION_NAME=${APP_NAME}-${APP_VERSION}
 export APP_URI=<%= properties.appdynamics_machine_agent.app_uri %>
 export ORG=${APP_NAME}-service-org
 export SPACE=${APP_NAME}-service-space
@@ -60,12 +61,12 @@ export OPS_METRICS_PORT=<%= properties.appdynamics_machine_agent.ops_metrics_por
 export OPS_METRICS_JMX_USER=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_user %>
 export OPS_METRICS_JMX_PASSWORD=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_password %>
 export OPS_METRICS_AUTHENTICATE=<%= properties.appdynamics_machine_agent.ops_metrics_authenticate %>
+export OPS_METRICS_SERVICE_URL="service:jmx:rmi:///jndi/rmi://${OPS_METRICS_IP}:${OPTS_METRICS_PORT}/jmxrmi" 
 export APPDYNAMICS_CONTROLLER_HOST_NAME=<%= properties.appdynamics_machine_agent.controller_host %>
 export APPDYNAMICS_CONTROLLER_PORT=<%= properties.appdynamics_machine_agent.controller_port %>
 export APPDYNAMICS_AGENT_ACCOUNT_NAME=<%= properties.appdynamics_machine_agent.account_name %>
 export APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=<%= properties.appdynamics_machine_agent.account_access_key %>
 export APPDYNAMICS_CONTROLLER_SSL_ENABLED=<%= properties.appdynamics_machine_agent.ssl_enabled %>
-export APPDYNAMICS_AGENT_APPLICATION_NAME=<%= properties.appdynamics_machine_agent.app_name %>
 export APPDYNAMICS_AGENT_TIER_NAME=<%= properties.appdynamics_machine_agent.tier_name %>
 export APPDYNAMICS_AGENT_NODE_NAME=<%= properties.appdynamics_machine_agent.broker.user %>
 
@@ -164,6 +165,7 @@ function add_env_vars() {
   cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_JMX_USER                 $OPS_METRICS_JMX_USER
   cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_JMX_PASSWORD             $OPS_METRICS_JMX_PASSWORD
   cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_AUTHENTICATE             $OPS_METRICS_AUTHENTICATE
+  cf set-env ${APP_NAME}-${APP_VERSION} JAVA_OPTS "-Dextension.pcf.jmx.serviceURL=${OPS_METRICS_SERVICE_URL} -Dextension.pcf.jmx.username=${OPS_METRICS_JMX_USER} -Dextension.pcf.jmx.password=${OPS_METRICS_JMX_PASSWORD} -Dextension.pcf.jmx.authenticate=${OPS_METRICS_AUTHENTICATE}"
 
   # CUSTOM_VARIABLE_ENV_END_MARKER
 
