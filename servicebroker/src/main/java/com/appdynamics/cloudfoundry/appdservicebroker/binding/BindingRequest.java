@@ -18,8 +18,10 @@ package com.appdynamics.cloudfoundry.appdservicebroker.binding;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.util.Assert;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 final class BindingRequest {
 
     private final String serviceId;
