@@ -2,6 +2,9 @@ Update Service Broker
 ===================
 ----------
 
+**Pre-requisites**
+> Java 1.8
+
 **Change path to 'servicebroker' directory**
 > nikhil.katre@Nikhils-Mac-Book-Pro:~/Downloads$ cd PCF-ServiceBroker/servicebroker
 
