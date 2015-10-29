@@ -16,32 +16,16 @@ Delete AppDynamics Tile from Ops-Manager
 
 **SSH into pivotal-ops-manager**
 
-> **[root@cent7-npm-perf-01 PCF-ServiceBroker]# ssh ubuntu@10.0.34.81** ubuntu@10.0.34.81's password: Welcome to Ubuntu 14.04.2 LTS (GNU/Linux
+> **[root@cent7-npm-perf-01 PCF-ServiceBroker]# ssh ubuntu@10.0.34.81** 
+> ubuntu@10.0.34.81's password: Welcome to Ubuntu 14.04.2 LTS (GNU/Linux
 > 3.16.0-45-generic x86_64)
 > 
 >  Documentation:  https://help.ubuntu.com/ Last login: Tue Sep 29
 > 20:44:42 2015 from osxltsdhar.corp.appdynamics.com
 > 
-> **ubuntu@pivotal-ops-manager:~$ bosh deployments** Acting as user 'director' on 'microbosh-56d69d339e2b073b5c52'
+
 > 
-> +--------------------------------+------------------------------------------+-----------------------------------------------+--------------+ | Name                           | Release(s)                         
-> | Stemcell(s)                                   | Cloud Config |
-> +--------------------------------+------------------------------------------+-----------------------------------------------+--------------+ | cf-1066a95512aedb24c7cf        | cf-autoscaling/13                  
-> | bosh-vsphere-esxi-ubuntu-trusty-go_agent/3026 | none         | |    
-> | cf-mysql/20                              |                          
-> |              | |                                | cf/208.7          
-> |                                               |              | |    
-> | notifications-with-ui/18                 |                          
-> |              | |                                |
-> push-console-release/console-du-jour-203 |                            
-> |              |
-> +--------------------------------+------------------------------------------+-----------------------------------------------+--------------+ | p-metrics-29e7e66b0efa769da255 | cf-metrics/33                      
-> | bosh-vsphere-esxi-ubuntu-trusty-go_agent/2989 | none         |
-> +--------------------------------+------------------------------------------+-----------------------------------------------+--------------+
-> 
-> Deployments total: 2
-> 
-> ubuntu@pivotal-ops-manager:~$ bosh releases
+> **ubuntu@pivotal-ops-manager:~$ bosh releases**
 > Acting as user 'director' on 'microbosh-56d69d339e2b073b5c52'
 > 
 > +-----------------------+----------------------+-------------+
@@ -61,10 +45,9 @@ Delete AppDynamics Tile from Ops-Manager
 
 Thus, we have verified that **appdynamcis**  is removed from releases and deployments of bosh
 
- - **NOTE:**  If the bosh deployments and releases show **appdynamics** in it. Then do the following to delete **appdynamics**
 
-> ubuntu@pivotal-ops-manager:~$ bosh deployments Acting as user
-> 'director' on 'microbosh-56d69d339e2b073b5c52'
+> ** ubuntu@pivotal-ops-manager:~$ bosh deployments **
+> Acting as user 'director' on 'microbosh-56d69d339e2b073b5c52'
 > 
 > +-----------------------------------------+------------------------------------------+-----------------------------------------------+--------------+ | Name                                    | Release(s)                
 > | Stemcell(s)                                   | Cloud Config |
@@ -84,9 +67,16 @@ Thus, we have verified that **appdynamcis**  is removed from releases and deploy
 > | bosh-vsphere-esxi-ubuntu-trusty-go_agent/2989 | none         |
 > +-----------------------------------------+------------------------------------------+-----------------------------------------------+--------------+
 > 
-> Deployments total: 3 ubuntu@pivotal-ops-manager:~$ bosh delete deployment appdynamics-broker-fb1e8e0e21600f9d8fa2
+
+ - **NOTE:**  If wither bosh deployments or/and releases show **appdynamics** in it. Then do the following to delete **appdynamics**
+
+
+> **ubuntu@pivotal-ops-manager:~$ bosh delete deployment appdynamics-broker-fb1e8e0e21600f9d8fa2**
 
 This will delete **appdynamics** from deployments. Now lets delete **appdynamics** from bosh releases.
+
+
+Now delete the appdynamics metadata file
 
 > ubuntu@pivotal-ops-manager:/var/tempest/workspaces/default/metadata$
 > bosh releases Acting as user 'director' on
