@@ -43,7 +43,6 @@ Delete AppDynamics Tile from Ops-Manager
 
 > Releases total: 6
 
-Thus, we have verified that **appdynamcis**  is removed from releases and deployments of bosh
 
 
 > ** ubuntu@pivotal-ops-manager:~$ bosh deployments **
@@ -67,6 +66,10 @@ Thus, we have verified that **appdynamcis**  is removed from releases and deploy
 > | bosh-vsphere-esxi-ubuntu-trusty-go_agent/2989 | none         |
 > +-----------------------------------------+------------------------------------------+-----------------------------------------------+--------------+
 > 
+
+
+Thus, we have verified that **appdynamcis**  is removed from releases and deployments of bosh
+
 
  - **NOTE:**  If wither bosh deployments or/and releases show **appdynamics** in it. Then do the following to delete **appdynamics**
 
