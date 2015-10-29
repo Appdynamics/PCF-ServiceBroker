@@ -41,19 +41,23 @@ Delete AppDynamics Tile from Ops-Manager
 > 
 > Deployments total: 2
 > 
-> **ubuntu@pivotal-ops-manager:~$ bosh deployments**
-> +-----------------------------------------+------------------------------------------+-----------------------------------------------+--------------+ | cf-1066a95512aedb24c7cf                 | cf-autoscaling/13         
-> | bosh-vsphere-esxi-ubuntu-trusty-go_agent/3026 | none         | |    
-> | cf-mysql/20                              |                          
-> |              | |                                         | cf/208.7 
-> |                                               |              | |    
-> | notifications-with-ui/18                 |                          
-> |              | |                                         |
-> push-console-release/console-du-jour-203 |                            
-> |              |
-> +-----------------------------------------+------------------------------------------+-----------------------------------------------+--------------+ | p-metrics-29e7e66b0efa769da255          | cf-metrics/33             
-> | bosh-vsphere-esxi-ubuntu-trusty-go_agent/2989 | none         |
-> +-----------------------------------------+------------------------------------------+-----------------------------------------------+--------------+
+> ubuntu@pivotal-ops-manager:~$ bosh releases
+> Acting as user 'director' on 'microbosh-56d69d339e2b073b5c52'
+> 
+> +-----------------------+----------------------+-------------+
+> | Name                  | Versions             | Commit Hash |
+> +-----------------------+----------------------+-------------+
+> | cf                    | 208.7*               | 966e2645+   |
+> | cf-autoscaling        | 13*                  | 927bc7ed+   |
+> | cf-metrics            | 33*                  | c7d12e9e    |
+> | cf-mysql              | 20*                  | caa23b3d+   |
+> | notifications-with-ui | 18*                  | 490b6446+   |
+> | push-console-release  | console-du-jour-203* | d2d31585+   |
+> +-----------------------+----------------------+-------------+
+> (*) Currently deployed
+> (+) Uncommitted changes
+
+> Releases total: 6
 
 Thus, we have verified that **appdynamcis**  is removed from releases and deployments of bosh
 
