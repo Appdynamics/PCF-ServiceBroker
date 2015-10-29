@@ -17,90 +17,68 @@ Delete AppDynamics Tile from Ops-Manager
 **SSH into pivotal-ops-manager**
 
 > **[root@cent7-npm-perf-01 PCF-ServiceBroker]# ssh ubuntu@10.0.34.81** 
-> ubuntu@10.0.34.81's password: Welcome to Ubuntu 14.04.2 LTS (GNU/Linux
-> 3.16.0-45-generic x86_64)
-> 
->  Documentation:  https://help.ubuntu.com/ Last login: Tue Sep 29
-> 20:44:42 2015 from osxltsdhar.corp.appdynamics.com
-> 
 
-> 
+    ubuntu@10.0.34.81's password:  Welcome to Ubuntu 14.04.2 LTS (GNU/Linux3.16.0-45-generic x86_64)
+    
+     Documentation:  https://help.ubuntu.com/ Last login: Tue Sep 29 20:44:42 2015 from osxltsdhar.corp.appdynamics.com 
+
+
+**By default appdynamics is removed from both releases and deployments as shown in the below case**
+
 > **ubuntu@pivotal-ops-manager:~$ bosh releases**
-> Acting as user 'director' on 'microbosh-56d69d339e2b073b5c52'
-> 
-> +-----------------------+----------------------+-------------+
-> | Name                  | Versions             | Commit Hash |
-> +-----------------------+----------------------+-------------+
-> | cf                    | 208.7*               | 966e2645+   |
-> | cf-autoscaling        | 13*                  | 927bc7ed+   |
-> | cf-metrics            | 33*                  | c7d12e9e    |
-> | cf-mysql              | 20*                  | caa23b3d+   |
-> | notifications-with-ui | 18*                  | 490b6446+   |
-> | push-console-release  | console-du-jour-203* | d2d31585+   |
-> +-----------------------+----------------------+-------------+
-> (*) Currently deployed
-> (+) Uncommitted changes
 
-> Releases total: 6
-
-
-
-> ** ubuntu@pivotal-ops-manager:~$ bosh deployments **
-> Acting as user 'director' on 'microbosh-56d69d339e2b073b5c52'
-> 
-> +-----------------------------------------+------------------------------------------+-----------------------------------------------+--------------+ | Name                                    | Release(s)                
-> | Stemcell(s)                                   | Cloud Config |
-> +-----------------------------------------+------------------------------------------+-----------------------------------------------+--------------+ | appdynamics-broker-fb1e8e0e21600f9d8fa2 |
-> appdynamics_broker/4.2.0.0.0             |
-> bosh-vsphere-esxi-ubuntu-trusty-go_agent/3026 | none         |
-> +-----------------------------------------+------------------------------------------+-----------------------------------------------+--------------+ | cf-1066a95512aedb24c7cf                 | cf-autoscaling/13         
-> | bosh-vsphere-esxi-ubuntu-trusty-go_agent/3026 | none         | |    
-> | cf-mysql/20                              |                          
-> |              | |                                         | cf/208.7 
-> |                                               |              | |    
-> | notifications-with-ui/18                 |                          
-> |              | |                                         |
-> push-console-release/console-du-jour-203 |                            
-> |              |
-> +-----------------------------------------+------------------------------------------+-----------------------------------------------+--------------+ | p-metrics-29e7e66b0efa769da255          | cf-metrics/33             
-> | bosh-vsphere-esxi-ubuntu-trusty-go_agent/2989 | none         |
-> +-----------------------------------------+------------------------------------------+-----------------------------------------------+--------------+
-> 
+    Acting as user 'director' on 'microbosh-56d69d339e2b073b5c52'
+     
+     +-----------------------+----------------------+-------------+
+     | Name                  | Versions             | Commit Hash |
+     +-----------------------+----------------------+-------------+
+     | cf                    | 208.7*               | 966e2645+   |
+     | cf-autoscaling        | 13*                  | 927bc7ed+   |
+     | cf-metrics            | 33*                  | c7d12e9e    |
+     | cf-mysql              | 20*                  | caa23b3d+   |
+     | notifications-with-ui | 18*                  | 490b6446+   |
+     | push-console-release  | console-du-jour-203* | d2d31585+   |
+     +-----------------------+----------------------+-------------+
+     (*) Currently deployed
+     (+) Uncommitted changes
+    
+     Releases total: 6
 
 
-Thus, we have verified that **appdynamcis**  is removed from releases and deployments of bosh
+
+> **ubuntu@pivotal-ops-manager:~$ bosh deployments**
+
+    Acting as user 'director' on 'microbosh-56d69d339e2b073b5c52'
+    
+    +--------------------------------+------------------------------------------+-----------------------------------------------+--------------+
+    | Name                           | Release(s)                               | Stemcell(s)                                   | Cloud Config |
+    +--------------------------------+------------------------------------------+-----------------------------------------------+--------------+
+    | cf-1066a95512aedb24c7cf        | cf-autoscaling/13                        | bosh-vsphere-esxi-ubuntu-trusty-go_agent/3026 | none         |
+    |                                | cf-mysql/20                              |                                               |              |
+    |                                | cf/208.7                                 |                                               |              |
+    |                                | notifications-with-ui/18                 |                                               |              |
+    |                                | push-console-release/console-du-jour-203 |                                               |              |
+    +--------------------------------+------------------------------------------+-----------------------------------------------+--------------+
+    | p-metrics-29e7e66b0efa769da255 | cf-metrics/33                            | bosh-vsphere-esxi-ubuntu-trusty-go_agent/2989 | none         |
+    +--------------------------------+------------------------------------------+-----------------------------------------------+--------------+
 
 
- - **NOTE:**  If wither bosh deployments or/and releases show **appdynamics** in it. Then do the following to delete **appdynamics**
+Thus, we have verified that appdynamics is neither present in bosh releases nor deployments.
 
 
-> **ubuntu@pivotal-ops-manager:~$ bosh delete deployment appdynamics-broker-fb1e8e0e21600f9d8fa2**
+
+As seen there is appdynamics-broker-fb1e8e0e21600f9d8fa2 in bosh deployments which needs to be removed.
+
+However, if this is not the case, then we need to explicitly delete appdynamics from releases and deployments
+
+> ubuntu@pivotal-ops-manager:~$ bosh delete deployment `<deployment-name>`
 
 This will delete **appdynamics** from deployments. Now lets delete **appdynamics** from bosh releases.
 
+> ubuntu@pivotal-ops-manager:~$ bosh delete release `<release-name>`
 
-Now delete the appdynamics metadata file
+This will delete **appdynamics** from releases.
 
-> ubuntu@pivotal-ops-manager:/var/tempest/workspaces/default/metadata$
-> bosh releases Acting as user 'director' on
-> 'microbosh-56d69d339e2b073b5c52'
-> 
-> +-----------------------+----------------------+-------------+ | Name                  | Versions             | Commit Hash |
-> +-----------------------+----------------------+-------------+ | appdynamics_broker    | 4.2.0.0.0*           | 205aff3e+   | | cf     
-> | 208.7*               | 966e2645+   | | cf-autoscaling        | 13*  
-> | 927bc7ed+   | | cf-metrics            | 33*                  |
-> c7d12e9e    | | cf-mysql              | 20*                  |
-> caa23b3d+   | | notifications-with-ui | 18*                  |
-> 490b6446+   | | push-console-release  | console-du-jour-203* |
-> d2d31585+   |
-> +-----------------------+----------------------+-------------+ (*) Currently deployed (+) Uncommitted changes
-> 
-> Releases total: 7
-> 
-> ubuntu@pivotal-ops-manager:/var/tempest/workspaces/default/metadata$
-> bosh delete release appdynamics_broker
-
-This will delete **appdynamics** from bosh releases.
 
  - Now, lets delete the metadata file from metadata directory. This is  
    how the ops-manager application looks which shows AppDynamics before 
@@ -111,20 +89,21 @@ This will delete **appdynamics** from bosh releases.
 
 **Go to metadata dir in pivotal ops-manager**
 
-> ubuntu@pivotal-ops-manager:~$cd
-> /var/tempest/workspaces/default/metadata
-> ubuntu@pivotal-ops-manager:/var/tempest/workspaces/default/metadata ls
-> -la total 196 drwxr-xr-x 2 tempest-web tempest-web   4096 Oct 14 21:35 . drwxr-xr-x 7 tempest-web tempest-web   4096 Sep  9 17:22 ..
-> -rw------- 1 tempest-web tempest-web  15552 Sep  9 17:24 07a781ebe2a3.yml
-> -rw------- 1 tempest-web tempest-web  27005 Oct 15 19:11 2bee14872afc.yml  **<- AppDynamics Metadata File**
-> -rw------- 1 tempest-web tempest-web 116532 Aug  6 01:34 50cfd2792e78.yml
+> ubuntu@pivotal-ops-manager:~$cd /var/tempest/workspaces/default/metadata
+> 
+> 
+> ubuntu@pivotal-ops-manager:/var/tempest/workspaces/default/metadata: ls -la
+
+    total 196 drwxr-xr-x 2 tempest-web tempest-web   4096 Oct 14 21:35 . drwxr-xr-x 7 tempest-web tempest-web   4096 Sep  9 17:22 ..
+    -rw------- 1 tempest-web tempest-web  15552 Sep  9 17:24 07a781ebe2a3.yml
+    -rw------- 1 tempest-web tempest-web  27005 Oct 15 19:11 2bee14872afc.yml  **<- AppDynamics Metadata File**
+    -rw------- 1 tempest-web tempest-web 116532 Aug  6 01:34 50cfd2792e78.yml
 
 Out of these three files, check which of these is for **apppdynamics**
 
  - **Move the appdynamics metadata file to /tmp/**
 
-> ubuntu@pivotal-ops-manager:/var/tempest/workspaces/default/metadata$
-> sudo mv 2bee14872afc.yml /tmp/
+> ubuntu@pivotal-ops-manager:/var/tempest/workspaces/default/metadata$ sudo mv 2bee14872afc.yml /tmp/
 
  - **Refresh the ops-manager page**
 
