@@ -67,9 +67,7 @@ Thus, we have verified that appdynamics is neither present in bosh releases nor 
 
 
 
-As seen there is appdynamics-broker-fb1e8e0e21600f9d8fa2 in bosh deployments which needs to be removed.
-
-However, if this is not the case, then we need to explicitly delete appdynamics from releases and deployments
+However, if this is not the case, and we see appdynamics in either or both bosh releases & deployments then we need to explicitly delete appdynamics from them.
 
 > ubuntu@pivotal-ops-manager:~$ bosh delete deployment `<deployment-name>`
 
