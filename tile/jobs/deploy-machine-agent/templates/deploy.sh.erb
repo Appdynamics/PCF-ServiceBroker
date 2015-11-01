@@ -165,6 +165,7 @@ function add_env_vars() {
   cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_JMX_USER                 $OPS_METRICS_JMX_USER
   cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_JMX_PASSWORD             $OPS_METRICS_JMX_PASSWORD
   cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_AUTHENTICATE             $OPS_METRICS_AUTHENTICATE
+  cf set-env ${APP_NAME}-${APP_VERSION} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
   cf set-env ${APP_NAME}-${APP_VERSION} JAVA_OPTS " -Dextension.pcf.jmx.serviceURL=${OPS_METRICS_SERVICE_URL} -Dextension.pcf.jmx.username=${OPS_METRICS_JMX_USER} -Dextension.pcf.jmx.password=${OPS_METRICS_JMX_PASSWORD} -Dextension.pcf.jmx.authenticate=${OPS_METRICS_AUTHENTICATE} -Dappdynamics.agent.maxMetrics=5000 "
 
   # CUSTOM_VARIABLE_ENV_END_MARKER
