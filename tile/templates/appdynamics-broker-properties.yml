@@ -79,8 +79,8 @@ properties:
     ### CUSTOM_VARIABLE_MANIFEST_END_MARKER
 
     app_push:
-      memory: 512
-      org_quota: 1024
+      memory: 1024
+      org_quota: 2048
       timeout: 180
     # Set the persistence type to 'mysql' for using my sql instance to store data
     # Set the persistence type to 'custom' for using custom db (non-my sql) instance to store data
