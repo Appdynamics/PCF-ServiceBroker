@@ -328,7 +328,7 @@ job_types:
   - name: ram
     type: integer
     configurable: false
-    default: 512
+    default: 1024
   - name: ephemeral_disk
     type: integer
     configurable: false
@@ -407,7 +407,7 @@ job_types:
   - name: ram
     type: integer
     configurable: false
-    default: 512
+    default: 1024
   - name: ephemeral_disk
     type: integer
     configurable: false
@@ -469,7 +469,7 @@ job_types:
   - name: ram
     type: integer
     configurable: false
-    default: 512
+    default: 1024
   - name: ephemeral_disk
     type: integer
     configurable: false
@@ -530,7 +530,7 @@ job_types:
   - name: ram
     type: integer
     configurable: false
-    default: 512
+    default: 1024
   - name: ephemeral_disk
     type: integer
     configurable: false
@@ -586,7 +586,7 @@ job_types:
    - name: ram
      type: integer
      configurable: true
-     default: 1_024
+     default: 1024
    - name: ephemeral_disk
      type: integer
      configurable: true
