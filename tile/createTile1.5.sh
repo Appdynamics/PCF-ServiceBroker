@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #PCF_VERSION=1.4
-TILE_VERSION=4.1.5.2.0_PCFv1.5
+TILE_VERSION=4.1.5.3_PCFv1.5
 TILE_NAME=AppDynamics-Broker
 TILE_FILE=`pwd`/appdynamics-broker-tile-v1.5.yml
 RELEASE_TARFILE=`pwd`/releases/*/*.tgz
