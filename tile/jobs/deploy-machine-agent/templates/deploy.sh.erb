@@ -36,9 +36,11 @@ export CF_SPACE=$SPACE
 export CF_USER=$ADMIN_USER
 export CF_PASSWORD=$ADMIN_PASSWORD
 export CF_SKIP_SSL=<%= properties.ssl.skip_cert_verify %>
-export ORG_QUOTA=<%= properties.appdynamics_machine_agent.app_push.org_quota %>
+# export ORG_QUOTA=<%= properties.appdynamics_machine_agent.app_push.org_quota %>
+export ORG_QUOTA=2048
 export APP_PUSH_TIMEOUT=<%= properties.appdynamics_machine_agent.app_push.timeout %>
-export APP_PUSH_MEMORY=<%= properties.appdynamics_machine_agent.app_push.memory %>
+# export APP_PUSH_MEMORY=<%= properties.appdynamics_machine_agent.app_push.memory %>
+export APP_PUSH_MEMORY=1024
 
 # Use this only if app needs additional libraries that need to be downloaded
 #
