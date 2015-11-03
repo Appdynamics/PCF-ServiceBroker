@@ -71,6 +71,7 @@ export APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=<%= properties.appdynamics_machine_a
 export APPDYNAMICS_CONTROLLER_SSL_ENABLED=<%= properties.appdynamics_machine_agent.ssl_enabled %>
 export APPDYNAMICS_AGENT_TIER_NAME=<%= properties.appdynamics_machine_agent.tier_name %>
 export APPDYNAMICS_AGENT_NODE_NAME=<%= properties.appdynamics_machine_agent.broker.user %>
+export APPDYNAMICS_AGENT_UNIQUE_HOST_ID="container"
 
 ## #CUSTOM_VARIABLE_END_MARKER
 
@@ -168,7 +169,7 @@ function add_env_vars() {
   cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_JMX_PASSWORD             $OPS_METRICS_JMX_PASSWORD
   cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_AUTHENTICATE             $OPS_METRICS_AUTHENTICATE
   cf set-env ${APP_NAME}-${APP_VERSION} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
-  cf set-env ${APP_NAME}-${APP_VERSION} JAVA_OPTS " -Dextension.pcf.jmx.serviceURL=${OPS_METRICS_SERVICE_URL} -Dextension.pcf.jmx.username=${OPS_METRICS_JMX_USER} -Dextension.pcf.jmx.password=${OPS_METRICS_JMX_PASSWORD} -Dappdynamics.agent.maxMetrics=5000 "
+  cf set-env ${APP_NAME}-${APP_VERSION} JAVA_OPTS " -Dappdynamics.agent.uniqueHostId=${APPDYNAMICS_AGENT_UNIQUE_HOST_ID} -Dextension.pcf.jmx.serviceURL=${OPS_METRICS_SERVICE_URL} -Dextension.pcf.jmx.username=${OPS_METRICS_JMX_USER} -Dextension.pcf.jmx.password=${OPS_METRICS_JMX_PASSWORD} -Dappdynamics.agent.maxMetrics=5000 "
 
   # CUSTOM_VARIABLE_ENV_END_MARKER
 
