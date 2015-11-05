@@ -6,4 +6,6 @@ builds:
     version: 4.2.0.0.0
   c859a916-45c6-4d50-a1ed-681396083400:
     version: 4.1.5.2.0
+  c1ee765a-c418-4853-95c1-0a2de7ae680b:
+    version: 4.1.5.3
 format-version: '2'

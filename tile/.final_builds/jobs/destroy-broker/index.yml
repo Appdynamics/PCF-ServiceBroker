@@ -2,6 +2,6 @@
 builds:
   f96510b4f4404f66b96ded953abcbc9ab175f00a:
     version: f96510b4f4404f66b96ded953abcbc9ab175f00a
-    sha1: 3a4714905cb5184d1b95a9662a3d24e199ec6626
-    blobstore_id: 70c413fe-a9d0-46b4-b276-e77494495d52
+    sha1: ca54c00fd90bd7c920698c9c4ba5f29cc9b93a52
+    blobstore_id: 42ab9d1c-b51f-4743-9693-3df8a26350a5
 format-version: '2'
