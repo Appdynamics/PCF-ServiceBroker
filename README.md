@@ -7,6 +7,15 @@ AppDynamics Service Broker Tile
  1. [Private install](http://docs.pivotal.io/pivotalcf/getstarted/) of PCF
  2. [Ops Manager](https://network.pivotal.io/) and [Ops Metrics Tile](https://network.pivotal.io/)
 
+> Details
+
+This tile once deployed, will create two separate orgs for two different purposes:
+
+ 1. **AppDynamicsServiceBroker-service-org**  - This org is used for deploying AppDynamics Service Broker application. Memory requirement = 1024MB
+ 2. **PCF-OpsMetrics-service-org** - This org is used for deploying AppDynamics Machine Agent with Cloud Foundry extension. Memory requirement  = 2048MB
+
+In totality, this tile would consume ~5GB memory of the underlying PCF platform
+
 > NOTE
 
   **If using the AppDynamics tile, please ensure that you are using the *latest buildpack* for instrumenting applications using AppDynamics Service Broker Tile** 
