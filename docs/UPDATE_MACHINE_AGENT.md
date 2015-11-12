@@ -49,4 +49,7 @@ Make changes to the version number as highlighted in the image and then save the
 
 Now run the createRelease and createTile scripts to create the new tile
 
+    nikhil.katre@Nikhils-Mac-Book-Pro:~/Downloads/PCF-ServiceBroker/tile#./createRelease.sh
+    nikhil.katre@Nikhils-Mac-Book-Pro:~/Downloads/PCF-ServiceBroker/tile#./createTile.sh
+
 ----------
