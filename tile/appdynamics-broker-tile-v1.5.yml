@@ -152,7 +152,7 @@ form_types:
     label: Service Broker Application Name
     description: Enter the name for the Service Broker App
   - reference: ".properties.app_version"
-    label: Service Broker Application version
+    label: Service Broker Application Version
     description: Enter the version of the Service Broker App (Final app name would
       include app version like ${appName}-${appversion}
   - reference: ".properties.app_uri"
@@ -198,7 +198,7 @@ form_types:
       slug: false
   name: appdynamics_broker_app
   label: Service Broker Application
-  description: Service Broker configuration
+  description: Service Broker Configuration
 - property_inputs:
   - reference: ".properties.machine_agent_app_name"
     label: Application Name
