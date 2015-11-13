@@ -201,14 +201,14 @@ form_types:
   description: Service Broker configuration
 - property_inputs:
   - reference: ".properties.machine_agent_app_name"
-    label: Machine Agent Extension Name
+    label: Application Name
     description: Enter the name for the Machine Agent Extension for PCF OPS Metrics
   - reference: ".properties.machine_agent_app_version"
-    label: Machine Agent Extension version
+    label: Application Version
     description: Enter the version of the Machine Agent App (Final app name would
       include app version like ${appName}-${appversion}
   - reference: ".properties.machine_agent_app_uri"
-    label: Machine Agent Extension URI
+    label: Application URI
     description: Enter the uri/endpoint for the Machine Agent app (on push to CF)
   - reference: ".properties.create_open_security_group"
     label: Open up Security Groups
@@ -246,7 +246,7 @@ form_types:
     description: "PCF Ops Metrics JMX User Password"
   name: appdynamics_machine_agent_app
   label: Machine Agent Extension for PCF OPS Metrics
-  description: Machine Agent configuration
+  description: Machine Agent Configuration
 job_types:
 - name: deploy-service-broker
   resource_label: Deploy AppDynamics Service Broker
