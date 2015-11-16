@@ -24,7 +24,7 @@ export DOMAIN=<%= properties.domain %>
 export API_ENDPOINT=$SCHEME://api.$DOMAIN
 export APP_DOMAIN=<%="#{app_domain}"%>
 export APP_NAME=<%= properties.appdynamics_machine_agent.app_name %>
-export APP_VERSION=<%= properties.appdynamics_machine_agent.app_version %>
+#export APP_VERSION=<%= properties.appdynamics_machine_agent.app_version %>
 export APP_URI=<%= properties.appdynamics_machine_agent.app_uri %>
 export ORG=${APP_NAME}-service-org
 export SPACE=${APP_NAME}-service-space
@@ -37,6 +37,7 @@ function authenticate_and_target() {
 
 cf -v
 authenticate_and_target
-cf delete -f ${APP_NAME}-${APP_VERSION}
+#cf delete -f ${APP_NAME}-${APP_VERSION}
+cf delete -f ${APP_NAME}
 cf delete-space -f $SPACE
 cf delete-org -f $ORG

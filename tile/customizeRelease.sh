@@ -80,7 +80,8 @@ if [ "${requireEnvVariables:0:1}" == "y" ]; then
     echo "    default: '${defaultValue}'"  >> $specTmp
 
     echo "export ${variableName}=<%= properties.${brokerName}.${variableName} %>" >> $erbTmp1
-    echo "  cf set-env \${APP_NAME}-\${APP_VERSION} $variableName \"\$${variableName}\" " >> $erbTmp2
+    #echo "  cf set-env \${APP_NAME}-\${APP_VERSION} $variableName \"\$${variableName}\" " >> $erbTmp2
+    echo "  cf set-env \${APP_NAME} $variableName \"\$${variableName}\" " >> $erbTmp2
 
     if [ "${exposable:0:1}" == "y" ]; then
 #      echo "      - reference: .properties.${variableName}"  >> $tileTmp1

@@ -24,8 +24,9 @@ export DOMAIN=<%= properties.domain %>
 export APP_DOMAIN=<%="#{app_domain}"%>
 export API_ENDPOINT=$SCHEME://api.${DOMAIN}
 export APP_NAME=<%= properties.appdynamics_machine_agent.app_name %>
-export APP_VERSION=<%= properties.appdynamics_machine_agent.app_version %>
-export APPDYNAMICS_AGENT_APPLICATION_NAME=${APP_NAME}-${APP_VERSION}
+#export APP_VERSION=<%= properties.appdynamics_machine_agent.app_version %>
+#export APPDYNAMICS_AGENT_APPLICATION_NAME=${APP_NAME}-${APP_VERSION}
+export APPDYNAMICS_AGENT_APPLICATION_NAME=${APP_NAME}
 export APP_URI=<%= properties.appdynamics_machine_agent.app_uri %>
 export ORG=${APP_NAME}-service-org
 export SPACE=${APP_NAME}-service-space
@@ -128,8 +129,10 @@ function create_open_security_group() {
 }
 
 function restart_app() {
-  CF_TRACE=true cf restart ${APP_NAME}-${APP_VERSION}
-  cf logs ${APP_NAME}-${APP_VERSION} --recent
+  #CF_TRACE=true cf restart ${APP_NAME}-${APP_VERSION}
+  #cf logs ${APP_NAME}-${APP_VERSION} --recent
+  CF_TRACE=true cf restart ${APP_NAME}
+  cf logs ${APP_NAME} --recent
 }
 
 function add_env_vars() {
@@ -155,22 +158,38 @@ function add_env_vars() {
 #  cf set-env ${APP_NAME}-${APP_VERSION} SECURITY_USER_PASSWORD $SECURITY_USER_PASSWORD
 
   # CUSTOM_VARIABLE_ENV_BEGIN_MARKER
-  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_CONTROLLER_HOST_NAME     $APPDYNAMICS_CONTROLLER_HOST_NAME
-  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_CONTROLLER_PORT          $APPDYNAMICS_CONTROLLER_PORT
-  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_ACCOUNT_NAME       $APPDYNAMICS_AGENT_ACCOUNT_NAME
-  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY $APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
-  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_APPLICATION_NAME   $APPDYNAMICS_AGENT_APPLICATION_NAME
-  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_TIER_NAME          $APPDYNAMICS_AGENT_TIER_NAME
-  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_NODE_NAME          $APPDYNAMICS_AGENT_NODE_NAME 
-  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_UNIQUE_HOST_ID     $APPDYNAMICS_AGENT_UNIQUE_HOST_ID
-  cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_CONTROLLER_SSL_ENABLED   $APPDYNAMICS_CONTROLLER_SSL_ENABLED
-  cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_IP                       $OPS_METRICS_IP
-  cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_PORT                     $OPS_METRICS_PORT
-  cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_JMX_USER                 $OPS_METRICS_JMX_USER
-  cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_JMX_PASSWORD             $OPS_METRICS_JMX_PASSWORD
-  cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_AUTHENTICATE             $OPS_METRICS_AUTHENTICATE
-  cf set-env ${APP_NAME}-${APP_VERSION} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
-  cf set-env ${APP_NAME}-${APP_VERSION} JAVA_OPTS " -Dextension.pcf.jmx.serviceURL=${OPS_METRICS_SERVICE_URL} -Dextension.pcf.jmx.username=${OPS_METRICS_JMX_USER} -Dextension.pcf.jmx.password=${OPS_METRICS_JMX_PASSWORD} -Dappdynamics.agent.maxMetrics=5000 "
+  #cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_CONTROLLER_HOST_NAME     $APPDYNAMICS_CONTROLLER_HOST_NAME
+  #cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_CONTROLLER_PORT          $APPDYNAMICS_CONTROLLER_PORT
+  #cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_ACCOUNT_NAME       $APPDYNAMICS_AGENT_ACCOUNT_NAME
+  #cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY $APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+  #cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_APPLICATION_NAME   $APPDYNAMICS_AGENT_APPLICATION_NAME
+  #cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_TIER_NAME          $APPDYNAMICS_AGENT_TIER_NAME
+  #cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_NODE_NAME          $APPDYNAMICS_AGENT_NODE_NAME 
+  #cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_AGENT_UNIQUE_HOST_ID     $APPDYNAMICS_AGENT_UNIQUE_HOST_ID
+  #cf set-env ${APP_NAME}-${APP_VERSION} APPDYNAMICS_CONTROLLER_SSL_ENABLED   $APPDYNAMICS_CONTROLLER_SSL_ENABLED
+  #cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_IP                       $OPS_METRICS_IP
+  #cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_PORT                     $OPS_METRICS_PORT
+  #cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_JMX_USER                 $OPS_METRICS_JMX_USER
+  #cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_JMX_PASSWORD             $OPS_METRICS_JMX_PASSWORD
+  #cf set-env ${APP_NAME}-${APP_VERSION} OPS_METRICS_AUTHENTICATE             $OPS_METRICS_AUTHENTICATE
+  #cf set-env ${APP_NAME}-${APP_VERSION} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
+  #cf set-env ${APP_NAME}-${APP_VERSION} JAVA_OPTS " -Dextension.pcf.jmx.serviceURL=${OPS_METRICS_SERVICE_URL} -Dextension.pcf.jmx.username=${OPS_METRICS_JMX_USER} -Dextension.pcf.jmx.password=${OPS_METRICS_JMX_PASSWORD} -Dappdynamics.agent.maxMetrics=5000 "
+  cf set-env ${APP_NAME} APPDYNAMICS_CONTROLLER_HOST_NAME     $APPDYNAMICS_CONTROLLER_HOST_NAME
+  cf set-env ${APP_NAME} APPDYNAMICS_CONTROLLER_PORT          $APPDYNAMICS_CONTROLLER_PORT
+  cf set-env ${APP_NAME} APPDYNAMICS_AGENT_ACCOUNT_NAME       $APPDYNAMICS_AGENT_ACCOUNT_NAME
+  cf set-env ${APP_NAME} APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY $APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+  cf set-env ${APP_NAME} APPDYNAMICS_AGENT_APPLICATION_NAME   $APPDYNAMICS_AGENT_APPLICATION_NAME
+  cf set-env ${APP_NAME} APPDYNAMICS_AGENT_TIER_NAME          $APPDYNAMICS_AGENT_TIER_NAME
+  cf set-env ${APP_NAME} APPDYNAMICS_AGENT_NODE_NAME          $APPDYNAMICS_AGENT_NODE_NAME 
+  cf set-env ${APP_NAME} APPDYNAMICS_AGENT_UNIQUE_HOST_ID     $APPDYNAMICS_AGENT_UNIQUE_HOST_ID
+  cf set-env ${APP_NAME} APPDYNAMICS_CONTROLLER_SSL_ENABLED   $APPDYNAMICS_CONTROLLER_SSL_ENABLED
+  cf set-env ${APP_NAME} OPS_METRICS_IP                       $OPS_METRICS_IP
+  cf set-env ${APP_NAME} OPS_METRICS_PORT                     $OPS_METRICS_PORT
+  cf set-env ${APP_NAME} OPS_METRICS_JMX_USER                 $OPS_METRICS_JMX_USER
+  cf set-env ${APP_NAME} OPS_METRICS_JMX_PASSWORD             $OPS_METRICS_JMX_PASSWORD
+  cf set-env ${APP_NAME} OPS_METRICS_AUTHENTICATE             $OPS_METRICS_AUTHENTICATE
+  cf set-env ${APP_NAME} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
+  cf set-env ${APP_NAME} JAVA_OPTS " -Dextension.pcf.jmx.serviceURL=${OPS_METRICS_SERVICE_URL} -Dextension.pcf.jmx.username=${OPS_METRICS_JMX_USER} -Dextension.pcf.jmx.password=${OPS_METRICS_JMX_PASSWORD} -Dappdynamics.agent.maxMetrics=5000 "
 
   # CUSTOM_VARIABLE_ENV_END_MARKER
 
@@ -187,18 +206,21 @@ function modify_app() {
 
 function delete_prev_app_instance() {
 
-  cf apps | grep ${APP_NAME}-${APP_VERSION}
+  #cf apps | grep ${APP_NAME}-${APP_VERSION}
+  cf apps | grep ${APP_NAME}
   existing_app_check=$?
 
   if [ "$existing_app_check" == "0" ]; then
 
     # Look for User-Provided env variables and stop after the first blank line after that
-    cf env ${APP_NAME}-${APP_VERSION} | awk 'f{print}/User-Provided/{f=1};/^ *$/{f=0}' \
+    #cf env ${APP_NAME}-${APP_VERSION} | awk 'f{print}/User-Provided/{f=1};/^ *$/{f=0}' \
+    cf env ${APP_NAME} | awk 'f{print}/User-Provided/{f=1};/^ *$/{f=0}' \
                 | grep '.' | awk -F ':' '{print $1}' | while read env_variable_name
     do
       cf unset-env $env_variable_name
     done
-    cf delete -f ${APP_NAME}-${APP_VERSION}  > /dev/null
+    #cf delete -f ${APP_NAME}-${APP_VERSION}  > /dev/null
+    cf delete -f ${APP_NAME}  > /dev/null
   fi
 }
 
@@ -212,8 +234,10 @@ function push_app() {
     delete_prev_app_instance
     <% end %>
 
-    CF_TRACE=true cf push ${APP_NAME}-${APP_VERSION} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c "/home/vcap/app/bin/machine-agent"
-    cf logs ${APP_NAME}-${APP_VERSION} --recent
+    #CF_TRACE=true cf push ${APP_NAME}-${APP_VERSION} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c "/home/vcap/app/bin/machine-agent"
+    #cf logs ${APP_NAME}-${APP_VERSION} --recent
+    CF_TRACE=true cf push ${APP_NAME} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c "/home/vcap/app/bin/machine-agent"
+    cf logs ${APP_NAME} --recent
   popd
 }
 

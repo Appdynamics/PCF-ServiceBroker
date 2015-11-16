@@ -24,11 +24,12 @@ export DOMAIN=<%= properties.domain %>
 export API_ENDPOINT=$SCHEME://api.$DOMAIN
 export APP_DOMAIN=<%="#{app_domain}" %>
 export APP_NAME=<%= properties.appdynamics_broker.app_name %>
-export APP_VERSION=<%= properties.appdynamics_broker.app_version %>
+#export APP_VERSION=<%= properties.appdynamics_broker.app_version %>
 export APP_URI=<%= properties.appdynamics_broker.app_uri %>
 export ORG=${APP_NAME}-service-org
 export SPACE=${APP_NAME}-service-space
-export BROKER_NAME=${APP_NAME}-${APP_VERSION}-service-broker
+#export BROKER_NAME=${APP_NAME}-${APP_VERSION}-service-broker
+export BROKER_NAME=${APP_NAME}-service-broker
 export BROKER_USER=<%= properties.appdynamics_broker.broker.user %>
 export BROKER_PASS=<%= properties.appdynamics_broker.broker.password %>
 export BROKER_HOST=$SCHEME://${APP_URI}.${APP_DOMAIN}
