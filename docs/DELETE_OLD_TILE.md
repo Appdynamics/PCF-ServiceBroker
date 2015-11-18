@@ -16,7 +16,7 @@ Delete AppDynamics Tile from Ops-Manager
 
 **SSH into pivotal-ops-manager**
 
-> **[root@cent7-npm-perf-01 PCF-ServiceBroker]# ssh ubuntu@10.0.34.81** 
+> **[root@cent7-npm-perf-01 PCF-ServiceBroker]# ssh ubuntu@pivotal-ops-manager** 
 
     ubuntu@10.0.34.81's password:  Welcome to Ubuntu 14.04.2 LTS (GNU/Linux3.16.0-45-generic x86_64)
     
