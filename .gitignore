@@ -1,5 +1,6 @@
 # Temp Folder
 /tile/tmp/
+/.idea/
 
 # Logs 
 *.log
