@@ -2,6 +2,6 @@
 builds:
   18419dedadebe8031a294f92af9fd47715fb1406:
     version: 18419dedadebe8031a294f92af9fd47715fb1406
-    sha1: 7bdec128f388bce1ce66decd3248b04e8956b876
-    blobstore_id: 1c7820f9-c6e1-4537-9cf2-688fc2f8f4ed
+    sha1: 66b674fe4203fd51fdc9aa90fea4756f1d502345
+    blobstore_id: 9f9765d7-421b-4011-8055-f1626a1d86dc
 format-version: '2'
