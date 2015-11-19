@@ -245,7 +245,7 @@ form_types:
     label: Ops Metrics JMX User Password
     description: "PCF Ops Metrics JMX User Password"
   name: appdynamics_machine_agent_app
-  label: Machine Agent Extension for PCF OPS Metrics
+  label: Machine Agent Extension For PCF OPS Metrics
   description: Machine Agent Configuration
 job_types:
 - name: deploy-service-broker
