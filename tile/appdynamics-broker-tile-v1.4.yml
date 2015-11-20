@@ -1,6 +1,6 @@
 ---
 name: appdynamics-broker                                       # [1]
-product_version: 1.4.2                            # [1]
+product_version: 1.4.2.0                            # [1]
 label: AppDynamics Service Broker version 4.1.5.3 
 rank: 50
 metadata_version: '1.4'                                    # [2]

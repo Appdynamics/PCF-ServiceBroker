@@ -263,8 +263,7 @@ function push_app() {
     <% end %>
 
     #CF_TRACE=true cf push ${APP_NAME}-${APP_VERSION} -p
-    CF_TRACE=true cf push ${APP_NAME} -p 
-${PACKAGE_PATH}/${TARGET_APP} -n ${APP_URI} -d ${APP_DOMAIN} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start
+    CF_TRACE=true cf push ${APP_NAME} -p ${PACKAGE_PATH}/${TARGET_APP} -n ${APP_URI} -d ${APP_DOMAIN} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start
     #cf logs ${APP_NAME}-${APP_VERSION} --recent
     cf logs ${APP_NAME} --recent
   popd

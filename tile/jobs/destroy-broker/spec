@@ -13,8 +13,8 @@ properties:
     description: 'CloudFoundry application domains'
   appdynamics_broker.app_name:
     description: 'App Name'
-  appdynamics_broker.app_version:
-    description: 'Version of the Service Broker Application'
+#  appdynamics_broker.app_version:
+#    description: 'Version of the Service Broker Application'
   appdynamics_broker.app_uri:
     description: 'Uri of the Service Broker Application'
   appdynamics_broker.cf.admin_user:
