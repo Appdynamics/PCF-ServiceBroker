@@ -262,7 +262,7 @@ form_types:
   - reference: ".properties.http_proxy_host"
     label: Web Proxy Host Name/IP
     description: Host Address of the web proxy(Only IP or FQDN)
-  - reference: ".properties.http_proxy_host"
+  - reference: ".properties.http_proxy_port"
     label: Web Proxy Port
     description: Port of the web proxy (to handle http and https port)
   name: appdynamics_machine_agent_app
