@@ -49,6 +49,18 @@ property_blueprints:
   type: string
   configurable: true
   default: appdynamics-pcf-ops-metrics
+- name: proxy_enabled
+  type: boolean
+  configurable: true
+  default: false
+- name: http_proxy_host
+  type: string
+  configurable: true
+  default: _no_proxy_
+- name: http_proxy_port
+  type: integer
+  configurable: true
+  default: 8080
 - name: ops_metrics_host
   type: string
   configurable: true
@@ -244,6 +256,15 @@ form_types:
   - reference: .properties.ops_metrics_jmx_password
     label: Ops Metrics JMX User Password
     description: "PCF Ops Metrics JMX User Password"
+  - reference: ".properties.proxy_enabled"
+    label: HTTP Web Proxy Enabled
+    description: All external communication to AppD SaaS services through a Web Proxy
+  - reference: ".properties.http_proxy_host"
+    label: Web Proxy Host Name/IP
+    description: Host Address of the web proxy(Only IP or FQDN)
+  - reference: ".properties.http_proxy_host"
+    label: Web Proxy Port
+    description: Port of the web proxy (to handle http and https port)
   name: appdynamics_machine_agent_app
   label: Machine Agent Extension For PCF OPS Metrics
   description: Machine Agent Configuration
@@ -385,6 +406,9 @@ job_types:
       ssl_enabled: (( .properties.ssl_enabled.value ))
       tier_name: (( .properties.tier_name.value ))
       node_name: (( .properties.node_name.value ))
+      proxy_enabled: (( .properties.proxy_enabled.value ))
+      http_proxy_host: (( .properties.http_proxy_host.value ))
+      http_proxy_port: (( .properties.http_proxy_port.value ))
       ops_metrics_host: (( .properties.ops_metrics_host.value ))
       ops_metrics_port: (( .properties.ops_metrics_port.value ))
       ops_metrics_authenticate: (( .properties.ops_metrics_authenticate.value ))

@@ -194,14 +194,19 @@ function add_env_vars() {
   cf set-env ${APP_NAME} OPS_METRICS_JMX_PASSWORD             $OPS_METRICS_JMX_PASSWORD
   cf set-env ${APP_NAME} OPS_METRICS_AUTHENTICATE             $OPS_METRICS_AUTHENTICATE
   cf set-env ${APP_NAME} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
-  cf set-env ${APP_NAME} JAVA_OPTS " -Dextension.pcf.jmx.serviceURL=${OPS_METRICS_SERVICE_URL} -Dextension.pcf.jmx.username=${OPS_METRICS_JMX_USER} -Dextension.pcf.jmx.password=${OPS_METRICS_JMX_PASSWORD} -Dappdynamics.agent.maxMetrics=5000 "
+
+  export JAVA_OPTS=" -Dextension.pcf.jmx.serviceURL=${OPS_METRICS_SERVICE_URL} -Dextension.pcf.jmx.username=${OPS_METRICS_JMX_USER} -Dextension.pcf.jmx.password=${OPS_METRICS_JMX_PASSWORD} -Dappdynamics.agent.maxMetrics=5000 "
 
 # Proxy Settings
   if [ "${OPS_METRICS_PROXY_ENABLED}" == "true" ]; then
     echo "Adding proxy host and port to Machine agent config"
     cf set-env ${APP_NAME} OPS_METRICS_PROXY_HOST             $OPS_METRICS_PROXY_HOST
     cf set-env ${APP_NAME} OPS_METRICS_PROXY_PORT             $OPS_METRICS_PROXY_PORT
+    export JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.http.proxyHost=${OPS_METRICS_PROXY_HOST} -Dappdynamics.http.proxyPort=${OPS_METRICS_PROXY_PORT} -Dhttp.proxyHost=${OPS_METRICS_PROXY_HOST} -Dhttp.proxyPort=${OPS_METRICS_PROXY_PORT} -Dhttps.proxyHost=${OPS_METRICS_PROXY_HOST} -Dhttps.proxyPort=${OPS_METRICS_PROXY_PORT} " 
   fi
+
+  cf set-env ${APP_NAME} JAVA_OPTS $JAVA_OPTS
+ 
 
   # CUSTOM_VARIABLE_ENV_END_MARKER
 
