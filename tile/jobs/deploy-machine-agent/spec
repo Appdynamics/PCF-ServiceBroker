@@ -46,6 +46,12 @@ properties:
     description: 'JMX user of the Ops Metrics Instance'
   appdynamics_machine_agent.ops_metrics_jmx_password:
     description: 'JMX password of the Ops Metrics Instance'
+  appdynamics_machine_agent.proxy_enabled:
+    description: 'Http Proxy Enabled'
+  appdynamics_machine_agent.http_proxy_host:
+    description: 'Host of the Http Proxy '
+  appdynamics_machine_agent.http_proxy_port:
+    description: 'Port of the Http Proxy '
   appdynamics_machine_agent.create_open_security_group:
     description: 'Open security group for the app to access outside'
     default: false

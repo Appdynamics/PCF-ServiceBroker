@@ -59,6 +59,11 @@ export SB_APP_ENV="setupServiceBrokerEnv.sh"
 
 ### CUSTOM_VARIABLE_BEGIN_MARKER
 
+# Proxy Settings
+export OPS_METRICS_PROXY_ENABLED=<%= properties.appdynamics_machine_agent.proxy_enabled %>
+export OPS_METRICS_PROXY_HOST=<%= properties.appdynamics_machine_agent.http_proxy_host %>
+export OPS_METRICS_PROXY_PORT=<%= properties.appdynamics_machine_agent.http_proxy_port %>
+
 export OPS_METRICS_IP=<%= properties.appdynamics_machine_agent.ops_metrics_host %>
 export OPS_METRICS_PORT=<%= properties.appdynamics_machine_agent.ops_metrics_port %>
 export OPS_METRICS_JMX_USER=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_user %>
@@ -190,6 +195,13 @@ function add_env_vars() {
   cf set-env ${APP_NAME} OPS_METRICS_AUTHENTICATE             $OPS_METRICS_AUTHENTICATE
   cf set-env ${APP_NAME} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
   cf set-env ${APP_NAME} JAVA_OPTS " -Dextension.pcf.jmx.serviceURL=${OPS_METRICS_SERVICE_URL} -Dextension.pcf.jmx.username=${OPS_METRICS_JMX_USER} -Dextension.pcf.jmx.password=${OPS_METRICS_JMX_PASSWORD} -Dappdynamics.agent.maxMetrics=5000 "
+
+# Proxy Settings
+  if [ "${OPS_METRICS_PROXY_ENABLED}" == "true" ]; then
+    echo "Adding proxy host and port to Machine agent config"
+    cf set-env ${APP_NAME} OPS_METRICS_PROXY_HOST             $OPS_METRICS_PROXY_HOST
+    cf set-env ${APP_NAME} OPS_METRICS_PROXY_PORT             $OPS_METRICS_PROXY_PORT
+  fi
 
   # CUSTOM_VARIABLE_ENV_END_MARKER
 
