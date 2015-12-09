@@ -254,6 +254,7 @@ function push_app() {
 
     #CF_TRACE=true cf push ${APP_NAME}-${APP_VERSION} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c "/home/vcap/app/bin/machine-agent"
     #cf logs ${APP_NAME}-${APP_VERSION} --recent
+    chmod 777 ${PACKAGE_PATH}/${TARGET_APP}
     CF_TRACE=true cf push ${APP_NAME} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c "/home/vcap/app/bin/machine-agent"
     cf logs ${APP_NAME} --recent
   popd

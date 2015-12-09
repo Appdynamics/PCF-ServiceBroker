@@ -70,6 +70,7 @@ property_blueprints:
 - name: ops_metrics_authenticate
   type: boolean
   configurable: true
+  default: true
 - name: ops_metrics_jmx_user
   type: string
   configurable: true
@@ -248,7 +249,7 @@ form_types:
     label: Ops Metrics Host Port
     description: "PCF Ops Metrics Host Port"
   - reference: .properties.ops_metrics_authenticate
-    label: Ops Metrics JMX Authenticate
+    label: Enable Ops Metrics JMX Authentication
     description: "PCF Ops Metrics JMX login with Authentication"
   - reference: .properties.ops_metrics_jmx_user
     label: Ops Metrics JMX User Id
