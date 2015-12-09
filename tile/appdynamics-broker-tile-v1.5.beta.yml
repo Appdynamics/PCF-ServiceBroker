@@ -1,6 +1,6 @@
 ---
 name: appdynamics-broker                                       # [1]
-product_version: 0.1                            # [1]
+product_version: '0.1'                            # [1]
 label: AppDynamics 
 rank: 50
 metadata_version: '1.5'                                    # [2]
