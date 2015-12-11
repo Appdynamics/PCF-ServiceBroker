@@ -205,7 +205,7 @@ function add_env_vars() {
     export JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.http.proxyHost=${OPS_METRICS_PROXY_HOST} -Dappdynamics.http.proxyPort=${OPS_METRICS_PROXY_PORT} -Dhttp.proxyHost=${OPS_METRICS_PROXY_HOST} -Dhttp.proxyPort=${OPS_METRICS_PROXY_PORT} -Dhttps.proxyHost=${OPS_METRICS_PROXY_HOST} -Dhttps.proxyPort=${OPS_METRICS_PROXY_PORT} " 
   fi
 
-  cf set-env ${APP_NAME} JAVA_OPTS " '$JAVA_OPTS' "
+  cf set-env ${APP_NAME} JAVA_OPTS " ${JAVA_OPTS} -Dlog4j.configuration=file:/home/vcap/app/conf/logging/log4j.xml "
   cf set-health-check ${APP_NAME} none
  
 
