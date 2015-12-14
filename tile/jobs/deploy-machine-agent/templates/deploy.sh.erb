@@ -64,6 +64,10 @@ export OPS_METRICS_PROXY_ENABLED=<%= properties.appdynamics_machine_agent.proxy_
 export OPS_METRICS_PROXY_HOST=<%= properties.appdynamics_machine_agent.http_proxy_host %>
 export OPS_METRICS_PROXY_PORT=<%= properties.appdynamics_machine_agent.http_proxy_port %>
 
+export OPS_METRICS_PROXY_AUTH_ENABLED=<%= properties.appdynamics_machine_agent.proxy_auth_enabled %>
+export OPS_METRICS_PROXY_USER=<%= properties.appdynamics_machine_agent.http_proxy_user %>
+export OPS_METRICS_PROXY_PASSWORD=<%= properties.appdynamics_machine_agent.http_proxy_password %>
+
 export OPS_METRICS_IP=<%= properties.appdynamics_machine_agent.ops_metrics_host %>
 export OPS_METRICS_PORT=<%= properties.appdynamics_machine_agent.ops_metrics_port %>
 export OPS_METRICS_JMX_USER=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_user %>
@@ -205,6 +209,12 @@ function add_env_vars() {
     export JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.http.proxyHost=${OPS_METRICS_PROXY_HOST} -Dappdynamics.http.proxyPort=${OPS_METRICS_PROXY_PORT} -Dhttp.proxyHost=${OPS_METRICS_PROXY_HOST} -Dhttp.proxyPort=${OPS_METRICS_PROXY_PORT} -Dhttps.proxyHost=${OPS_METRICS_PROXY_HOST} -Dhttps.proxyPort=${OPS_METRICS_PROXY_PORT} " 
   fi
 
+  if [ "${OPS_METRICS_PROXY_AUTH_ENABLED}" == "true" ]; then
+    echo "Adding proxy user and password to Machine agent config"
+    export JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.http.proxyUser=${OPS_METRICS_PROXY_USER} -Dappdynamics.http.proxyPassword=${OPS_METRICS_PROXY_PASSWORD} "
+  fi
+
+  cf set-env ${APP_NAME} JAVA_OPTS " ${JAVA_OPTS} -Dlog4j.configuration=file:/home/vcap/app/conf/logging/log4j.xml "
   cf set-env ${APP_NAME} JAVA_OPTS " ${JAVA_OPTS} -Dlog4j.configuration=file:/home/vcap/app/conf/logging/log4j.xml "
   cf set-health-check ${APP_NAME} none
  

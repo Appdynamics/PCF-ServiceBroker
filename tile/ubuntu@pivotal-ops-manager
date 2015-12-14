@@ -1,6 +1,6 @@
 ---
 name: appdynamics-broker                                       # [1]
-product_version: '1.0'                            # [1]
+product_version: 1.5.2.0                            # [1]
 label: AppDynamics 
 rank: 50
 metadata_version: '1.5'                                    # [2]
@@ -71,7 +71,7 @@ property_blueprints:
   configurable: true
   default: _none_
 - name: http_proxy_password
-  type: secret 
+  type: password
   configurable: true
   default: _none_
 - name: ops_metrics_host

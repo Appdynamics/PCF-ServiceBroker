@@ -52,6 +52,12 @@ properties:
     description: 'Host of the Http Proxy '
   appdynamics_machine_agent.http_proxy_port:
     description: 'Port of the Http Proxy '
+  appdynamics_machine_agent.proxy_auth_enabled:
+    description: 'Http Proxy Auth Enabled'
+  appdynamics_machine_agent.http_proxy_user:
+    description: 'User of the Http Proxy '
+  appdynamics_machine_agent.http_proxy_password:
+    description: 'Password of the Http Proxy '
   appdynamics_machine_agent.create_open_security_group:
     description: 'Open security group for the app to access outside'
     default: false
