@@ -72,7 +72,7 @@ property_blueprints:
 - name: http_proxy_password
   type: secret
   configurable: true
-  default: _none_
+  default: 
 - name: ops_metrics_host
   type: string
   configurable: true
