@@ -1,7 +1,7 @@
 ---
 name: appdynamics-broker                                       # [1]
-product_version: 1.5.2.0                            # [1]
-label: AppDynamics 
+product_version: '1.0'                            # [1]
+label: AppDynamics Service Broker
 rank: 50
 metadata_version: '1.5'                                    # [2]
 
@@ -16,7 +16,7 @@ releases:                                                  # [5]
 # EDIT the stemcell version as required
 stemcell_criteria:                                                  # [3]
   os: ubuntu-trusty
-  version: '3026'
+  version: '3146'
   requires_cpi: false
 
 property_blueprints:
@@ -120,8 +120,8 @@ property_blueprints:
   default: "appdynamics"
 - name: create_open_security_group
   type: boolean
-  configurable: true
-  default: false
+  configurable: false
+  default: true
 - name: enable_global_access_to_plans
   type: boolean
   configurable: true
@@ -184,10 +184,10 @@ form_types:
   - reference: ".properties.app_uri"
     label: Service Broker Application URI
     description: Enter the uri/endpoint for the Service Broker app (on push to CF)
-  - reference: ".properties.create_open_security_group"
-    label: Open up Security Groups
-    description: Open up security group on CF for Service Broker to access other apps
-      or CF Cloud Controller
+#  - reference: ".properties.create_open_security_group"
+#    label: Open up Security Groups
+#    description: Open up security group on CF for Service Broker to access other apps
+#      or CF Cloud Controller
   - reference: ".properties.enable_global_access_to_plans"
     label: Enable Access of Brokered Services and Plans to Everyone
     description: Open up All Services and plans to everyone across all orgs and spaces
@@ -236,10 +236,10 @@ form_types:
   - reference: ".properties.machine_agent_app_uri"
     label: Application URI
     description: Enter the uri/endpoint for the Machine Agent app (on push to CF)
-  - reference: ".properties.create_open_security_group"
-    label: Open up Security Groups
-    description: Open up security group on CF for Service Broker to access other apps
-      or CF Cloud Controller
+#  - reference: ".properties.create_open_security_group"
+#    label: Open up Security Groups
+#    description: Open up security group on CF for Service Broker to access other apps
+#      or CF Cloud Controller
   - reference: .properties.account_name
     label: Account Name
     description: "Account Name"
