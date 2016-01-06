@@ -20,11 +20,9 @@ In totality, this tile would consume ~5GB memory of the underlying PCF platform
 
   **If using the AppDynamics tile, please ensure that you are using the *latest buildpack* for instrumenting applications using AppDynamics Service Broker Tile** 
 
-> Useful Links
+> Downloads
 
- 1. [Video Link For Demo](https://drive.google.com/drive/folders/0B5Y66q8ImLmTNVd1SktXNnNRb0k)
- 2. [PCF Field Engineering Demo Slides](https://drive.google.com/drive/folders/0B5Y66q8ImLmTNVd1SktXNnNRb0k)
- 3. [CloudNative-4.2.pptx](https://singularity.jira.com/wiki/download/attachments/119144681/CloudNative-4.2.pptx?version=1&modificationDate=1439243356456&api=v2)
+ 1. [AppDynamics Tile](https://network.pivotal.io/products/p-appdynamics)
 
 > Versioning
 
