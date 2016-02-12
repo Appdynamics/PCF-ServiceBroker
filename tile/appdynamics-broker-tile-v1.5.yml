@@ -1,6 +1,6 @@
 ---
 name: appdynamics-broker                                       # [1]
-product_version: '1.0'                            # [1]
+product_version: '1.1'                            # [1]
 label: AppDynamics Service Broker
 rank: 50
 metadata_version: '1.5'                                    # [2]
@@ -10,8 +10,8 @@ icon_image: /9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQ
 serial: true
 releases:                                                  # [5]
 - name: appdynamics_broker
-  version: '4.1.5.3'
-  file: appdynamics_broker-4.1.5.3.tgz
+  version: '1.1'
+  file: appdynamics_broker-1.1.tgz
 
 # EDIT the stemcell version as required
 stemcell_criteria:                                                  # [3]
@@ -41,7 +41,6 @@ property_blueprints:
 - name: machine_agent_app_name
   type: string
   configurable: true
-  default: 
 - name: machine_agent_app_version
   type: string
   configurable: true
@@ -228,11 +227,7 @@ form_types:
 - property_inputs:
   - reference: ".properties.machine_agent_app_name"
     label: Application Name
-    description: Enter the name for the Machine Agent Extension For PCF OPS Metrics
-#  - reference: ".properties.machine_agent_app_version"
-#    label: Application Version
-#    description: Enter the version of the Machine Agent App (Final app name would
-#      include app version like ${appName}-${appversion}
+    description: Enter the app name for Machine Agent. This should be unique across PCF installations
   - reference: ".properties.machine_agent_app_uri"
     label: Application URI
     description: Enter the uri/endpoint for the Machine Agent app (on push to CF)

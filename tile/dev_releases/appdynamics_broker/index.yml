@@ -8,4 +8,6 @@ builds:
     version: 4.1.5.2.0
   c1ee765a-c418-4853-95c1-0a2de7ae680b:
     version: 4.1.5.3
+  0e8cbe2b-b65d-413c-9a48-9617fe1a6778:
+    version: '1.1'
 format-version: '2'
