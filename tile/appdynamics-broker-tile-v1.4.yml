@@ -40,7 +40,7 @@ property_blueprints:
 - name: machine_agent_app_name
   type: string
   configurable: true
-  default: AppDynamicsPCFOpsMetrics
+  default: 
 - name: machine_agent_app_version
   type: string
   configurable: true

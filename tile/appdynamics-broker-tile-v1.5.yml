@@ -16,7 +16,7 @@ releases:                                                  # [5]
 # EDIT the stemcell version as required
 stemcell_criteria:                                                  # [3]
   os: ubuntu-trusty
-  version: '3146'
+  version: '3146.7'
   requires_cpi: false
 
 property_blueprints:
@@ -41,7 +41,7 @@ property_blueprints:
 - name: machine_agent_app_name
   type: string
   configurable: true
-  default: AppDynamicsPCFOpsMetrics
+  default: 
 - name: machine_agent_app_version
   type: string
   configurable: true
