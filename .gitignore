@@ -1,10 +1,10 @@
 # Temp Folder
 /tile/tmp/
-/.idea/
-/tile/.final_builds/
-/tile/.dev_builds/
-/tile/dev_releases/
-/tile/releases/
+/.idea/*
+/tile/.final_builds/*
+/tile/.dev_builds/*
+/tile/dev_releases/*
+/tile/releases/*
 
 # Logs 
 *.log
