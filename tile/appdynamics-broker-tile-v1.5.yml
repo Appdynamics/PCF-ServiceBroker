@@ -16,7 +16,7 @@ releases:                                                  # [5]
 # EDIT the stemcell version as required
 stemcell_criteria:                                                  # [3]
   os: ubuntu-trusty
-  version: '3146.7'
+  version: '3146.8'
   requires_cpi: false
 
 property_blueprints:
