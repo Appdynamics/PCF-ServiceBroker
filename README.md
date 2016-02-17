@@ -30,8 +30,8 @@ AppDynamics Service Broker Tile 4.2.0.0.0 is bundled with 4.2.0.0 Machine Agent 
 
 | AppDynamics Service Broker Tile Version  | Machine Agent Version | PCF Version  | Java BP Version  | PHP BP Version  |
 | ------------- | ------------- | ------------ |------------- | ------------ |
-| 1.0  | 4.1.5.2  | 1.5 | 3.3 and above | [This](https://github.com/Appdynamics/php-buildpack) BP |
-| 1.0.1  | 4.1.5.2  | 1.5 | 3.3 and above | [This](https://github.com/Appdynamics/php-buildpack) BP |
+| 1.0  | 4.1.5.3  | 1.5 | 3.3 and above | [This](https://github.com/Appdynamics/php-buildpack) BP |
+| 1.0.1  | 4.1.5.3  | 1.5 | 3.3 and above | [This](https://github.com/Appdynamics/php-buildpack) BP |
 
 > Docs
 
