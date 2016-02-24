@@ -1,0 +1,104 @@
+# This file defines the expected deliverables for release.
+#
+# Keys inherit into subordinate lists, and can be overridden there.
+#
+# All keys can be used in ${...} substitution in the value part for
+# other keys.
+#
+# The deployment behavior is determined by the entries under the DeployTo key.
+# The following behaviors are currently supported:
+#
+#   InternalZone
+#   PublicZone
+#   SelfService
+#   BetaZone
+#   SaasZone
+#   RestrictedZone
+#   DevopsZone
+#
+# The names attached to a zone will be the displayname visible on the download site.
+#
+# The extension of the SourceFile is used throughout. Any special extension behavior
+# for the deploy name can be encoded by adding the intended extension at the end of
+# the display name, separated by a space.
+#
+# See also https://singularity.jira.com/wiki/display/AET/Build+System+and+BillOfMaterials
+
+# This gets set via tools/bump-version.sh
+Version: 1.0-${BuildNr}
+Pipeline: cloud
+VersionSchema: Explicit
+BuildLogVersioning: Hash
+NexusRepo: builds
+UniqueKeys: GAV                   # The GroupId/ArtifactId/Version combo must be unique
+UseArtifactIdInHash: true         # This enables dynamic aggregation artifacts
+MultiPlatformGradleProject: true  # Correctly combine Platform with GradleProject
+OneGroupIdPerBuild: true          # Required for efficient categorization of builds
+UseBuildReceipt: true             # Store build receipts in Nexus, use enhanced scheduling
+GenerateSmallArtifactMap: true    # Generate PrebuiltArtifactMap.groovy of direct dependencies only
+
+# All artifacts will be consumed by the "validate" job, whose aertifact is declared
+# at the bottom of the file. All the settings applicable to all artifacts except the
+# validate result go here.
+AllItems:
+   - DeployTo:
+      - Downstream: validate
+
+     BuiltFrom:
+        - BillOfMaterials.yml
+
+     Groups:
+        - GroupId: com.appdynamics.cloud
+          Owner: Nikhil Katre
+          OwnerEmail: nikhil.katre@appdynamics.com
+
+          SubGroups:
+
+            - BuiltBy: build-pcf-tile(buildPlatform=${Platform})
+              BuiltFrom:
+                - jenkins/job/${JobBaseName}.sh
+                - tile
+
+              Artifacts:
+                - ArtifactId: pcf-tile
+                  SourceFile: tile/AppDynamics-Broker-v1.0.1-OpsMgrv1.5-MAv4.1.5.3.pivotal
+                  Platform: 64bit-linux
+                  Type: Mandatory
+                  DeployTo:
+                     - InternalZone:
+                        - appdynamics-cloud-${Version}.pivotal
+                     - PublicZone:
+                        - appdynamics-cloud-${Version}.pivotal
+                     - Downstream: scan-for-virus
+                     - SaasZone: appdynamics-cloud-${Version}.pivotal
+                     - DevOpsZone: appdynamics-cloud-${BuildName}.pivotal
+                     - Packages: cloud/${Version}/appdynamics-cloud-${Version}.pivotal
+
+        - GroupId: com.appdynamics.audit
+          Owner: Rajpal Sodhi
+          OwnerEmail: "rsodhi@appdynamics.com"
+          ArtifactId: virus-scan-report
+          SourceFile: virus-report.txt
+          BuiltBy: scan-for-virus
+          Type: Meta
+          Pipeline: nightly
+          DeployTo:
+             - InternalZone: ${ArtifactId}-${Version}.txt
+
+   - GroupId: com.appdynamics.audit
+     Owner: Christian Goetze
+     OwnerEmail: "christian.goetze@appdynamics.com"
+     BuiltFrom: BillOfMaterials.yml
+     Type: Meta Optional
+     Pipeline: ALL
+     BuiltBy: validate
+     Artifacts:
+       - ArtifactId: manifest
+         SourceFile: manifest/manifest.json
+
+       - ArtifactId: changelog
+         SourceFile: manifest/CHANGES
+         Extension: txt
+         DeployTo:
+           - DevOpsZone: CHANGES
+# eof
