@@ -414,9 +414,9 @@ job_types:
       app_version: (( .properties.machine_agent_app_version.value ))
       app_uri: (( .properties.machine_agent_app_uri.value ))
       app_push:
-        org_quota: (( .properties.org_quota.value ))
+        org_quota: 2048 
         timeout: 180
-        memory: (( .properties.memory.value ))
+        memory: 1024 
       encryption_key: (( .properties.encryption_key.value ))
       create_open_security_group: (( .properties.create_open_security_group.value ))
       account_name: (( .properties.account_name.value ))

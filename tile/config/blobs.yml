@@ -8,6 +8,6 @@ cf_cli/cf-linux-amd64.tgz:
   sha: 82c5774aa44af9d091d3461adfb61bdadd64aad3
   size: 5486088
 appdynamics-machine-agent/machineagent-bundle-64bit-linux.zip:
-  object_id: bd0e4bd1-4539-4b90-9d72-c76fb1806a14
-  sha: 7a4c0866a7985fccd723d8e811836e90503e7704
-  size: 94599771
+  object_id: 47c29a0b-fe24-41a7-b659-f69572b4b3a4
+  sha: 96395dd3e30b377a759f9b0d6c6413ace4fb3fb5
+  size: 94599745
