@@ -1,0 +1,8 @@
+---
+name: appdynamics_db_agent
+
+dependencies: []
+
+files:
+- templates/all_open.json
+- appdynamics-db-agent/dbagent.zip

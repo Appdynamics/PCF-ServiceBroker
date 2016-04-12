@@ -1,0 +1,22 @@
+# abort script on any command that exit with a non zero value
+set -e
+
+
+# Copy over the any templates into the BOSH_INSTALL_TARGET directory
+# It would be copied into the /var/vcap/packages/appdynamics-db-agent folder
+cp -r templates ${BOSH_INSTALL_TARGET}/
+
+# Check for presence of the app bits
+# Modify the archive to be other file extension if its not a zip
+app_archive=`ls appdynamics-db-agent/dbagent.zip`
+
+if [  "$app_archive" != "" ] ; then
+  echo "db-agent app found"
+else
+  echo "db-agent app not found"
+  exit 1
+fi
+
+mkdir -p ${BOSH_INSTALL_TARGET}/lib
+cp $app_archive ${BOSH_INSTALL_TARGET}/lib/
+

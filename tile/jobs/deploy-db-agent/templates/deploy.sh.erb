@@ -1,0 +1,229 @@
+#!/bin/bash
+set -e -x
+
+  <%
+    def grab_app_domain_name
+      app_domains_str = properties.app_domains.to_s
+      array_start = ( app_domains_str =~ /^\[/ )
+      if (array_start == 0)
+        app_domain_entry = app_domains_str.gsub(/^\[/, '').gsub(/\]/,'').gsub(/,.*/, '')
+      else
+        app_domain_entry = app_domains_str
+      end
+      app_domain_entry
+    end
+    app_domain = grab_app_domain_name
+  %>
+
+export PATH="/var/vcap/packages/cf_cli/bin:$PATH"
+
+export SCHEME=https
+export ADMIN_USER=<%= properties.appdynamics_db_agent.cf.admin_user %>
+export ADMIN_PASSWORD=<%= properties.appdynamics_db_agent.cf.admin_password %>
+export DOMAIN=<%= properties.domain %>
+export APP_DOMAIN=<%="#{app_domain}"%>
+export API_ENDPOINT=$SCHEME://api.${DOMAIN}
+export APP_NAME_ID=<%= properties.appdynamics_db_agent.app_name %>
+export APP_NAME=AppDynamicsPCFOpsMetrics
+#export APP_VERSION=<%= properties.appdynamics_db_agent.app_version %>
+#export APPDYNAMICS_AGENT_APPLICATION_NAME=${APP_NAME}-${APP_VERSION}
+export APPDYNAMICS_AGENT_APPLICATION_NAME=${APP_NAME_ID}
+export APP_URI=<%= properties.appdynamics_db_agent.app_uri %>
+export DB_INSTANCES=<%= properties.appdynamics_db_agent.instances %>
+export ORG=AppDynamics-DB-Visibility
+export SPACE=${ORG}-space
+export QUOTA=${ORG}-quota
+export CF_TARGET=$API_ENDPOINT
+export CF_ORG=$ORG
+export CF_SPACE=$SPACE
+export CF_USER=$ADMIN_USER
+export CF_PASSWORD=$ADMIN_PASSWORD
+export CF_SKIP_SSL=<%= properties.ssl.skip_cert_verify %>
+# export ORG_QUOTA=<%= properties.appdynamics_db_agent.app_push.org_quota %>
+export ORG_QUOTA=2048
+export APP_PUSH_TIMEOUT=<%= properties.appdynamics_db_agent.app_push.timeout %>
+# export APP_PUSH_MEMORY=<%= properties.appdynamics_db_agent.app_push.memory %>
+export APP_PUSH_MEMORY=1024
+
+# Use this only if app needs additional libraries that need to be downloaded
+#
+
+
+# Use these variables only if app needs to know how to connect to a remote target that it brokers
+
+export SECURITY_USER_NAME=<%= properties.appdynamics_db_agent.broker.user %>
+export SECURITY_USER_PASSWORD=<%= properties.appdynamics_db_agent.broker.password %>
+
+export CREATE_OPEN_SECURITY_GROUP=<%= properties.appdynamics_db_agent.create_open_security_group %>
+export DELETE_PREV_APP_INSTANCE=<%= properties.appdynamics_db_agent.delete_prev_app_instance %>
+
+
+### CUSTOM_VARIABLE_BEGIN_MARKER
+
+# Proxy Settings
+export DB_PROXY_ENABLED=<%= properties.appdynamics_db_agent.proxy_enabled %>
+export DB_PROXY_HOST=<%= properties.appdynamics_db_agent.http_proxy_host %>
+export DB_PROXY_PORT=<%= properties.appdynamics_db_agent.http_proxy_port %>
+
+export DB_PROXY_AUTH_ENABLED=<%= properties.appdynamics_db_agent.proxy_auth_enabled %>
+export DB_PROXY_USER=<%= properties.appdynamics_db_agent.http_proxy_user %>
+export DB_PROXY_PASSWORD=<%= properties.appdynamics_db_agent.http_proxy_password %>
+
+export APPDYNAMICS_CONTROLLER_HOST_NAME=<%= properties.appdynamics_db_agent.controller_host %>
+export APPDYNAMICS_CONTROLLER_PORT=<%= properties.appdynamics_db_agent.controller_port %>
+export APPDYNAMICS_AGENT_ACCOUNT_NAME=<%= properties.appdynamics_db_agent.account_name %>
+export APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=<%= properties.appdynamics_db_agent.account_access_key %>
+export APPDYNAMICS_CONTROLLER_SSL_ENABLED=<%= properties.appdynamics_db_agent.ssl_enabled %>
+export PCF_DOMAIN_ID=`echo $DOMAIN | sed -e 's/\./_/g' `
+export APPDYNAMICS_AGENT_UNIQUE_HOST_ID="DBAgent-"
+## #CUSTOM_VARIABLE_END_MARKER
+
+export CF_HOME=`pwd`/home/cf
+mkdir -p $CF_HOME
+
+# Following variables would be replaced based on blobs that get added and are considered as app bits
+# Modify extension type for App file - modify as needed
+APP_PREFIX_NAME=dbagent
+EXTENSION_TYPE=zip
+
+TARGET_APP=${APP_PREFIX_NAME}.${EXTENSION_TYPE}
+JOB_NAME=deploy-db-agent
+PACKAGE_NAME_SUFFIX=db_agent
+PACKAGE_PATH=`echo /var/vcap/packages/*_${PACKAGE_NAME_SUFFIX}`
+
+RUN_DIR=/var/vcap/sys/run/$JOB_NAME
+LOG_DIR=/var/vcap/sys/log/$JOB_NAME
+PIDFILE=${RUN_DIR}/pid
+
+export DEBUG_LOG=$LOG_DIR/deploy-db-agent.log
+
+mkdir -p $RUN_DIR $LOG_DIR
+chown -R vcap:vcap $RUN_DIR $LOG_DIR
+
+function log_debug() {
+  echo `date` $1 >> $DEBUG_LOG
+}
+
+function authenticate_and_target() {
+  cf api $API_ENDPOINT <% if properties.ssl.skip_cert_verify %>--skip-ssl-validation<% end %>
+  cf auth $ADMIN_USER $ADMIN_PASSWORD
+  cf create-org $ORG
+  cf target -o $ORG
+  cf create-space $SPACE
+  cf target -s $SPACE
+}
+
+function create_quota() {
+  cf create-quota $QUOTA -m ${ORG_QUOTA}m -r 10 -s 10
+  cf update-quota $QUOTA -m ${ORG_QUOTA}m -r 10 -s 10 --disallow-paid-service-plans
+  cf set-quota $ORG $QUOTA
+}
+
+function create_open_security_group() {
+  if [ "${CREATE_OPEN_SECURITY_GROUP}" == "true" ]; then
+    echo "Creating open security group"
+
+    cf create-security-group all_open $PACKAGE_PATH/templates/all_open.json
+    cf bind-running-security-group all_open
+  else
+    echo "Not creating open security group"
+  fi
+}
+
+function restart_app() {
+  index=$1
+  #CF_TRACE=true cf restart ${APP_NAME}-${APP_VERSION}
+  #cf logs ${APP_NAME}-${APP_VERSION} --recent
+  CF_TRACE=true cf restart ${APP_NAME}-${index}
+  cf logs ${APP_NAME}-${index} --recent
+}
+
+function add_env_vars() {
+   index=$1
+
+  # CUSTOM_VARIABLE_ENV_BEGIN_MARKER
+  export APPDYNAMICS_AGENT_UNIQUE_HOST_ID="${APPDYNAMICS_AGENT_UNIQUE_HOST_ID}_${PCF_DOMAIN_ID}"
+  cf set-env ${APP_NAME}-${index} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
+
+# Proxy Settings
+  if [ "${DB_PROXY_ENABLED}" == "true" ]; then
+    echo "Adding proxy host and port to DB agent config"
+    cf set-env ${APP_NAME}-${index} DB_PROXY_HOST             $DB_PROXY_HOST
+    cf set-env ${APP_NAME}-${index} DB_PROXY_PORT             $DB_PROXY_PORT
+    export JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.http.proxyHost=${DB_PROXY_HOST} -Dappdynamics.http.proxyPort=${DB_PROXY_PORT} -Dhttp.proxyHost=${DB_PROXY_HOST} -Dhttp.proxyPort=${DB_PROXY_PORT} -Dhttps.proxyHost=${DB_PROXY_HOST} -Dhttps.proxyPort=${DB_PROXY_PORT} " 
+  fi
+
+  if [ "${DB_PROXY_AUTH_ENABLED}" == "true" ]; then
+    echo "Adding proxy user and password to DB agent config"
+    export JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.http.proxyUser=${DB_PROXY_USER} -Dappdynamics.http.proxyPassword=${DB_PROXY_PASSWORD} "
+  fi
+
+  export JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.controller.hostName=$APPDYNAMICS_CONTROLLER_HOST_NAME -Dappdymics.controller.port=$APPDYNAMICS_CONTROLLER_PORT -Dappdynamics.controller.ssl.enabled=$APPDYNAMICS_CONTROLLER_SSL_ENABLED -Dappdynamics.agent.accountName=$APPDYNAMICS_AGENT_ACCOUNT_NAME -Dappdynamics.agent.accountAccessKey=$APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY -Ddbagent.name=DBAgent-${index} -Dappdynamics.agent.uniqueHostId=${APPDYNAMICS_AGENT_UNIQUE_HOST_ID}-${index}" 
+  cf set-env ${APP_NAME}-${index} JAVA_OPTS " ${JAVA_OPTS} -Dlog4j.configuration=file:/home/vcap/app/conf/logging/log4j.xml "
+  cf set-health-check ${APP_NAME}-${index} none
+ 
+
+  # CUSTOM_VARIABLE_ENV_END_MARKER
+
+  # Add app specific env variables using the setup script definition
+  #add_parameterized_env_vars
+}
+
+# Use this only to bind any additional files/libraries or modify app contents
+function modify_app() {
+  pushd $PACKAGE_PATH
+  cp ${PACKAGE_PATH}/lib/${APP_PREFIX_NAME}*.${EXTENSION_TYPE}  ${PACKAGE_PATH}/${TARGET_APP}
+  popd
+}
+
+function delete_prev_app_instance() {
+
+  #cf apps | grep ${APP_NAME}-${APP_VERSION}
+  cf apps | grep ${APP_NAME}
+  existing_app_check=$?
+
+  if [ "$existing_app_check" == "0" ]; then
+
+    # Look for User-Provided env variables and stop after the first blank line after that
+    #cf env ${APP_NAME}-${APP_VERSION} | awk 'f{print}/User-Provided/{f=1};/^ *$/{f=0}' \
+    cf env ${APP_NAME} | awk 'f{print}/User-Provided/{f=1};/^ *$/{f=0}' \
+                | grep '.' | awk -F ':' '{print $1}' | while read env_variable_name
+    do
+      cf unset-env $env_variable_name
+    done
+    #cf delete -f ${APP_NAME}-${APP_VERSION}  > /dev/null
+    cf delete -f ${APP_NAME}  > /dev/null
+  fi
+}
+
+function push_app() {
+  index=$1
+  pushd $PACKAGE_PATH
+    mkdir -p /var/vcap/data/tmp
+    export TMPDIR=/var/vcap/data/tmp
+
+    # Cleanup any older version of the app
+    <% if properties.delete_prev_app_instance%>
+    delete_prev_app_instance
+    <% end %>
+
+    #CF_TRACE=true cf push ${APP_NAME}-${APP_VERSION} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c "/home/vcap/app/bin/db-agent"
+    #cf logs ${APP_NAME}-${APP_VERSION} --recent
+    chmod 777 ${PACKAGE_PATH}/${TARGET_APP}
+    CF_TRACE=true cf push ${APP_NAME}-${index} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c '$JAVA_HOME/bin/java $JAVA_OPTS -jar /home/vcap/app/db-agent.jar'
+  popd
+}
+
+
+cf -v
+authenticate_and_target
+create_open_security_group
+create_quota
+
+modify_app
+for index in `seq -w 1 $DB_INSTANCES`
+do
+  push_app $index
+  add_env_vars $index
+  restart_app $index
+done
