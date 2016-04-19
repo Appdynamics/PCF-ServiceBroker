@@ -16,10 +16,10 @@ properties:
     description: 'UAA Client Secret'
   appdynamics_machine_agent.app_name:
     description: 'Name of the ApppDynamics Machine Agent Application'
-  appdynamics_machine_agent.app_version:
-    description: 'Version of the ApppDynamics Machine Agent Application'
-  appdynamics_machine_agent.app_uri:
-    description: 'Uri of the ApppDynamics Machine Agent Application'
+#  appdynamics_machine_agent.app_version:
+#    description: 'Version of the ApppDynamics Machine Agent Application'
+#  appdynamics_machine_agent.app_uri:
+#    description: 'Uri of the ApppDynamics Machine Agent Application'
   appdynamics_machine_agent.account_name:
     description: 'Account name for the Machine agent Application'
   appdynamics_machine_agent.account_access_key:
@@ -46,18 +46,21 @@ properties:
     description: 'JMX user of the Ops Metrics Instance'
   appdynamics_machine_agent.ops_metrics_jmx_password:
     description: 'JMX password of the Ops Metrics Instance'
-  appdynamics_machine_agent.proxy_enabled:
-    description: 'Http Proxy Enabled'
-  appdynamics_machine_agent.http_proxy_host:
-    description: 'Host of the Http Proxy '
-  appdynamics_machine_agent.http_proxy_port:
-    description: 'Port of the Http Proxy '
-  appdynamics_machine_agent.proxy_auth_enabled:
-    description: 'Http Proxy Auth Enabled'
-  appdynamics_machine_agent.http_proxy_user:
-    description: 'User of the Http Proxy '
-  appdynamics_machine_agent.http_proxy_password:
-    description: 'Password of the Http Proxy '
+#  appdynamics_machine_agent.proxy_enabled:
+#    description: 'Http Proxy Enabled'
+#  appdynamics_machine_agent.http_proxy_host:
+#    description: 'Host of the Http Proxy '
+#  appdynamics_machine_agent.http_proxy_port:
+#    description: 'Port of the Http Proxy '
+#  appdynamics_machine_agent.proxy_auth_enabled:
+#    description: 'Http Proxy Auth Enabled'
+#  appdynamics_machine_agent.http_proxy_user:
+#    description: 'User of the Http Proxy '
+#  appdynamics_machine_agent.http_proxy_password:
+#    description: 'Password of the Http Proxy '
+  
+  appdynamics_machine_agent.web_proxy:
+    description: 'Web Proxy config'
   appdynamics_machine_agent.create_open_security_group:
     description: 'Open security group for the app to access outside'
     default: false
@@ -77,7 +80,6 @@ properties:
   appdynamics_machine_agent.cf.admin_password:
     description: 'Password of the CF admin user'
   appdynamics_machine_agent.broker.user:
-    description: 'User of the Machine agent app '
+    description: 'User of the Machine agent app'
   appdynamics_machine_agent.broker.password:
-    description: 'Password of the Machine agent app '
-
+    description: 'Password of the Machine agent app'

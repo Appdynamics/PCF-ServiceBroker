@@ -16,38 +16,40 @@ properties:
     description: 'UAA Client Secret'
   appdynamics_db_agent.app_name:
     description: 'Name of the ApppDynamics DB Agent Application'
-  appdynamics_db_agent.app_version:
-    description: 'Version of the ApppDynamics DB Agent Application'
-  appdynamics_db_agent.app_uri:
-    description: 'Uri of the ApppDynamics DB Agent Application'
-  appdynamics_db_agent.instances:
-    description: 'Number of instances of ApppDynamics DB Agent'
-  appdynamics_db_agent.account_name:
-    description: 'Account name for the DB agent Application'
-  appdynamics_db_agent.account_access_key:
-    description: 'Account access key for the DB agent Application'
-  appdynamics_db_agent.controller_host:
-    description: 'Appdynamics controller host for the DB agent Application'
-  appdynamics_db_agent.controller_port:
-    description: 'Appdynamics controller port for the DB agent Application'
-  appdynamics_db_agent.ssl_enabled:
-    description: 'Http Proxy Enabled'
-  appdynamics_db_agent.http_proxy_host:
-    description: 'Host of the Http Proxy '
-  appdynamics_db_agent.http_proxy_port:
-    description: 'Port of the Http Proxy '
-  appdynamics_db_agent.proxy_auth_enabled:
-    description: 'Http Proxy Auth Enabled'
-  appdynamics_db_agent.http_proxy_user:
-    description: 'User of the Http Proxy '
-  appdynamics_db_agent.http_proxy_password:
-    description: 'Password of the Http Proxy '
+#  appdynamics_db_agent.app_version:
+#    description: 'Version of the ApppDynamics DB Agent Application'
+#  appdynamics_db_agent.app_uri:
+#    description: 'Uri of the ApppDynamics DB Agent Application'
+#  appdynamics_db_agent.instances:
+#    description: 'Number of instances of ApppDynamics DB Agent'
+#  appdynamics_db_agent.account_name:
+#    description: 'Account name for the DB agent Application'
+#  appdynamics_db_agent.account_access_key:
+#    description: 'Account access key for the DB agent Application'
+#  appdynamics_db_agent.controller_host:
+#    description: 'Appdynamics controller host for the DB agent Application'
+#  appdynamics_db_agent.controller_port:
+#    description: 'Appdynamics controller port for the DB agent Application'
+#  appdynamics_db_agent.ssl_enabled:
+#    description: 'SSL Enabled on controller'
+  appdynamics_db_agent.web_proxy:
+    description: 'Web proxy'
+#  appdynamics_db_agent.http_proxy_host:
+#    description: 'Host of the Http Proxy '
+#  appdynamics_db_agent.http_proxy_port:
+#    description: 'Port of the Http Proxy '
+#  appdynamics_db_agent.proxy_auth_enabled:
+#    description: 'Http Proxy Auth Enabled'
+#  appdynamics_db_agent.http_proxy_user:
+#    description: 'User of the Http Proxy '
+#  appdynamics_db_agent.http_proxy_password:
+#    description: 'Password of the Http Proxy '
   appdynamics_db_agent.create_open_security_group:
     description: 'Open security group for the app to access outside'
     default: false
-  appdynamics_db_agent.app_push.org_quota:
-    description: 'Org Memory Quota for the ApppDynamics DB Agent Application'
-    default: 10240
+#  appdynamics_db_agent.app_push.org_quota:
+#    description: 'Org Memory Quota for the ApppDynamics DB Agent Application'
+#    default: 10240
   appdynamics_db_agent.app_push.timeout:
     description: 'App Push timeout for the ApppDynamics DB Agent Application'
     default: 180
@@ -64,4 +66,6 @@ properties:
     description: 'User of the DB agent app '
   appdynamics_db_agent.broker.password:
     description: 'Password of the DB agent app '
+  appdynamics_db_agent.on_demand_service_plans:
+    description: 'On demand service plans'
 
