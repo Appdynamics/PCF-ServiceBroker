@@ -309,7 +309,8 @@ form_types:
       description: "Is AppDynamics Controller SSL Enabled"
       slug: false
     - reference: db_mon_enabled
-      label: "Enable Database Monitoring"
+      label: AppDynamics Database Monitoring Configuration
+             Enable Database Monitoring
       description: "Enable AppDynamics DB Monitoring"
       slug: false
     - reference: no_of_db_agents

@@ -75,7 +75,8 @@ export DELETE_PREV_APP_INSTANCE=<%= properties.appdynamics_db_agent.delete_prev_
 #export APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=<%= properties.appdynamics_db_agent.account_access_key %>
 #export APPDYNAMICS_CONTROLLER_SSL_ENABLED=<%= properties.appdynamics_db_agent.ssl_enabled %>
 export PCF_DOMAIN_ID=`echo $DOMAIN | sed -e 's/\./_/g' `
-export APPDYNAMICS_AGENT_UNIQUE_HOST_ID="DBAgent-"
+export APPDYNAMICS_AGENT_UNIQUE_HOST_ID="DBAgent"
+export APPDYNAMICS_AGENT_UNIQUE_HOST_ID="${APPDYNAMICS_AGENT_UNIQUE_HOST_ID}_${PCF_DOMAIN_ID}"
 ## #CUSTOM_VARIABLE_END_MARKER
 
 export CF_HOME=`pwd`/home/cf
@@ -143,7 +144,6 @@ function add_env_vars() {
    suffix=$1
 
   # CUSTOM_VARIABLE_ENV_BEGIN_MARKER
-  export APPDYNAMICS_AGENT_UNIQUE_HOST_ID="${APPDYNAMICS_AGENT_UNIQUE_HOST_ID}_${PCF_DOMAIN_ID}"
   cf set-env ${APP_NAME}-${suffix} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
 
 # Proxy Settings
@@ -166,7 +166,7 @@ function add_env_vars() {
     export JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.http.proxyUser=${DB_PROXY_USER} -Dappdynamics.http.proxyPassword=${DB_PROXY_PASSWORD} "
   fi
 
-  export JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.controller.hostName=$APPDYNAMICS_CONTROLLER_HOST_NAME -Dappdymics.controller.port=$APPDYNAMICS_CONTROLLER_PORT -Dappdynamics.controller.ssl.enabled=$APPDYNAMICS_CONTROLLER_SSL_ENABLED -Dappdynamics.agent.accountName=$APPDYNAMICS_AGENT_ACCOUNT_NAME -Dappdynamics.agent.accountAccessKey=$APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY -Ddbagent.name=DBAgent-${index} -Dappdynamics.agent.uniqueHostId=${APPDYNAMICS_AGENT_UNIQUE_HOST_ID}-${index}"
+  export JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.controller.hostName=$APPDYNAMICS_CONTROLLER_HOST_NAME -Dappdynamics.controller.port=$APPDYNAMICS_CONTROLLER_PORT -Dappdynamics.controller.ssl.enabled=$APPDYNAMICS_CONTROLLER_SSL_ENABLED -Dappdynamics.agent.accountName=$APPDYNAMICS_AGENT_ACCOUNT_NAME -Dappdynamics.agent.accountAccessKey=$APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY -Ddbagent.name=DBAgent-${suffix} -Dappdynamics.agent.uniqueHostId=${APPDYNAMICS_AGENT_UNIQUE_HOST_ID}-${suffix}"
   cf set-env ${APP_NAME}-${suffix} JAVA_OPTS " ${JAVA_OPTS} -Dlog4j.configuration=file:/home/vcap/app/conf/logging/log4j.xml "
   cf set-health-check ${APP_NAME}-${suffix} none
 
@@ -251,4 +251,5 @@ modify_app
       restart_app ${PLAN_NAME}-${index}
     done
   fi
+  <% end %>
 <% end %>
