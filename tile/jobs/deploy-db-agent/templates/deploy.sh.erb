@@ -77,6 +77,14 @@ export DELETE_PREV_APP_INSTANCE=<%= properties.appdynamics_db_agent.delete_prev_
 export PCF_DOMAIN_ID=`echo $DOMAIN | sed -e 's/\./_/g' `
 export APPDYNAMICS_AGENT_UNIQUE_HOST_ID="DBAgent"
 export APPDYNAMICS_AGENT_UNIQUE_HOST_ID="${APPDYNAMICS_AGENT_UNIQUE_HOST_ID}_${PCF_DOMAIN_ID}"
+export DB_PROXY_ENABLED=<%= properties.appdynamics_db_agent.web_proxy.proxy_enabled %>
+if [ "${DB_PROXY_ENABLED}" == "true" ]; then
+  export DB_PROXY_HOST=<%= properties.appdynamics_db_agent.web_proxy.http_proxy_host %>
+  export DB_PROXY_PORT=<%= properties.appdynamics_db_agent.web_proxy.http_proxy_port %>
+  export DB_PROXY_AUTH_ENABLED=<%= properties.appdynamics_db_agent.web_proxy.proxy_auth_enabled %>
+  export DB_PROXY_USER=<%= properties.appdynamics_db_agent.web_proxy.http_proxy_user %>
+  export DB_PROXY_PASSWORD=<%= properties.appdynamics_db_agent.web_proxy.http_proxy_password %>
+fi
 ## #CUSTOM_VARIABLE_END_MARKER
 
 export CF_HOME=`pwd`/home/cf
@@ -142,23 +150,17 @@ function restart_app() {
 
 function add_env_vars() {
    suffix=$1
+   JAVA_OPTS=""
 
   # CUSTOM_VARIABLE_ENV_BEGIN_MARKER
   cf set-env ${APP_NAME}-${suffix} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
 
 # Proxy Settings
-  export DB_PROXY_ENABLED=<%= properties.appdynamics_db_agent.web_proxy.proxy_enabled %>
   if [ "${DB_PROXY_ENABLED}" == "true" ]; then
-    export DB_PROXY_HOST=<%= properties.appdynamics_db_agent.web_proxy.http_proxy_host %>
-    export DB_PROXY_PORT=<%= properties.appdynamics_db_agent.web_proxy.http_proxy_port %>
-    export DB_PROXY_AUTH_ENABLED=<%= properties.appdynamics_db_agent.web_proxy.proxy_auth_enabled %>
-    export DB_PROXY_USER=<%= properties.appdynamics_db_agent.web_proxy.http_proxy_user %>
-    export DB_PROXY_PASSWORD=<%= properties.appdynamics_db_agent.web_proxy.http_proxy_password %>
-
     echo "Adding proxy host and port to DB agent config"
     cf set-env ${APP_NAME}-${suffix} DB_PROXY_HOST             $DB_PROXY_HOST
     cf set-env ${APP_NAME}-${suffix} DB_PROXY_PORT             $DB_PROXY_PORT
-    export JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.http.proxyHost=${DB_PROXY_HOST} -Dappdynamics.http.proxyPort=${DB_PROXY_PORT} -Dhttp.proxyHost=${DB_PROXY_HOST} -Dhttp.proxyPort=${DB_PROXY_PORT} -Dhttps.proxyHost=${DB_PROXY_HOST} -Dhttps.proxyPort=${DB_PROXY_PORT} "
+    export JAVA_OPTS=" -Dappdynamics.http.proxyHost=${DB_PROXY_HOST} -Dappdynamics.http.proxyPort=${DB_PROXY_PORT} -Dhttp.proxyHost=${DB_PROXY_HOST} -Dhttp.proxyPort=${DB_PROXY_PORT} -Dhttps.proxyHost=${DB_PROXY_HOST} -Dhttps.proxyPort=${DB_PROXY_PORT} "
   fi
 
   if [ "${DB_PROXY_AUTH_ENABLED}" == "true" ]; then

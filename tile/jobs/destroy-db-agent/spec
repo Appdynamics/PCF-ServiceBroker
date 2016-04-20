@@ -11,12 +11,6 @@ properties:
     description: 'The CF top-level domain'
   app_domains:
     description: 'CloudFoundry application domains'
-  appdynamics_db_agent.app_name:
-    description: 'App Name'
-  appdynamics_db_agent.app_version:
-    description: 'Version of the Appdynamics DB Agent Application'
-  appdynamics_db_agent.app_uri:
-    description: 'Uri of the DB Agent Application'
   appdynamics_db_agent.cf.admin_user:
     description: 'Username of the CF admin user'
   appdynamics_db_agent.cf.admin_password:

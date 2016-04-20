@@ -23,11 +23,7 @@ export ADMIN_PASSWORD=<%= properties.appdynamics_db_agent.cf.admin_password %>
 export DOMAIN=<%= properties.domain %>
 export API_ENDPOINT=$SCHEME://api.$DOMAIN
 export APP_DOMAIN=<%="#{app_domain}"%>
-export APP_NAME_ID=<%= properties.appdynamics_db_agent.app_name %>
-export APP_NAME=AppDynamicsPCFOpsMetrics
-#export APP_VERSION=<%= properties.appdynamics_db_agent.app_version %>
-export APP_URI=<%= properties.appdynamics_db_agent.app_uri %>
-export ORG=APPDYNAMICS_DB_Visibility
+export ORG=AppDynamics-DB-Visibility
 export SPACE=${ORG}-space
 
 function authenticate_and_target() {
