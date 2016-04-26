@@ -16,7 +16,7 @@ releases:                                                  # [5]
 # EDIT the stemcell version as required
 stemcell_criteria:                                                  # [3]
   os: ubuntu-trusty
-  version: '3146.9'
+  version: '3146.7'
   requires_cpi: false
 
 property_blueprints:
@@ -56,10 +56,10 @@ property_blueprints:
         - name: proxy_snippet
           manifest: |
             proxy_enabled: false
-      property_blueprints:
-        - name: disabled
-          type: boolean
-          configurable: true
+#      property_blueprints:
+#        - name: disabled
+#          type: boolean
+#          configurable: true
     - name: proxy_enabled_option
       select_value: Enable
       named_manifests:
@@ -110,30 +110,30 @@ property_blueprints:
   type: string
   configurable: false
   default: appdynamics-db-agent
-- name: proxy_enabled
-  type: boolean
-  configurable: true
-  default: false
-- name: http_proxy_host
-  type: string
-  configurable: true
-  default: _no_proxy_
-- name: http_proxy_port
-  type: integer
-  configurable: true
-  default: 8080
-- name: proxy_auth_enabled
-  type: boolean
-  configurable: true
-  default: false
-- name: http_proxy_user
-  type: string
-  configurable: true
-  default: _none_
-- name: http_proxy_password
-  type: secret
-  configurable: true
-  default:
+#- name: proxy_enabled
+#  type: boolean
+#  configurable: true
+#  default: false
+#- name: http_proxy_host
+#  type: string
+#  configurable: true
+#  default: _no_proxy_
+#- name: http_proxy_port
+#  type: integer
+#  configurable: true
+#  default: 8080
+#- name: proxy_auth_enabled
+#  type: boolean
+#  configurable: true
+#  default: false
+#- name: http_proxy_user
+#  type: string
+#  configurable: true
+#  default: _none_
+#- name: http_proxy_password
+#  type: secret
+#  configurable: true
+#  default:
 - name: ops_metrics_host
   type: string
   configurable: true
@@ -277,6 +277,7 @@ form_types:
   - reference: ".properties.enable_global_access_to_plans"
     label: Enable Access of Brokered Services and Plans to Everyone
     description: Open up All Services and plans to everyone across all orgs and spaces
+    default: true
   - reference: ".properties.on_demand_service_plans_collection"
     label: Service Plans
     property_inputs:
