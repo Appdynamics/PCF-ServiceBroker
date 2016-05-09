@@ -1,0 +1,8 @@
+---
+name: appdynamics_analytics_agent
+
+dependencies: []
+
+files:
+- templates/all_open.json
+- appdynamics-analytics-agent/analytics-agent.zip
