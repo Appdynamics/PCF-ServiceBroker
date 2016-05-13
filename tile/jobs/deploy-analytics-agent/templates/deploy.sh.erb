@@ -16,6 +16,10 @@ set -e -x
   %>
 
 export PATH="/var/vcap/packages/cf_cli/bin:$PATH"
+export ANALYTICS_ENABLED=<%= properties.appdynamics_analytics_agent.analytics.analytics_enabled %>
+if [ "$ANALYTICS_ENABLED" != "true" ]; then
+  exit
+fi
 
 export SCHEME=https
 export ADMIN_USER=<%= properties.appdynamics_analytics_agent.cf.admin_user %>
@@ -23,15 +27,11 @@ export ADMIN_PASSWORD=<%= properties.appdynamics_analytics_agent.cf.admin_passwo
 export DOMAIN=<%= properties.domain %>
 export APP_DOMAIN=<%="#{app_domain}"%>
 export API_ENDPOINT=$SCHEME://api.${DOMAIN}
-export APP_NAME_ID=<%= properties.appdynamics_analytics_agent.app_name %>
 export APP_NAME=AppDynamicsAnalytics
-#export APP_VERSION=<%= properties.appdynamics_analytics_agent.app_version %>
-#export APPDYNAMICS_AGENT_APPLICATION_NAME=${APP_NAME}-${APP_VERSION}
-export APPDYNAMICS_AGENT_APPLICATION_NAME=${APP_NAME_ID}
-#export APP_URI=<%= properties.appdynamics_analytics_agent.app_uri %>
-export ORG=${APP_NAME}-service-org
-export SPACE=${APP_NAME}-service-space
-export QUOTA=${APP_NAME}-service-quota
+export APP_URI=<%= properties.appdynamics_analytics_agent.analytics.app_uri %>
+export ORG=AppDynamicsPCFOpsMetrics-service-org
+export SPACE=AppDynamicsPCFOpsMetrics-service-space
+export QUOTA=AppDynamicsPCFOpsMetrics-service-quota
 export CF_TARGET=$API_ENDPOINT
 export CF_ORG=$ORG
 export CF_SPACE=$SPACE
@@ -39,7 +39,7 @@ export CF_USER=$ADMIN_USER
 export CF_PASSWORD=$ADMIN_PASSWORD
 export CF_SKIP_SSL=<%= properties.ssl.skip_cert_verify %>
 # export ORG_QUOTA=<%= properties.appdynamics_analytics_agent.app_push.org_quota %>
-export ORG_QUOTA=2048
+export ORG_QUOTA=4096
 export APP_PUSH_TIMEOUT=<%= properties.appdynamics_analytics_agent.app_push.timeout %>
 # export APP_PUSH_MEMORY=<%= properties.appdynamics_analytics_agent.app_push.memory %>
 export APP_PUSH_MEMORY=1024
@@ -62,15 +62,12 @@ export SB_APP_ENV="setupServiceBrokerEnv.sh"
 
 # Proxy Settings
 
-export APPDYNAMICS_ANALYTICS_HOST_NAME=<%= properties.appdynamics_analytics_agent.controller_host %>
-export APPDYNAMICS_ANALYTICS_PORT=<%= properties.appdynamics_analytics_agent.controller_port %>
-export APPDYNAMICS_AGENT_ACCOUNT_NAME=<%= properties.appdynamics_analytics_agent.account_name %>
-export APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=<%= properties.appdynamics_analytics_agent.account_access_key %>
-export APPDYNAMICS_ANALYTICS_SSL_ENABLED=<%= properties.appdynamics_analytics_agent.ssl_enabled %>
+export APPDYNAMICS_ANALYTICS_HOST_NAME=<%= properties.appdynamics_analytics_agent.analytics.http_event_endpoint_host %>
+export APPDYNAMICS_ANALYTICS_PORT=<%= properties.appdynamics_analytics_agent.analytics.http_event_endpoint_port %>
+export APPDYNAMICS_AGENT_ACCOUNT_NAME=<%= properties.appdynamics_analytics_agent.analytics.account_name %>
+export APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=<%= properties.appdynamics_analytics_agent.analytics.account_access_key %>
+export APPDYNAMICS_ANALYTICS_SSL_ENABLED=<%= properties.appdynamics_analytics_agent.analytics.ssl_enabled %>
 export PCF_DOMAIN_ID=`echo $DOMAIN | sed -e 's/\./_/g' `
-#export APPDYNAMICS_AGENT_TIER_NAME="Tier"
-#export APPDYNAMICS_AGENT_NODE_NAME="Node"
-export APPDYNAMICS_AGENT_UNIQUE_HOST_ID="PCFcontainer"
 ## #CUSTOM_VARIABLE_END_MARKER
 
 export CF_HOME=`pwd`/home/cf
@@ -133,26 +130,6 @@ function restart_app() {
 }
 
 function add_env_vars() {
-#  cf set-env ${APP_NAME}-${APP_VERSION} BASIC_AUTH_PASSWORD <%= properties.appdynamics_analytics_agent.broker.password %>
-#  cf set-env ${APP_NAME}-${APP_VERSION} BASIC_AUTH_USERNAME <%= properties.appdynamics_analytics_agent.broker.user %>
-#  cf set-env ${APP_NAME}-${APP_VERSION} ENCRYPTION_KEY <%= properties.appdynamics_analytics_agent.encryption_key %>
-#  cf set-env ${APP_NAME}-${APP_VERSION} UAA_CLIENT_ID appdynamics-sb-service
-#  cf set-env ${APP_NAME}-${APP_VERSION} UAA_CLIENT_SECRET <%= properties.uaa.clients.appdynamics_analytics_agent.secret %>
-#  cf set-env ${APP_NAME}-${APP_VERSION} UAA_HOST $SCHEME://uaa.$DOMAIN
-#  cf set-env ${APP_NAME}-${APP_VERSION} CC_HOST $API_ENDPOINT
-#  cf set-env ${APP_NAME}-${APP_VERSION} LOGIN_HOST $SCHEME://login.$DOMAIN
-#  cf set-env ${APP_NAME}-${APP_VERSION} ROOT "\$HOME"
-#  cf set-env ${APP_NAME}-${APP_VERSION} SCHEME $SCHEME
-#  cf set-env ${APP_NAME}-${APP_VERSION} VERIFY_SSL <%= !properties.ssl.skip_cert_verify %>
-
-  # Adding additional properties that most spring based apps or internal apps seem to be expecting
-#  cf set-env ${APP_NAME}-${APP_VERSION} CF_ORG $CF_ORG
-#  cf set-env ${APP_NAME}-${APP_VERSION} CF_SPACE $CF_SPACE
-#  cf set-env ${APP_NAME}-${APP_VERSION} CF_USER $CF_USER
-#  cf set-env ${APP_NAME}-${APP_VERSION} CF_PASSWORD $CF_PASSWORD
-#  cf set-env ${APP_NAME}-${APP_VERSION} CF_TARGET $CF_TARGET
-#  cf set-env ${APP_NAME}-${APP_VERSION} SECURITY_USER_NAME $SECURITY_USER_NAME
-#  cf set-env ${APP_NAME}-${APP_VERSION} SECURITY_USER_PASSWORD $SECURITY_USER_PASSWORD
 
   # CUSTOM_VARIABLE_ENV_BEGIN_MARKER
   cf set-env ${APP_NAME} APPDYNAMICS_ANALYTICS_HOST_NAME     $APPDYNAMICS_ANALYTICS_HOST_NAME
@@ -160,9 +137,6 @@ function add_env_vars() {
   cf set-env ${APP_NAME} APPDYNAMICS_AGENT_ACCOUNT_NAME       $APPDYNAMICS_AGENT_ACCOUNT_NAME
   cf set-env ${APP_NAME} APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY $APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
   cf set-env ${APP_NAME} APPDYNAMICS_AGENT_APPLICATION_NAME   $APPDYNAMICS_AGENT_APPLICATION_NAME
-  #cf set-env ${APP_NAME} APPDYNAMICS_AGENT_TIER_NAME          "${APPDYNAMICS_AGENT_TIER_NAME}_${PCF_DOMAIN_ID}"
-  #cf set-env ${APP_NAME} APPDYNAMICS_AGENT_NODE_NAME          "${APPDYNAMICS_AGENT_NODE_NAME}_${PCF_DOMAIN_ID}"
-  cf set-env ${APP_NAME} APPDYNAMICS_AGENT_UNIQUE_HOST_ID     "${APPDYNAMICS_AGENT_UNIQUE_HOST_ID}_${PCF_DOMAIN_ID}"
   cf set-env ${APP_NAME} APPDYNAMICS_ANALYTICS_SSL_ENABLED   $APPDYNAMICS_ANALYTICS_SSL_ENABLED
   cf set-env ${APP_NAME} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
 
@@ -242,7 +216,7 @@ function push_app() {
     #CF_TRACE=true cf push ${APP_NAME}-${APP_VERSION} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c "/home/vcap/app/bin/analytics-agent"
     #cf logs ${APP_NAME}-${APP_VERSION} --recent
     chmod 777 ${PACKAGE_PATH}/${TARGET_APP}
-    CF_TRACE=true cf push ${APP_NAME} -n ${APP_NAME} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start -c "/home/vcap/app/analytics-agent/bin/analytics-agent start"
+    CF_TRACE=true cf push ${APP_NAME} -n ${APP_URI} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start -c "/home/vcap/app/analytics-agent/bin/analytics-agent start"
     cf logs ${APP_NAME} --recent
   popd
 }
@@ -258,4 +232,3 @@ push_app
 add_env_vars
 
 restart_app
-

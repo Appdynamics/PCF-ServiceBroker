@@ -39,7 +39,7 @@ export CF_USER=$ADMIN_USER
 export CF_PASSWORD=$ADMIN_PASSWORD
 export CF_SKIP_SSL=<%= properties.ssl.skip_cert_verify %>
 # export ORG_QUOTA=<%= properties.appdynamics_machine_agent.app_push.org_quota %>
-export ORG_QUOTA=2048
+export ORG_QUOTA=4096
 export APP_PUSH_TIMEOUT=<%= properties.appdynamics_machine_agent.app_push.timeout %>
 # export APP_PUSH_MEMORY=<%= properties.appdynamics_machine_agent.app_push.memory %>
 export APP_PUSH_MEMORY=1024
@@ -48,10 +48,7 @@ export APP_PUSH_MEMORY=1024
 #
 
 
-# Use these variables only if app needs to know how to connect to a remote target that it brokers
 
-export SECURITY_USER_NAME=<%= properties.appdynamics_machine_agent.broker.user %>
-export SECURITY_USER_PASSWORD=<%= properties.appdynamics_machine_agent.broker.password %>
 
 export CREATE_OPEN_SECURITY_GROUP=<%= properties.appdynamics_machine_agent.create_open_security_group %>
 export DELETE_PREV_APP_INSTANCE=<%= properties.appdynamics_machine_agent.delete_prev_app_instance %>
@@ -139,26 +136,6 @@ function restart_app() {
 }
 
 function add_env_vars() {
-#  cf set-env ${APP_NAME}-${APP_VERSION} BASIC_AUTH_PASSWORD <%= properties.appdynamics_machine_agent.broker.password %>
-#  cf set-env ${APP_NAME}-${APP_VERSION} BASIC_AUTH_USERNAME <%= properties.appdynamics_machine_agent.broker.user %>
-#  cf set-env ${APP_NAME}-${APP_VERSION} ENCRYPTION_KEY <%= properties.appdynamics_machine_agent.encryption_key %>
-#  cf set-env ${APP_NAME}-${APP_VERSION} UAA_CLIENT_ID appdynamics-sb-service
-#  cf set-env ${APP_NAME}-${APP_VERSION} UAA_CLIENT_SECRET <%= properties.uaa.clients.appdynamics_machine_agent.secret %>
-#  cf set-env ${APP_NAME}-${APP_VERSION} UAA_HOST $SCHEME://uaa.$DOMAIN
-#  cf set-env ${APP_NAME}-${APP_VERSION} CC_HOST $API_ENDPOINT
-#  cf set-env ${APP_NAME}-${APP_VERSION} LOGIN_HOST $SCHEME://login.$DOMAIN
-#  cf set-env ${APP_NAME}-${APP_VERSION} ROOT "\$HOME"
-#  cf set-env ${APP_NAME}-${APP_VERSION} SCHEME $SCHEME
-#  cf set-env ${APP_NAME}-${APP_VERSION} VERIFY_SSL <%= !properties.ssl.skip_cert_verify %>
-
-  # Adding additional properties that most spring based apps or internal apps seem to be expecting
-#  cf set-env ${APP_NAME}-${APP_VERSION} CF_ORG $CF_ORG
-#  cf set-env ${APP_NAME}-${APP_VERSION} CF_SPACE $CF_SPACE
-#  cf set-env ${APP_NAME}-${APP_VERSION} CF_USER $CF_USER
-#  cf set-env ${APP_NAME}-${APP_VERSION} CF_PASSWORD $CF_PASSWORD
-#  cf set-env ${APP_NAME}-${APP_VERSION} CF_TARGET $CF_TARGET
-#  cf set-env ${APP_NAME}-${APP_VERSION} SECURITY_USER_NAME $SECURITY_USER_NAME
-#  cf set-env ${APP_NAME}-${APP_VERSION} SECURITY_USER_PASSWORD $SECURITY_USER_PASSWORD
 
   # CUSTOM_VARIABLE_ENV_BEGIN_MARKER
   cf set-env ${APP_NAME} APPDYNAMICS_CONTROLLER_HOST_NAME     $APPDYNAMICS_CONTROLLER_HOST_NAME

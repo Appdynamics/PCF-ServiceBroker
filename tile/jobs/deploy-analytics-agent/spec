@@ -1,10 +1,10 @@
 ---
-name: deploy-machine-agent
+name: deploy-analytics-agent
 templates:
   deploy.sh.erb: bin/run
 packages:
 - cf_cli
-- appdynamics_machine_agent
+- appdynamics_analytics_agent
 properties:
   ssl.skip_cert_verify:
     description: 'Whether to verify SSL certs when making web requests'
@@ -12,74 +12,26 @@ properties:
     description: 'CloudFoundry system domain'
   app_domains:
     description: 'CloudFoundry application domains'
-  uaa.clients.appdynamics_machine_agent.secret:
+  uaa.clients.appdynamics_analytics_agent.secret:
     description: 'UAA Client Secret'
-  appdynamics_machine_agent.app_name:
-    description: 'Name of the ApppDynamics Machine Agent Application'
-#  appdynamics_machine_agent.app_version:
-#    description: 'Version of the ApppDynamics Machine Agent Application'
-#  appdynamics_machine_agent.app_uri:
-#    description: 'Uri of the ApppDynamics Machine Agent Application'
-  appdynamics_machine_agent.account_name:
-    description: 'Account name for the Machine agent Application'
-  appdynamics_machine_agent.account_access_key:
-    description: 'Account access key for the Machine agent Application'
-  appdynamics_machine_agent.controller_host:
-    description: 'Appdynamics controller host for the Machine agent Application'
-  appdynamics_machine_agent.controller_port:
-    description: 'Appdynamics controller port for the Machine agent Application'
-  appdynamics_machine_agent.ssl_enabled:
-    description: 'SSL Enabled on controller of the Machine agent Application'
-  appdynamics_machine_agent.tier_name:
-    description: 'Tier name of the Machine agent Application'
-    default: 'MachineAgentTier'
-  appdynamics_machine_agent.node_name:
-    description: 'Node name of the Machine agent Application'
-    default: 'MachineAgentNode'
-  appdynamics_machine_agent.ops_metrics_host:
-    description: 'Host of the Ops Metrics Instance'
-  appdynamics_machine_agent.ops_metrics_port:
-    description: 'Port of the Ops Metrics Instance'
-  appdynamics_machine_agent.ops_metrics_authenticate:
-    description: 'JMX Ops Metrics login with authentication'
-  appdynamics_machine_agent.ops_metrics_jmx_user:
-    description: 'JMX user of the Ops Metrics Instance'
-  appdynamics_machine_agent.ops_metrics_jmx_password:
-    description: 'JMX password of the Ops Metrics Instance'
-#  appdynamics_machine_agent.proxy_enabled:
-#    description: 'Http Proxy Enabled'
-#  appdynamics_machine_agent.http_proxy_host:
-#    description: 'Host of the Http Proxy '
-#  appdynamics_machine_agent.http_proxy_port:
-#    description: 'Port of the Http Proxy '
-#  appdynamics_machine_agent.proxy_auth_enabled:
-#    description: 'Http Proxy Auth Enabled'
-#  appdynamics_machine_agent.http_proxy_user:
-#    description: 'User of the Http Proxy '
-#  appdynamics_machine_agent.http_proxy_password:
-#    description: 'Password of the Http Proxy '
+  appdynamics_analytics_agent.analytics:
+    description: 'Analytics Agent Configuration'
+  appdynamics_analytics_agent.web_proxy:
+    description: 'Http Proxy Enabled'
   
-  appdynamics_machine_agent.web_proxy:
-    description: 'Web Proxy config'
-  appdynamics_machine_agent.create_open_security_group:
+  appdynamics_analytics_agent.create_open_security_group:
     description: 'Open security group for the app to access outside'
-    default: false
-  appdynamics_machine_agent.app_push.org_quota:
-    description: 'Org Memory Quota for the ApppDynamics Machine Agent Application'
+    default: true
+  appdynamics_analytics_agent.app_push.org_quota:
+    description: 'Org Memory Quota for the ApppDynamics Analytics Agent Application'
     default: 2048
-  appdynamics_machine_agent.app_push.timeout:
-    description: 'App Push timeout for the ApppDynamics Machine Agent Application'
+  appdynamics_analytics_agent.app_push.timeout:
+    description: 'App Push timeout for the ApppDynamics Analytics Agent Application'
     default: 180
-  appdynamics_machine_agent.app_push.memory:
-    description: 'App Push Memory limit for the ApppDynamics Machine Agent Application'
+  appdynamics_analytics_agent.app_push.memory:
+    description: 'App Push Memory limit for the ApppDynamics Analytics Agent Application'
     default: 1024
-  appdynamics_machine_agent.encryption_key:
-    description: 'Specifies the key to be used when encrypting sessions'
-  appdynamics_machine_agent.cf.admin_user:
+  appdynamics_analytics_agent.cf.admin_user:
     description: 'Username of the CF admin user'
-  appdynamics_machine_agent.cf.admin_password:
+  appdynamics_analytics_agent.cf.admin_password:
     description: 'Password of the CF admin user'
-  appdynamics_machine_agent.broker.user:
-    description: 'User of the Machine agent app'
-  appdynamics_machine_agent.broker.password:
-    description: 'Password of the Machine agent app'
