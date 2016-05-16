@@ -20,6 +20,6 @@ appdynamics-db-agent/dbagent.zip:
   sha: cf998586dcbaea6100ca9f1bee7466144a118250
   size: 39721231
 appdynamics-analytics-agent/analytics-agent.zip:
-  object_id: d544c89f-e473-424d-864c-d38a0c802929
-  sha: 85ff54a1b1a425e3b0ff38cff07c467f0a1ab8d1
-  size: 15016680
+  object_id: 421188ed-157e-4edf-8f88-f9eac11b4ebe
+  sha: 5dae0e3321746b019ffd82019ca724d08b90e54a
+  size: 15351064
