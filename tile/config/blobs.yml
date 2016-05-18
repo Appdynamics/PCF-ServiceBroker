@@ -11,15 +11,15 @@ appdynamics-machine-agent/machineagent-bundle-64bit-linux.zip:
   object_id: 4327d8b7-b518-4294-a437-a75006665866
   sha: a50e07b64e08fe79aeada98ed42ea6f4a0b54337
   size: 94599765
-appdynamics-db-agent/dbagent-4.2.1.4.zip:
-  object_id: b43f16b3-2a37-4ae4-832f-9c9738a73ea4
-  sha: ce591b00822a0c99e2d9b5271f20c2c6610e00c7
-  size: 39721231
-appdynamics-db-agent/dbagent.zip:
-  object_id: 8c243671-d4f8-475d-bfc5-a9b5eaf0cb67
-  sha: cf998586dcbaea6100ca9f1bee7466144a118250
-  size: 39721231
 appdynamics-analytics-agent/analytics-agent.zip:
   object_id: 421188ed-157e-4edf-8f88-f9eac11b4ebe
   sha: 5dae0e3321746b019ffd82019ca724d08b90e54a
   size: 15351064
+appdynamics-db-agent/dbagent-4.1.8.0.zip:
+  object_id: d8057d9e-8959-4feb-b8d6-9a8fe507694d
+  sha: a1382a5f7cdb21ce9b896cd8b7810e2fd08fd0dc
+  size: 40504800
+appdynamics-db-agent/dbagent-4.1.10.0.zip:
+  object_id: 1b563a60-b824-4980-ba71-eec137144064
+  sha: fcd36a9e5bff032bc3b132a2a8348698a64f46d4
+  size: 40522392

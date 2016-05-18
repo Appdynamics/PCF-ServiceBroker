@@ -5,4 +5,5 @@ dependencies: []
 
 files:
 - templates/all_open.json
-- appdynamics-db-agent/dbagent.zip
+- appdynamics-db-agent/dbagent-4.1.8.0.zip
+- appdynamics-db-agent/dbagent-4.1.10.0.zip

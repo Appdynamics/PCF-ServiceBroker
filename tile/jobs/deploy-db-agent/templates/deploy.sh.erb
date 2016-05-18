@@ -61,19 +61,6 @@ export DELETE_PREV_APP_INSTANCE=<%= properties.appdynamics_db_agent.delete_prev_
 ### CUSTOM_VARIABLE_BEGIN_MARKER
 
 # Proxy Settings
-#export DB_PROXY_ENABLED=<%= properties.appdynamics_db_agent.proxy_enabled %>
-#export DB_PROXY_HOST=<%= properties.appdynamics_db_agent.http_proxy_host %>
-#export DB_PROXY_PORT=<%= properties.appdynamics_db_agent.http_proxy_port %>
-
-#export DB_PROXY_AUTH_ENABLED=<%= properties.appdynamics_db_agent.proxy_auth_enabled %>
-#export DB_PROXY_USER=<%= properties.appdynamics_db_agent.http_proxy_user %>
-#export DB_PROXY_PASSWORD=<%= properties.appdynamics_db_agent.http_proxy_password %>
-
-#export APPDYNAMICS_CONTROLLER_HOST_NAME=<%= properties.appdynamics_db_agent.controller_host %>
-#export APPDYNAMICS_CONTROLLER_PORT=<%= properties.appdynamics_db_agent.controller_port %>
-#export APPDYNAMICS_AGENT_ACCOUNT_NAME=<%= properties.appdynamics_db_agent.account_name %>
-#export APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=<%= properties.appdynamics_db_agent.account_access_key %>
-#export APPDYNAMICS_CONTROLLER_SSL_ENABLED=<%= properties.appdynamics_db_agent.ssl_enabled %>
 export PCF_DOMAIN_ID=`echo $DOMAIN | sed -e 's/\./_/g' `
 export APPDYNAMICS_AGENT_UNIQUE_HOST_ID="DBAgent"
 export APPDYNAMICS_AGENT_UNIQUE_HOST_ID="${APPDYNAMICS_AGENT_UNIQUE_HOST_ID}_${PCF_DOMAIN_ID}"
@@ -95,7 +82,7 @@ mkdir -p $CF_HOME
 APP_PREFIX_NAME=dbagent
 EXTENSION_TYPE=zip
 
-TARGET_APP=${APP_PREFIX_NAME}.${EXTENSION_TYPE}
+#TARGET_APP=${APP_PREFIX_NAME}.${EXTENSION_TYPE}
 JOB_NAME=deploy-db-agent
 PACKAGE_NAME_SUFFIX=db_agent
 PACKAGE_PATH=`echo /var/vcap/packages/*_${PACKAGE_NAME_SUFFIX}`
@@ -246,6 +233,8 @@ modify_app
     export APPDYNAMICS_CONTROLLER_PORT=<%="#{controller_port}"%>
     export APPDYNAMICS_CONTROLLER_SSL_ENABLED=<%="#{ssl_enabled}"%>
     export DB_INSTANCES=<%="#{no_of_db_agents}"%>
+    export DBAGENT_VERSION=<%="#{db_agent_version.strip! || db_agent_version}"%>
+    export TARGET_APP=${APP_PREFIX_NAME}-${DBAGENT_VERSION}.${EXTENSION_TYPE}
     for index in `seq -w 1 $DB_INSTANCES`
     do
       push_app ${PLAN_NAME}-${index}

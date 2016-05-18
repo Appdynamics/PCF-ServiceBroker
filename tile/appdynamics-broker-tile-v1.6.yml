@@ -1,5 +1,5 @@
 ---
-name: appdynamics-broker                                       # [1]
+name: appdynamics-broker
 product_version: '1.1'                            # [1]
 label: AppDynamics Service Broker
 rank: 50
@@ -45,6 +45,53 @@ property_blueprints:
   type: string
   configurable: false
   default: AppDynamicsDBAgent
+- name: analytics_selector
+  type: selector
+  default: Disable
+  configurable: true
+  option_templates:
+  - name: analytics_disabled_option
+    select_value: Disable
+    named_manifests:
+    - name: analytics_snippet
+      manifest: |
+        analytics_enabled: false
+  - name: analytics_enabled_option
+    select_value: Enable
+    property_blueprints:
+    - name: app_uri
+      type: string
+      default: appdynamics-analytics
+      configurable: true
+    - name: account_name
+      type: string
+      configurable: true
+    - name: account_access_key
+      type: string
+      configurable: true
+    - name: http_event_endpoint_host
+      type: string
+      default: _no_endpoint_
+      configurable: true
+    - name: http_event_endpoint_port
+      type: integer
+      default: 9090
+      configurable: true
+    - name: ssl_enabled
+      type: boolean
+      default: true
+      configurable: true
+    named_manifests:
+    - name: analytics_snippet
+      manifest: |
+        analytics_enabled: true
+        app_name: AppDynamicsAnalytics
+        app_uri: (( .properties.analytics_selector.analytics_enabled_option.app_uri.value ))
+        account_name: (( .properties.analytics_selector.analytics_enabled_option.account_name.value ))
+        account_access_key: (( .properties.analytics_selector.analytics_enabled_option.account_access_key.value ))
+        http_event_endpoint_host: (( .properties.analytics_selector.analytics_enabled_option.http_event_endpoint_host.value ))
+        http_event_endpoint_port: (( .properties.analytics_selector.analytics_enabled_option.http_event_endpoint_port.value ))
+        ssl_enabled: (( .properties.analytics_selector.analytics_enabled_option.ssl_enabled.value ))
 - name: proxy_selector
   type: selector
   configurable: true
@@ -238,6 +285,15 @@ property_blueprints:
     type: boolean
     configurable: true
     default: false
+  - name: db_agent_version
+    type: string
+    configurable: true
+    default: 4.1.8.0
+#    options:
+#      - name: 4-1-8-0
+#        label: v4.1.8.0#        default: true
+#      - name: 4-1-10-0
+#        label: v4.1.10.0
   - name: no_of_db_agents
     type: integer
     configurable: true
@@ -313,6 +369,10 @@ form_types:
       label: Enable Database Monitoring
       description: "Enable AppDynamics DB Monitoring if you have DB licence"
       slug: false
+    - reference: db_agent_version
+      label: DB Agent Version
+      description: "Enter DB Agent version compatible with Controller version. Only valid values are '4.1.8.0' or '4.1.10.0'"
+      slug: false
     - reference: no_of_db_agents
       label: Max number of DB instances to monitor
       description: "Max number of database instances to monitor"
@@ -359,27 +419,41 @@ form_types:
   - reference: .properties.ops_metrics_jmx_password
     label: Ops Metrics JMX User Password
     description: "PCF Ops Metrics JMX User Password"
-#  - reference: ".properties.proxy_enabled"
-#    label: HTTP Web Proxy Enabled
-#    description: All external communication to AppD SaaS services through a Web Proxy
-#  - reference: ".properties.http_proxy_host"
-#    label: Web Proxy Host Name/IP
-#    description: Host Address of the web proxy(Only IP or FQDN)
-#  - reference: ".properties.http_proxy_port"
-#    label: Web Proxy Port
-#    description: Port of the web proxy (to handle http and https port)
-#  - reference: ".properties.proxy_auth_enabled"
-#    label: HTTP Web Proxy Auth Enabled
-#    description: All external communication to AppD SaaS services through a Web Proxy with user auth
-#  - reference: ".properties.http_proxy_user"
-#    label: Web Proxy Username
-#    description: Username for the web proxy
-#  - reference: ".properties.http_proxy_password"
-#    label: Web Proxy Password
-#    description: Password for the web proxy
   name: appdynamics_machine_agent_app
   label: Machine Agent Extension For PCF JMX Bridge
   description: Machine Agent Configuration
+
+- property_inputs:
+  - reference: .properties.analytics_selector
+    label: 'Enable Transaction Analytics'
+    selector_property_inputs:
+    - reference: ".properties.analytics_selector.analytics_disabled_option"
+      label: 'Disable'
+    - reference: ".properties.analytics_selector.analytics_enabled_option"
+      label: 'Enable'
+      property_inputs:
+      - reference: ".properties.analytics_selector.analytics_enabled_option.app_uri"
+        label: Analytics Application URI
+        description: Enter the app uri for Analytics Agent
+      - reference: ".properties.analytics_selector.analytics_enabled_option.account_name"
+        label: Global Account Name for Analytics
+        description: "Global Account Name"
+      - reference: ".properties.analytics_selector.analytics_enabled_option.account_access_key"
+        label: Account Access Key for Analytics
+        description: "Account Access Key"
+      - reference: ".properties.analytics_selector.analytics_enabled_option.http_event_endpoint_host"
+        label: AppDynamics Http Event Endpoint IP/Address for Analytics
+        description: "AppDynamics Http Event Endpoint IP Address for Analytics"
+      - reference: ".properties.analytics_selector.analytics_enabled_option.http_event_endpoint_port"
+        label: AppDynamics Http Event Endpoint Port for Analytics
+        description: "AppDynamics Http Event Endpoint Port for Analytics"
+      - reference: ".properties.analytics_selector.analytics_enabled_option.ssl_enabled"
+        label: AppDynamics Http Event Endpoint SSL Enabled
+        description: "Is AppDynamics Http Event Endpoint SSL Enabled"
+  name: appdynamics_analytics_agent_app
+  label: Analytics Agent 
+  description: Analytics Agent Configuration
+
 - property_inputs:
   - reference: .properties.proxy_selector
     label: 'Enable Web Proxy'
@@ -535,7 +609,7 @@ job_types:
     appdynamics_machine_agent:
       app_name: (( .properties.machine_agent_app_name.value ))
       app_push:
-        org_quota: 2048
+        org_quota: 4096
         timeout: 180
         memory: 1024
       encryption_key: (( .properties.encryption_key.value ))
@@ -559,6 +633,70 @@ job_types:
       broker:
         user: (( .deploy-machine-agent.broker_credentials.identity ))
         password: (( .deploy-machine-agent.broker_credentials.password ))
+
+- name: deploy-analytics-agent
+  resource_label: Deploy AppDynamics Analytics Agent
+  release: appdynamics_broker
+  errand: true
+  templates:
+  - name: deploy-analytics-agent
+    release: appdynamics_broker
+  resource_definitions:
+  - name: ram
+    type: integer
+    configurable: false
+    default: 1024
+  - name: ephemeral_disk
+    type: integer
+    configurable: false
+    default: 2048
+  - name: persistent_disk
+    type: integer
+    configurable: false
+    default: 0
+  - name: cpu
+    type: integer
+    configurable: false
+    default: 1
+  static_ip: 0
+  dynamic_ip: 1
+  max_in_flight: 1
+  instance_definitions:
+  - name: instances
+    type: integer
+    configurable: false
+    default: 1
+  property_blueprints:
+  - name: vm_credentials
+    type: salted_credentials
+    default:
+      identity: vcap
+
+  manifest: |
+    domain: (( ..cf.cloud_controller.system_domain.value ))
+    app_domains:
+      - (( ..cf.cloud_controller.apps_domain.value ))
+    ssl:
+      skip_cert_verify: (( ..cf.ha_proxy.skip_cert_verify.value ))
+    uaa:
+      url: https://uaa.(( ..cf.cloud_controller.system_domain.value ))
+      clients:
+        appdynamics_broker:
+          secret: test
+    appdynamics_analytics_agent:
+      analytics: (( .properties.analytics_selector.selected_option.parsed_manifest(analytics_snippet) ))
+      app_push:
+        org_quota: 4096
+        timeout: 180
+        memory: 1024
+      create_open_security_group: (( .properties.create_open_security_group.value ))
+      web_proxy: (( .properties.proxy_selector.selected_option.parsed_manifest(proxy_snippet) ))
+      cf:
+        admin_user: (( ..cf.uaa.system_services_credentials.identity ))
+        admin_password: (( ..cf.uaa.system_services_credentials.password ))
+      broker:
+        user: (( .deploy-analytics-agent.broker_credentials.identity ))
+        password: (( .deploy-analytics-agent.broker_credentials.password ))
 
 - name: deploy-db-agent
   resource_label: Deploy AppDynamics Database Agent
@@ -916,10 +1054,12 @@ provides_product_versions:
   version: '4.1.5.3'
 post_deploy_errands:
 - name: deploy-service-broker
-- name: deploy-machine-agent
 - name: register-broker
+- name: deploy-machine-agent
+- name: deploy-analytics-agent
 - name: deploy-db-agent
 pre_delete_errands:
 - name: destroy-broker
+- name: destroy-analytics-agent
 - name: destroy-machine-agent
 - name: destroy-db-agent

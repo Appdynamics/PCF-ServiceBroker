@@ -1,0 +1,17 @@
+---
+name: destroy-db-agent
+templates:
+  destroy.sh.erb: bin/run
+packages:
+- cf_cli
+properties:
+  ssl.skip_cert_verify:
+    description: 'Whether to verify SSL certs when making web requests'
+  domain:
+    description: 'The CF top-level domain'
+  app_domains:
+    description: 'CloudFoundry application domains'
+  appdynamics_db_agent.cf.admin_user:
+    description: 'Username of the CF admin user'
+  appdynamics_db_agent.cf.admin_password:
+    description: 'Password of the CF admin user'
