@@ -18,23 +18,18 @@ set -e -x
 
 export SCHEME=https
 export PATH="/var/vcap/packages/cf_cli/bin:$PATH"
-export ADMIN_USER=<%= properties.appdynamics_broker.cf.admin_user %>
-export ADMIN_PASSWORD=<%= properties.appdynamics_broker.cf.admin_password %>
+export ADMIN_USER=<%= properties.cf.admin_user %>
+export ADMIN_PASSWORD=<%= properties.cf.admin_password %>
 export DOMAIN=<%= properties.domain %>
 export API_ENDPOINT=$SCHEME://api.$DOMAIN
 export APP_DOMAIN=<%="#{app_domain}"%>
 export APP_NAME=<%= properties.appdynamics_broker.app_name %>
-#export APP_VERSION=<%= properties.appdynamics_broker.app_version %>
-export APP_URI=<%= properties.appdynamics_broker.app_uri %>
 export ORG=${APP_NAME}-service-org
 export SPACE=${APP_NAME}-service-space
 #export BROKER_NAME=${APP_NAME}-${APP_VERSION}-service-broker
 export BROKER_NAME=${APP_NAME}-service-broker
 export BROKER_USER=<%= properties.appdynamics_broker.broker.user %>
 export BROKER_PASS=<%= properties.appdynamics_broker.broker.password %>
-export BROKER_HOST=$SCHEME://${APP_URI}.${APP_DOMAIN}
-#export DB_NAME=${APP_NAME}-${APP_VERSION}-mysql
-#export DB_NAME=${APP_NAME}-mysql
 
 # Use this only when there are already inbuild plans that need to enabled for public
 export BROKER_INTERNAL_SERVICE_NAMES=<%= properties.appdynamics_broker.broker.internal_service_names %>

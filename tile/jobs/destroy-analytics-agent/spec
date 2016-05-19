@@ -1,5 +1,5 @@
 ---
-name: destroy-db-agent
+name: destroy-analytics-agent
 templates:
   destroy.sh.erb: bin/run
 packages:

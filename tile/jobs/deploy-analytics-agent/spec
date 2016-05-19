@@ -12,8 +12,10 @@ properties:
     description: 'CloudFoundry system domain'
   app_domains:
     description: 'CloudFoundry application domains'
-  uaa.clients.appdynamics_analytics_agent.secret:
-    description: 'UAA Client Secret'
+  cf.admin_user:
+    description: 'Username of the CF admin user'
+  cf.admin_password:
+    description: 'Password of the CF admin user'
   appdynamics_analytics_agent.analytics:
     description: 'Analytics Agent Configuration'
   appdynamics_analytics_agent.web_proxy:
@@ -24,14 +26,10 @@ properties:
     default: true
   appdynamics_analytics_agent.app_push.org_quota:
     description: 'Org Memory Quota for the ApppDynamics Analytics Agent Application'
-    default: 2048
+    default: 4096
   appdynamics_analytics_agent.app_push.timeout:
     description: 'App Push timeout for the ApppDynamics Analytics Agent Application'
     default: 180
   appdynamics_analytics_agent.app_push.memory:
     description: 'App Push Memory limit for the ApppDynamics Analytics Agent Application'
     default: 1024
-  appdynamics_analytics_agent.cf.admin_user:
-    description: 'Username of the CF admin user'
-  appdynamics_analytics_agent.cf.admin_password:
-    description: 'Password of the CF admin user'

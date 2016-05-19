@@ -12,14 +12,12 @@ properties:
     description: 'CloudFoundry system domain'
   app_domains:
     description: 'CloudFoundry application domains'
-  uaa.clients.appdynamics_machine_agent.secret:
-    description: 'UAA Client Secret'
+  cf.admin_user:
+    description: 'Username of the CF admin user'
+  cf.admin_password:
+    description: 'Password of the CF admin user'
   appdynamics_machine_agent.app_name:
     description: 'Name of the ApppDynamics Machine Agent Application'
-#  appdynamics_machine_agent.app_version:
-#    description: 'Version of the ApppDynamics Machine Agent Application'
-#  appdynamics_machine_agent.app_uri:
-#    description: 'Uri of the ApppDynamics Machine Agent Application'
   appdynamics_machine_agent.account_name:
     description: 'Account name for the Machine agent Application'
   appdynamics_machine_agent.account_access_key:
@@ -46,19 +44,6 @@ properties:
     description: 'JMX user of the Ops Metrics Instance'
   appdynamics_machine_agent.ops_metrics_jmx_password:
     description: 'JMX password of the Ops Metrics Instance'
-#  appdynamics_machine_agent.proxy_enabled:
-#    description: 'Http Proxy Enabled'
-#  appdynamics_machine_agent.http_proxy_host:
-#    description: 'Host of the Http Proxy '
-#  appdynamics_machine_agent.http_proxy_port:
-#    description: 'Port of the Http Proxy '
-#  appdynamics_machine_agent.proxy_auth_enabled:
-#    description: 'Http Proxy Auth Enabled'
-#  appdynamics_machine_agent.http_proxy_user:
-#    description: 'User of the Http Proxy '
-#  appdynamics_machine_agent.http_proxy_password:
-#    description: 'Password of the Http Proxy '
-  
   appdynamics_machine_agent.web_proxy:
     description: 'Web Proxy config'
   appdynamics_machine_agent.create_open_security_group:
@@ -66,16 +51,10 @@ properties:
     default: false
   appdynamics_machine_agent.app_push.org_quota:
     description: 'Org Memory Quota for the ApppDynamics Machine Agent Application'
-    default: 2048
+    default: 4096
   appdynamics_machine_agent.app_push.timeout:
     description: 'App Push timeout for the ApppDynamics Machine Agent Application'
     default: 180
   appdynamics_machine_agent.app_push.memory:
     description: 'App Push Memory limit for the ApppDynamics Machine Agent Application'
     default: 1024
-  appdynamics_machine_agent.encryption_key:
-    description: 'Specifies the key to be used when encrypting sessions'
-  appdynamics_machine_agent.cf.admin_user:
-    description: 'Username of the CF admin user'
-  appdynamics_machine_agent.cf.admin_password:
-    description: 'Password of the CF admin user'

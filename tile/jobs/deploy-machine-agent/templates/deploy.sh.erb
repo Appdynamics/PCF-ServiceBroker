@@ -18,17 +18,14 @@ set -e -x
 export PATH="/var/vcap/packages/cf_cli/bin:$PATH"
 
 export SCHEME=https
-export ADMIN_USER=<%= properties.appdynamics_machine_agent.cf.admin_user %>
-export ADMIN_PASSWORD=<%= properties.appdynamics_machine_agent.cf.admin_password %>
+export ADMIN_USER=<%= properties.cf.admin_user %>
+export ADMIN_PASSWORD=<%= properties.cf.admin_password %>
 export DOMAIN=<%= properties.domain %>
 export APP_DOMAIN=<%="#{app_domain}"%>
 export API_ENDPOINT=$SCHEME://api.${DOMAIN}
 export APP_NAME_ID=<%= properties.appdynamics_machine_agent.app_name %>
 export APP_NAME=AppDynamicsPCFOpsMetrics
-#export APP_VERSION=<%= properties.appdynamics_machine_agent.app_version %>
-#export APPDYNAMICS_AGENT_APPLICATION_NAME=${APP_NAME}-${APP_VERSION}
 export APPDYNAMICS_AGENT_APPLICATION_NAME=${APP_NAME_ID}
-#export APP_URI=<%= properties.appdynamics_machine_agent.app_uri %>
 export ORG=${APP_NAME}-service-org
 export SPACE=${APP_NAME}-service-space
 export QUOTA=${APP_NAME}-service-quota
@@ -38,10 +35,8 @@ export CF_SPACE=$SPACE
 export CF_USER=$ADMIN_USER
 export CF_PASSWORD=$ADMIN_PASSWORD
 export CF_SKIP_SSL=<%= properties.ssl.skip_cert_verify %>
-# export ORG_QUOTA=<%= properties.appdynamics_machine_agent.app_push.org_quota %>
 export ORG_QUOTA=4096
 export APP_PUSH_TIMEOUT=<%= properties.appdynamics_machine_agent.app_push.timeout %>
-# export APP_PUSH_MEMORY=<%= properties.appdynamics_machine_agent.app_push.memory %>
 export APP_PUSH_MEMORY=1024
 
 # Use this only if app needs additional libraries that need to be downloaded

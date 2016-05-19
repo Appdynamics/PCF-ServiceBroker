@@ -16,7 +16,7 @@ releases:                                                  # [5]
 # EDIT the stemcell version as required
 stemcell_criteria:                                                  # [3]
   os: ubuntu-trusty
-  version: '3146.7'
+  version: '3146.12'
   requires_cpi: false
 
 property_blueprints:
@@ -291,7 +291,8 @@ property_blueprints:
     default: 4.1.8.0
 #    options:
 #      - name: 4-1-8-0
-#        label: v4.1.8.0#        default: true
+#        label: v4.1.8.0
+#        default: true
 #      - name: 4-1-10-0
 #        label: v4.1.10.0
   - name: no_of_db_agents
@@ -530,6 +531,9 @@ job_types:
       - (( ..cf.cloud_controller.apps_domain.value ))
     ssl:
       skip_cert_verify: (( ..cf.ha_proxy.skip_cert_verify.value ))
+    cf:
+      admin_user: (( ..cf.uaa.system_services_credentials.identity ))
+      admin_password: (( ..cf.uaa.system_services_credentials.password ))
     uaa:
       url: https://uaa.(( ..cf.cloud_controller.system_domain.value ))
       clients:
@@ -547,9 +551,6 @@ job_types:
       persistence_store_type: none
       on_demand_service_plans: (( .properties.on_demand_service_plans_collection.value ))
       encryption_key: (( .properties.encryption_key.value ))
-      cf:
-        admin_user: (( ..cf.uaa.system_services_credentials.identity ))
-        admin_password: (( ..cf.uaa.system_services_credentials.password ))
       broker:
         user: (( .deploy-service-broker.broker_credentials.identity ))
         password: (( .deploy-service-broker.broker_credentials.password ))
@@ -592,8 +593,6 @@ job_types:
     type: salted_credentials
     default:
       identity: vcap
-  - name: broker_credentials
-    type: salted_credentials
 
   manifest: |
     domain: (( ..cf.cloud_controller.system_domain.value ))
@@ -601,18 +600,15 @@ job_types:
       - (( ..cf.cloud_controller.apps_domain.value ))
     ssl:
       skip_cert_verify: (( ..cf.ha_proxy.skip_cert_verify.value ))
-    uaa:
-      url: https://uaa.(( ..cf.cloud_controller.system_domain.value ))
-      clients:
-        appdynamics_broker:
-          secret: test
+    cf:
+      admin_user: (( ..cf.uaa.system_services_credentials.identity ))
+      admin_password: (( ..cf.uaa.system_services_credentials.password ))
     appdynamics_machine_agent:
       app_name: (( .properties.machine_agent_app_name.value ))
       app_push:
         org_quota: 4096
         timeout: 180
         memory: 1024
-      encryption_key: (( .properties.encryption_key.value ))
       create_open_security_group: (( .properties.create_open_security_group.value ))
       account_name: (( .properties.account_name.value ))
       account_access_key: (( .properties.account_access_key.value ))
@@ -627,12 +623,6 @@ job_types:
       ops_metrics_authenticate: (( .properties.ops_metrics_authenticate.value ))
       ops_metrics_jmx_user: (( .properties.ops_metrics_jmx_user.value ))
       ops_metrics_jmx_password: (( .properties.ops_metrics_jmx_password.value ))
-      cf:
-        admin_user: (( ..cf.uaa.system_services_credentials.identity ))
-        admin_password: (( ..cf.uaa.system_services_credentials.password ))
-      broker:
-        user: (( .deploy-machine-agent.broker_credentials.identity ))
-        password: (( .deploy-machine-agent.broker_credentials.password ))
 
 - name: deploy-analytics-agent
   resource_label: Deploy AppDynamics Analytics Agent
@@ -678,11 +668,9 @@ job_types:
       - (( ..cf.cloud_controller.apps_domain.value ))
     ssl:
       skip_cert_verify: (( ..cf.ha_proxy.skip_cert_verify.value ))
-    uaa:
-      url: https://uaa.(( ..cf.cloud_controller.system_domain.value ))
-      clients:
-        appdynamics_broker:
-          secret: test
+    cf:
+      admin_user: (( ..cf.uaa.system_services_credentials.identity ))
+      admin_password: (( ..cf.uaa.system_services_credentials.password ))
     appdynamics_analytics_agent:
       analytics: (( .properties.analytics_selector.selected_option.parsed_manifest(analytics_snippet) ))
       app_push:
@@ -691,12 +679,6 @@ job_types:
         memory: 1024
       create_open_security_group: (( .properties.create_open_security_group.value ))
       web_proxy: (( .properties.proxy_selector.selected_option.parsed_manifest(proxy_snippet) ))
-      cf:
-        admin_user: (( ..cf.uaa.system_services_credentials.identity ))
-        admin_password: (( ..cf.uaa.system_services_credentials.password ))
-      broker:
-        user: (( .deploy-analytics-agent.broker_credentials.identity ))
-        password: (( .deploy-analytics-agent.broker_credentials.password ))
 
 - name: deploy-db-agent
   resource_label: Deploy AppDynamics Database Agent
@@ -735,8 +717,6 @@ job_types:
     type: salted_credentials
     default:
       identity: vcap
-  - name: broker_credentials
-    type: salted_credentials
 
   manifest: |
     domain: (( ..cf.cloud_controller.system_domain.value ))
@@ -744,29 +724,16 @@ job_types:
       - (( ..cf.cloud_controller.apps_domain.value ))
     ssl:
       skip_cert_verify: (( ..cf.ha_proxy.skip_cert_verify.value ))
-    uaa:
-      url: https://uaa.(( ..cf.cloud_controller.system_domain.value ))
-      clients:
-        appdynamics_broker:
-          secret: test
+    cf:
+      admin_user: (( ..cf.uaa.system_services_credentials.identity ))
+      admin_password: (( ..cf.uaa.system_services_credentials.password ))
     appdynamics_db_agent:
-      app_name: (( .properties.db_agent_app_name.value ))
       app_push:
-        org_quota: 2048
         timeout: 180
         memory: 1024
-      encryption_key: (( .properties.encryption_key.value ))
       create_open_security_group: (( .properties.create_open_security_group.value ))
-      account_name: (( .properties.account_name.value ))
-      account_access_key: (( .properties.account_access_key.value ))
-      controller_host: (( .properties.controller_host.value ))
-      controller_port: (( .properties.controller_port.value ))
-      ssl_enabled: (( .properties.ssl_enabled.value ))
       web_proxy: (( .properties.proxy_selector.selected_option.parsed_manifest(proxy_snippet) ))
       on_demand_service_plans: (( .properties.on_demand_service_plans_collection.value ))
-      cf:
-        admin_user: (( ..cf.uaa.system_services_credentials.identity ))
-        admin_password: (( ..cf.uaa.system_services_credentials.password ))
 
 - name: register-broker
   resource_label: Register AppDynamics Service Broker
@@ -811,20 +778,14 @@ job_types:
       - (( ..cf.cloud_controller.apps_domain.value ))
     ssl:
       skip_cert_verify: (( ..cf.ha_proxy.skip_cert_verify.value ))
-    uaa:
-      url: https://uaa.(( ..cf.cloud_controller.system_domain.value ))
-      clients:
-        appdynamics_broker:
-          secret: test
+    cf:
+      admin_user: (( ..cf.uaa.system_services_credentials.identity ))
+      admin_password: (( ..cf.uaa.system_services_credentials.password ))
     appdynamics_broker:
       app_name: (( .properties.app_name.value ))
       app_version: (( .properties.app_version.value ))
       app_uri: (( .properties.app_uri.value ))
-      encryption_key: (( .properties.encryption_key.value ))
       enable_global_access_to_plans: (( .properties.enable_global_access_to_plans.value ))
-      cf:
-        admin_user: (( ..cf.uaa.system_services_credentials.identity ))
-        admin_password: (( ..cf.uaa.system_services_credentials.password ))
       broker:
         user: (( .deploy-service-broker.broker_credentials.identity ))
         password: (( .deploy-service-broker.broker_credentials.password ))
@@ -873,19 +834,11 @@ job_types:
       - (( ..cf.cloud_controller.apps_domain.value ))
     ssl:
       skip_cert_verify: (( ..cf.ha_proxy.skip_cert_verify.value ))
-    uaa:
-      url: https://uaa.(( ..cf.cloud_controller.system_domain.value ))
-      clients:
-        appdynamics_broker:
-          secret: test
+    cf:
+      admin_user: (( ..cf.uaa.system_services_credentials.identity ))
+      admin_password: (( ..cf.uaa.system_services_credentials.password ))
     appdynamics_broker:
       app_name: (( .properties.app_name.value ))
-      app_version: (( .properties.app_version.value ))
-      app_uri: (( .properties.app_uri.value ))
-      encryption_key: (( .properties.encryption_key.value ))
-      cf:
-        admin_user: (( ..cf.uaa.system_services_credentials.identity ))
-        admin_password: (( ..cf.uaa.system_services_credentials.password ))
       broker:
         user: (( .deploy-service-broker.broker_credentials.identity ))
         password: (( .deploy-service-broker.broker_credentials.password ))
@@ -934,22 +887,56 @@ job_types:
       - (( ..cf.cloud_controller.apps_domain.value ))
     ssl:
       skip_cert_verify: (( ..cf.ha_proxy.skip_cert_verify.value ))
-    uaa:
-      url: https://uaa.(( ..cf.cloud_controller.system_domain.value ))
-      clients:
-        appdynamics_broker:
-          secret: test
-    appdynamics_machine_agent:
-      app_name: (( .properties.machine_agent_app_name.value ))
-      app_version: (( .properties.machine_agent_app_version.value ))
-      app_uri: (( .properties.machine_agent_app_uri.value ))
-      encryption_key: (( .properties.encryption_key.value ))
-      cf:
-        admin_user: (( ..cf.uaa.system_services_credentials.identity ))
-        admin_password: (( ..cf.uaa.system_services_credentials.password ))
-      broker:
-        user: (( .deploy-machine-agent.broker_credentials.identity ))
-        password: (( .deploy-machine-agent.broker_credentials.password ))
+    cf:
+      admin_user: (( ..cf.uaa.system_services_credentials.identity ))
+      admin_password: (( ..cf.uaa.system_services_credentials.password ))
+
+- name: destroy-analytics-agent
+  resource_label: Remove AppDynamics Machine Agent
+  templates:
+  - name: destroy-analytics-agent
+    release: appdynamics_broker
+  errand: true
+  resource_definitions:
+  - name: ram
+    type: integer
+    configurable: false
+    default: 1024
+  - name: ephemeral_disk
+    type: integer
+    configurable: false
+    default: 1024
+  - name: persistent_disk
+    type: integer
+    configurable: false
+    default: 0
+  - name: cpu
+    type: integer
+    configurable: false
+    default: 1
+  static_ip: 0
+  dynamic_ip: 1
+  max_in_flight: 1
+  instance_definitions:
+  - name: instances
+    type: integer
+    configurable: false
+    default: 1
+  property_blueprints:
+  - name: vm_credentials
+    type: salted_credentials
+    default:
+      identity: vcap
+
+  manifest: |
+    domain: (( ..cf.cloud_controller.system_domain.value ))
+    app_domains:
+      - (( ..cf.cloud_controller.apps_domain.value ))
+    ssl:
+      skip_cert_verify: (( ..cf.ha_proxy.skip_cert_verify.value ))
+    cf:
+      admin_user: (( ..cf.uaa.system_services_credentials.identity ))
+      admin_password: (( ..cf.uaa.system_services_credentials.password ))
 
 - name: destroy-db-agent
   resource_label: Remove AppDynamics DB Agent
@@ -994,22 +981,9 @@ job_types:
       - (( ..cf.cloud_controller.apps_domain.value ))
     ssl:
       skip_cert_verify: (( ..cf.ha_proxy.skip_cert_verify.value ))
-    uaa:
-      url: https://uaa.(( ..cf.cloud_controller.system_domain.value ))
-      clients:
-        appdynamics_broker:
-          secret: test
-    appdynamics_db_agent:
-      app_name: (( .properties.db_agent_app_name.value ))
-      app_version: (( .properties.db_agent_app_version.value ))
-      app_uri: (( .properties.db_agent_app_uri.value ))
-      encryption_key: (( .properties.encryption_key.value ))
-      cf:
-        admin_user: (( ..cf.uaa.system_services_credentials.identity ))
-        admin_password: (( ..cf.uaa.system_services_credentials.password ))
-      broker:
-        user: (( .deploy-db-agent.broker_credentials.identity ))
-        password: (( .deploy-db-agent.broker_credentials.password ))
+    cf:
+      admin_user: (( ..cf.uaa.system_services_credentials.identity ))
+      admin_password: (( ..cf.uaa.system_services_credentials.password ))
 
 - name: compilation
   resource_label: compilation
@@ -1017,11 +991,11 @@ job_types:
    - name: ram
      type: integer
      configurable: true
-     default: 1024
+     default: 2048
    - name: ephemeral_disk
      type: integer
      configurable: true
-     default: 1024
+     default: 4096
    - name: persistent_disk
      type: integer
      configurable: true

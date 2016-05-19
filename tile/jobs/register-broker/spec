@@ -19,9 +19,9 @@ properties:
     description: 'Uri of the Service Broker Application'
   appdynamics_broker.enable_global_access_to_plans:
     description: 'Enable global access to all service plans in the Service Broker Application'
-  appdynamics_broker.cf.admin_user:
+  cf.admin_user:
     description: 'Username of the CF admin user'
-  appdynamics_broker.cf.admin_password:
+  cf.admin_password:
     description: 'Password of the CF admin user'
   appdynamics_broker.broker.user:
     description: 'Broker basic auth user'

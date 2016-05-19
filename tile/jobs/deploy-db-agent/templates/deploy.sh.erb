@@ -18,18 +18,12 @@ set -e -x
 export PATH="/var/vcap/packages/cf_cli/bin:$PATH"
 
 export SCHEME=https
-export ADMIN_USER=<%= properties.appdynamics_db_agent.cf.admin_user %>
-export ADMIN_PASSWORD=<%= properties.appdynamics_db_agent.cf.admin_password %>
+export ADMIN_USER=<%= properties.cf.admin_user %>
+export ADMIN_PASSWORD=<%= properties.cf.admin_password %>
 export DOMAIN=<%= properties.domain %>
 export APP_DOMAIN=<%="#{app_domain}"%>
 export API_ENDPOINT=$SCHEME://api.${DOMAIN}
-export APP_NAME_ID=<%= properties.appdynamics_db_agent.app_name %>
 export APP_NAME=DBAgent
-#export APP_VERSION=<%= properties.appdynamics_db_agent.app_version %>
-#export APPDYNAMICS_AGENT_APPLICATION_NAME=${APP_NAME}-${APP_VERSION}
-export APPDYNAMICS_AGENT_APPLICATION_NAME=${APP_NAME_ID}
-#export APP_URI=<%= properties.appdynamics_db_agent.app_uri %>
-#export DB_INSTANCES=<%= properties.appdynamics_db_agent.instances %>
 export ORG=AppDynamics-DB-Visibility
 export SPACE=${ORG}-space
 export QUOTA=${ORG}-quota
@@ -129,8 +123,6 @@ function create_open_security_group() {
 
 function restart_app() {
   index=$1
-  #CF_TRACE=true cf restart ${APP_NAME}-${APP_VERSION}
-  #cf logs ${APP_NAME}-${APP_VERSION} --recent
   CF_TRACE=true cf restart ${APP_NAME}-${index}
   cf logs ${APP_NAME}-${index} --recent
 }
@@ -175,20 +167,17 @@ function modify_app() {
 
 function delete_prev_app_instance() {
 
-  #cf apps | grep ${APP_NAME}-${APP_VERSION}
   cf apps | grep ${APP_NAME}
   existing_app_check=$?
 
   if [ "$existing_app_check" == "0" ]; then
 
     # Look for User-Provided env variables and stop after the first blank line after that
-    #cf env ${APP_NAME}-${APP_VERSION} | awk 'f{print}/User-Provided/{f=1};/^ *$/{f=0}' \
     cf env ${APP_NAME} | awk 'f{print}/User-Provided/{f=1};/^ *$/{f=0}' \
                 | grep '.' | awk -F ':' '{print $1}' | while read env_variable_name
     do
       cf unset-env $env_variable_name
     done
-    #cf delete -f ${APP_NAME}-${APP_VERSION}  > /dev/null
     cf delete -f ${APP_NAME}  > /dev/null
   fi
 }
@@ -199,10 +188,9 @@ function push_app() {
     mkdir -p /var/vcap/data/tmp
     export TMPDIR=/var/vcap/data/tmp
 
-    #CF_TRACE=true cf push ${APP_NAME}-${APP_VERSION} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c "/home/vcap/app/bin/db-agent"
-    #cf logs ${APP_NAME}-${APP_VERSION} --recent
     chmod 777 ${PACKAGE_PATH}/${TARGET_APP}
     CF_TRACE=true cf push ${APP_NAME}-${suffix} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c '$JAVA_HOME/bin/java $JAVA_OPTS -jar /home/vcap/app/db-agent.jar'
+    cf logs ${APP_NAME} --recent
   popd
 }
 
