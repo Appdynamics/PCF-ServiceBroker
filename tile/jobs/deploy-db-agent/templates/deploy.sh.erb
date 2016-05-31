@@ -45,9 +45,6 @@ export APP_PUSH_MEMORY=1024
 
 # Use these variables only if app needs to know how to connect to a remote target that it brokers
 
-export SECURITY_USER_NAME=<%= properties.appdynamics_db_agent.broker.user %>
-export SECURITY_USER_PASSWORD=<%= properties.appdynamics_db_agent.broker.password %>
-
 export CREATE_OPEN_SECURITY_GROUP=<%= properties.appdynamics_db_agent.create_open_security_group %>
 export DELETE_PREV_APP_INSTANCE=<%= properties.appdynamics_db_agent.delete_prev_app_instance %>
 
@@ -189,8 +186,8 @@ function push_app() {
     export TMPDIR=/var/vcap/data/tmp
 
     chmod 777 ${PACKAGE_PATH}/${TARGET_APP}
-    CF_TRACE=true cf push ${APP_NAME}-${suffix} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c '$JAVA_HOME/bin/java $JAVA_OPTS -jar /home/vcap/app/db-agent.jar'
-    cf logs ${APP_NAME} --recent
+    CF_TRACE=true cf push ${APP_NAME}-${suffix} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c '${JAVA_HOME}/bin/java $JAVA_OPTS -jar /home/vcap/app/db-agent.jar'
+    cf logs ${APP_NAME}-${suffix} --recent
   popd
 }
 
@@ -211,6 +208,7 @@ modify_app
          ssl_enabled=plan['ssl_enabled']
          db_mon_enabled=plan['db_mon_enabled']
          no_of_db_agents=plan['no_of_db_agents']
+	 db_agent_version=plan['db_agent_version']
   %>
   DB_ENABLED_FOR_PLAN=<%="#{db_mon_enabled}"%>
   if [ "$DB_ENABLED_FOR_PLAN" == "true" ]; then
