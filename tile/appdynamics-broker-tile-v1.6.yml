@@ -78,7 +78,7 @@ property_blueprints:
       configurable: true
     - name: ssl_enabled
       type: boolean
-      default: true
+      default: false
       configurable: true
     named_manifests:
     - name: analytics_snippet
