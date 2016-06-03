@@ -28,11 +28,11 @@ In totality, this tile would consume ~5GB memory of the underlying PCF platform
 
 AppDynamics Service Broker Tile 4.2.0.0.0 is bundled with 4.2.0.0 Machine Agent for PCF 1.5
 
-| AppDynamics Service Broker Tile Version  | Machine Agent Version | DB Agent Version | PCF Version  | Java BP Version  | PHP BP Version  |
-| ------------- | ------------- | ------------- | ------------ | ------------- | ------------ |
-| 1.0  | 4.1.5.3  | | 1.5 | 3.3 and above | [This](https://github.com/Appdynamics/php-buildpack) BP |
-| 1.0.1  | 4.1.5.3  | | 1.5, 1.6, 1.7 | 3.3 and above | [This](https://github.com/Appdynamics/php-buildpack) BP |
-| 1.1 | 4.1.5.3  | 4.2.1.4 | 1.5, 1.6, 1.7 | 3.3 and above | [This](https://github.com/Appdynamics/php-buildpack) BP |
+| AppDynamics Service Broker Tile Version  | Machine Agent Version | DB Agent Version | Analytics Agent Version | PCF Version  | Java BP Version  | PHP BP Version  |
+| ------------- | ------------- | ------------- | ------------ | ------------- | ------------ | ------------ |
+| 1.0  | 4.1.5.3  | None | None | 1.5 | 3.3 and above | [This](https://github.com/Appdynamics/php-buildpack) BP |
+| 1.0.1  | 4.1.5.3  | None | None | 1.5, 1.6, 1.7 | 3.3 and above | [This](https://github.com/Appdynamics/php-buildpack) BP |
+| 1.1 | 4.1.5.3  | 4.1.8.0 and 4.1.10.0 | 4.1.8.0 | 1.5, 1.6, 1.7 | 3.3 and above [This](https://github.com/Appdynamics/java-buildpack) BP | [This](https://github.com/Appdynamics/php-buildpack) BP |
 
 > Docs
 
