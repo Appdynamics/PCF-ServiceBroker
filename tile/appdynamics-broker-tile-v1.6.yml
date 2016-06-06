@@ -270,7 +270,7 @@ form_types:
     property_inputs:
     - reference: plan_name
       label: Plan Name
-      description: Name of Plan
+      description: Name of Plan. White spaces not permitted.
       slug: false
     - reference: plan_description
       label: Plan Description
