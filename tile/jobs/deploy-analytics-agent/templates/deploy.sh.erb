@@ -137,9 +137,9 @@ function add_env_vars() {
 
   export JAVA_OPTS=" -Dhttp.event.accountName=${APPDYNAMICS_AGENT_ACCOUNT_NAME} -Dhttp.event.accessKey=${APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY} "
   if [ "${APPDYNAMICS_ANALYTICS_SSL_ENABLED}" == "true" ]; then
-    export JAVA_OPTS=" -Dhttp.event.endpoint=https://${APPDYNAMICS_ANALYTICS_HOST_NAME}:${APPDYNAMICS_ANALYTICS_PORT} $JAVA_OPTS "
+    export JAVA_OPTS="${JAVA_OPTS} -Dhttp.event.endpoint=https://${APPDYNAMICS_ANALYTICS_HOST_NAME}:${APPDYNAMICS_ANALYTICS_PORT} "
   else
-    export JAVA_OPTS=" -Dhttp.event.endpoint=http://${APPDYNAMICS_ANALYTICS_HOST_NAME}:${APPDYNAMICS_ANALYTICS_PORT} $JAVA_OPTS "
+    export JAVA_OPTS="${JAVA_OPTS} -Dhttp.event.endpoint=http://${APPDYNAMICS_ANALYTICS_HOST_NAME}:${APPDYNAMICS_ANALYTICS_PORT} "
   fi
 
 # Proxy Settings
