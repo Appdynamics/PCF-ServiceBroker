@@ -60,23 +60,10 @@ property_blueprints:
     - name: account_access_key
       type: string
       configurable: true
-    - name: http_event_endpoint_host
+    - name: http_event_endpoint_url
       type: string
-      default: _no_endpoint_
+      default: _no_endpoint_url_
       configurable: true
-    - name: http_event_endpoint_port
-      type: integer
-      default: 9080
-      configurable: true
-    - name: analytics_ssl_enabled
-      type: dropdown_select
-      configurable: true
-      default: true
-      options:
-        - name: true
-          label: 'Enabled'
-        - name: false
-          label: 'Disabled'    
     named_manifests:
     - name: analytics_snippet
       manifest: |
@@ -85,9 +72,7 @@ property_blueprints:
         app_uri: appdynamics-analytics 
         account_name: (( .properties.analytics_selector.analytics_enabled_option.account_name.value ))
         account_access_key: (( .properties.analytics_selector.analytics_enabled_option.account_access_key.value ))
-        http_event_endpoint_host: (( .properties.analytics_selector.analytics_enabled_option.http_event_endpoint_host.value ))
-        http_event_endpoint_port: (( .properties.analytics_selector.analytics_enabled_option.http_event_endpoint_port.value ))
-        ssl_enabled: (( .properties.analytics_selector.analytics_enabled_option.analytics_ssl_enabled.value ))
+        http_event_endpoint_url: (( .properties.analytics_selector.analytics_enabled_option.http_event_endpoint_url.value ))
 - name: proxy_selector
   type: selector
   default: Disable
@@ -306,8 +291,8 @@ form_types:
         valid values are '4.1.8.0' or '4.1.10.0'. Enter value without quotes.
       slug: false
     - reference: no_of_db_agents
-      label: Max number of DB instances to monitor
-      description: Max number of database instances to monitor
+      label: Number of DB agents to be deployed
+      description: Specify number of DB agents to be deployed for this service plan
       slug: false
   name: appdynamics_broker_app
   label: Service Broker Application
@@ -363,20 +348,14 @@ form_types:
       label: Enable
       property_inputs:
       - reference: ".properties.analytics_selector.analytics_enabled_option.account_name"
-        label: Global Account Name for Analytics
-        description: Global Account Name
+        label: Controller Global Account Name
+        description: Enter the global account name of the target controller where the analytics data should be displayed
       - reference: ".properties.analytics_selector.analytics_enabled_option.account_access_key"
-        label: Account Access Key for Analytics
-        description: Account Access Key
-      - reference: ".properties.analytics_selector.analytics_enabled_option.http_event_endpoint_host"
-        label: AppDynamics Http Event Endpoint IP/Address for Analytics
-        description: AppDynamics Http Event Endpoint IP Address for Analytics
-      - reference: ".properties.analytics_selector.analytics_enabled_option.http_event_endpoint_port"
-        label: AppDynamics Http Event Endpoint Port for Analytics
-        description: AppDynamics Http Event Endpoint Port for Analytics
-      - reference: ".properties.analytics_selector.analytics_enabled_option.analytics_ssl_enabled"
-        label: AppDynamics Http Event Endpoint SSL Enabled
-        description: Is AppDynamics Http Event Endpoint SSL Enabled
+        label: Controller Account Access Key
+        description: Enter the account access key of the target controller where the analytics data should be displayed
+      - reference: ".properties.analytics_selector.analytics_enabled_option.http_event_endpoint_url"
+        label: Analytics Event Service URL
+        description: Enter the URL of the analytics event service. Example, http://analytics-event-service.com:80
   name: appdynamics_analytics_agent_app
   label: Analytics Agent
   description: Analytics Agent Configuration
@@ -798,7 +777,7 @@ job_types:
     default:
       identity: vcap
 - name: destroy-analytics-agent
-  resource_label: Remove AppDynamics Machine Agent
+  resource_label: Remove AppDynamics Analytics Agent
   manifest: |
     domain: (( ..cf.cloud_controller.system_domain.value ))
     app_domains:
@@ -930,3 +909,10 @@ pre_delete_errands:
 - name: destroy-analytics-agent
 - name: destroy-machine-agent
 - name: destroy-db-agent
+update:
+  canaries: 1
+  canary_watch_time: 1200000-2400000
+  update_watch_time: 1200000-2400000
+  max_in_flight: 1
+  max_errors: 2
+  serial: true

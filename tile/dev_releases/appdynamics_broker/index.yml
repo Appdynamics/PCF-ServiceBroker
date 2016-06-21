@@ -30,4 +30,14 @@ builds:
     version: '1.9'
   6881913e-f1b8-47ed-8deb-83a6ecef344b:
     version: '1.10'
+  44357ecf-f618-4b2f-9cac-4192f4460ce6:
+    version: '1.11'
+  f4668e2f-87d2-4224-a090-bb8b5b66c86d:
+    version: '1.12'
+  3c5411e1-8f78-4d97-8257-b3b998cef633:
+    version: '1.13'
+  c9e88531-0b60-4a09-8f42-8af6cf9a33a5:
+    version: '1.15'
+  63a50b27-30f6-49a0-af6d-a61868804ed0:
+    version: '1.16'
 format-version: '2'

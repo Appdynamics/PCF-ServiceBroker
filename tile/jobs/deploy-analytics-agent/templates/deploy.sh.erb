@@ -60,11 +60,9 @@ export SB_APP_ENV="setupServiceBrokerEnv.sh"
 
 # Proxy Settings
 
-export APPDYNAMICS_ANALYTICS_HOST_NAME=<%= properties.appdynamics_analytics_agent.analytics.http_event_endpoint_host %>
-export APPDYNAMICS_ANALYTICS_PORT=<%= properties.appdynamics_analytics_agent.analytics.http_event_endpoint_port %>
+export APPDYNAMICS_ANALYTICS_URL=<%= properties.appdynamics_analytics_agent.analytics.http_event_endpoint_url %>
 export APPDYNAMICS_AGENT_ACCOUNT_NAME=<%= properties.appdynamics_analytics_agent.analytics.account_name %>
 export APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=<%= properties.appdynamics_analytics_agent.analytics.account_access_key %>
-export APPDYNAMICS_ANALYTICS_SSL_ENABLED=<%= properties.appdynamics_analytics_agent.analytics.ssl_enabled %>
 export PCF_DOMAIN_ID=`echo $DOMAIN | sed -e 's/\./_/g' `
 ## #CUSTOM_VARIABLE_END_MARKER
 
@@ -128,19 +126,12 @@ function restart_app() {
 function add_env_vars() {
 
   # CUSTOM_VARIABLE_ENV_BEGIN_MARKER
-  cf set-env ${APP_NAME} APPDYNAMICS_ANALYTICS_HOST_NAME     $APPDYNAMICS_ANALYTICS_HOST_NAME
-  cf set-env ${APP_NAME} APPDYNAMICS_ANALYTICS_PORT          $APPDYNAMICS_ANALYTICS_PORT
+  cf set-env ${APP_NAME} APPDYNAMICS_ANALYTICS_URL     $APPDYNAMICS_ANALYTICS_URL
   cf set-env ${APP_NAME} APPDYNAMICS_AGENT_ACCOUNT_NAME       $APPDYNAMICS_AGENT_ACCOUNT_NAME
   cf set-env ${APP_NAME} APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY $APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
-  cf set-env ${APP_NAME} APPDYNAMICS_ANALYTICS_SSL_ENABLED   $APPDYNAMICS_ANALYTICS_SSL_ENABLED
   cf set-env ${APP_NAME} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
 
-  export JAVA_OPTS=" -Dhttp.event.accountName=${APPDYNAMICS_AGENT_ACCOUNT_NAME} -Dhttp.event.accessKey=${APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY} "
-  if [ "${APPDYNAMICS_ANALYTICS_SSL_ENABLED}" == "true" ]; then
-    export JAVA_OPTS="${JAVA_OPTS} -Dhttp.event.endpoint=https://${APPDYNAMICS_ANALYTICS_HOST_NAME}:${APPDYNAMICS_ANALYTICS_PORT} "
-  else
-    export JAVA_OPTS="${JAVA_OPTS} -Dhttp.event.endpoint=http://${APPDYNAMICS_ANALYTICS_HOST_NAME}:${APPDYNAMICS_ANALYTICS_PORT} "
-  fi
+  export JAVA_OPTS=" -Dhttp.event.accountName=${APPDYNAMICS_AGENT_ACCOUNT_NAME} -Dhttp.event.accessKey=${APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY} -Dhttp.event.endpoint=${APPDYNAMICS_ANALYTICS_URL} "
 
 # Proxy Settings
   export ANALYTICS_PROXY_ENABLED=<%= properties.appdynamics_analytics_agent.web_proxy.proxy_enabled %>
@@ -151,7 +142,7 @@ function add_env_vars() {
     export ANALYTICS_PROXY_USER=<%= properties.appdynamics_analytics_agent.web_proxy.http_proxy_user %>
     export ANALYTICS_PROXY_PASSWORD=<%= properties.appdynamics_analytics_agent.web_proxy.http_proxy_password %>
 
-    echo "Adding proxy host and port to Machine agent config"
+    echo "Adding proxy host and port to Analytics agent config"
     cf set-env ${APP_NAME} ANALYTICS_PROXY_HOST             $ANALYTICS_PROXY_HOST
     cf set-env ${APP_NAME} ANALYTICS_PROXY_PORT             $ANALYTICS_PROXY_PORT
     export JAVA_OPTS="${JAVA_OPTS} -Dhttp.event.proxyHost=${ANALYTICS_PROXY_HOST} -Dhttp.event.proxyPort=${ANALYTICS_PROXY_PORT} -Dhttp.proxyHost=${ANALYTICS_PROXY_HOST} -Dhttp.proxyPort=${ANALYTICS_PROXY_PORT} -Dhttps.proxyHost=${ANALYTICS_PROXY_HOST} -Dhttps.proxyPort=${ANALYTICS_PROXY_PORT} "
@@ -161,9 +152,7 @@ function add_env_vars() {
     echo "Adding proxy user and password to Analytics agent config"
     export JAVA_OPTS="${JAVA_OPTS} -Dhttp.event.proxyUsername=${ANALYTICS_PROXY_USER} -Dhttp.event.proxyPassword=${ANALYTICS_PROXY_PASSWORD} "
   fi
-
-  #cf set-health-check ${APP_NAME} none
-
+  cf set-env ${APP_NAME} JAVA_OPTS "${JAVA_OPTS}"
 
   # CUSTOM_VARIABLE_ENV_END_MARKER
 
