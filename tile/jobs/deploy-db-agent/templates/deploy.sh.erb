@@ -62,7 +62,16 @@ if [ "${DB_PROXY_ENABLED}" == "true" ]; then
   export DB_PROXY_AUTH_ENABLED=<%= properties.appdynamics_db_agent.web_proxy.proxy_auth_enabled %>
   export DB_PROXY_USER=<%= properties.appdynamics_db_agent.web_proxy.http_proxy_user %>
   export DB_PROXY_PASSWORD=<%= properties.appdynamics_db_agent.web_proxy.http_proxy_password %>
+  export BASE_JAVA_OPTS=" -Dappdynamics.http.proxyHost=${DB_PROXY_HOST} -Dappdynamics.http.proxyPort=${DB_PROXY_PORT} -Dhttp.proxyHost=${DB_PROXY_HOST} -Dhttp.proxyPort=${DB_PROXY_PORT} -Dhttps.proxyHost=${DB_PROXY_HOST} -Dhttps.proxyPort=${DB_PROXY_PORT} "
+
+  if [ "${DB_PROXY_AUTH_ENABLED}" == "true" ]; then
+    echo "Adding proxy user and password to DB agent config"
+    export BASE_JAVA_OPTS="${BASE_JAVA_OPTS} -Dappdynamics.http.proxyUser=${DB_PROXY_USER} -Dappdynamics.http.proxyPassword=${DB_PROXY_PASSWORD} "
+  fi
 fi
+
+  
+
 ## #CUSTOM_VARIABLE_END_MARKER
 
 export CF_HOME=`pwd`/home/cf
@@ -120,14 +129,15 @@ function create_open_security_group() {
 
 function restart_app() {
   index=$1
-  CF_TRACE=true cf restart ${APP_NAME}-${index}
-  cf logs ${APP_NAME}-${index} --recent
+  cf restart ${APP_NAME}-${index}
+  if [ "$?" != "0" ]; then
+    cf logs ${APP_NAME}-${index} --recent
+  fi
 }
 
 function add_env_vars() {
    suffix=$1
-   JAVA_OPTS=""
-
+   
   # CUSTOM_VARIABLE_ENV_BEGIN_MARKER
   cf set-env ${APP_NAME}-${suffix} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
 
@@ -136,18 +146,11 @@ function add_env_vars() {
     echo "Adding proxy host and port to DB agent config"
     cf set-env ${APP_NAME}-${suffix} DB_PROXY_HOST             $DB_PROXY_HOST
     cf set-env ${APP_NAME}-${suffix} DB_PROXY_PORT             $DB_PROXY_PORT
-    export JAVA_OPTS=" -Dappdynamics.http.proxyHost=${DB_PROXY_HOST} -Dappdynamics.http.proxyPort=${DB_PROXY_PORT} -Dhttp.proxyHost=${DB_PROXY_HOST} -Dhttp.proxyPort=${DB_PROXY_PORT} -Dhttps.proxyHost=${DB_PROXY_HOST} -Dhttps.proxyPort=${DB_PROXY_PORT} "
   fi
 
-  if [ "${DB_PROXY_AUTH_ENABLED}" == "true" ]; then
-    echo "Adding proxy user and password to DB agent config"
-    export JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.http.proxyUser=${DB_PROXY_USER} -Dappdynamics.http.proxyPassword=${DB_PROXY_PASSWORD} "
-  fi
-
-  export JAVA_OPTS="${JAVA_OPTS} -Dappdynamics.controller.hostName=$APPDYNAMICS_CONTROLLER_HOST_NAME -Dappdynamics.controller.port=$APPDYNAMICS_CONTROLLER_PORT -Dappdynamics.controller.ssl.enabled=$APPDYNAMICS_CONTROLLER_SSL_ENABLED -Dappdynamics.agent.accountName=$APPDYNAMICS_AGENT_ACCOUNT_NAME -Dappdynamics.agent.accountAccessKey=$APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY -Ddbagent.name=DBAgent-${suffix} -Dappdynamics.agent.uniqueHostId=${APPDYNAMICS_AGENT_UNIQUE_HOST_ID}-${suffix}"
+  export JAVA_OPTS="${BASE_JAVA_OPTS} -Dappdynamics.controller.hostName=$APPDYNAMICS_CONTROLLER_HOST_NAME -Dappdynamics.controller.port=$APPDYNAMICS_CONTROLLER_PORT -Dappdynamics.controller.ssl.enabled=$APPDYNAMICS_CONTROLLER_SSL_ENABLED -Dappdynamics.agent.accountName=$APPDYNAMICS_AGENT_ACCOUNT_NAME -Dappdynamics.agent.accountAccessKey=$APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY -Ddbagent.name=DBAgent-${suffix} -Dappdynamics.agent.uniqueHostId=${APPDYNAMICS_AGENT_UNIQUE_HOST_ID}-${suffix}"
   cf set-env ${APP_NAME}-${suffix} JAVA_OPTS " ${JAVA_OPTS} -Dlog4j.configuration=file:/home/vcap/app/conf/logging/log4j.xml "
   cf set-health-check ${APP_NAME}-${suffix} none
-
 
   # CUSTOM_VARIABLE_ENV_END_MARKER
 
