@@ -42,4 +42,6 @@ builds:
     version: '1.16'
   3624bf5b-0675-47ed-95fa-d09d077eafbd:
     version: '1.18'
+  2035afe6-6b8d-43c9-8824-286e893d4397:
+    version: '1.19'
 format-version: '2'

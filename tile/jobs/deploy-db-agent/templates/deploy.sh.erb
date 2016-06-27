@@ -189,7 +189,7 @@ function push_app() {
     export TMPDIR=/var/vcap/data/tmp
 
     chmod 777 ${PACKAGE_PATH}/${TARGET_APP}
-    CF_TRACE=true cf push ${APP_NAME}-${suffix} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c '${JAVA_HOME}/bin/java $JAVA_OPTS -jar /home/vcap/app/db-agent.jar'
+    cf push ${APP_NAME}-${suffix} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c '${JAVA_HOME}/bin/java $JAVA_OPTS -jar /home/vcap/app/db-agent.jar'
     cf logs ${APP_NAME}-${suffix} --recent
   popd
 }
