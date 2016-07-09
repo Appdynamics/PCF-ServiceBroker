@@ -56,9 +56,11 @@ export SB_APP_ENV="setupServiceBrokerEnv.sh"
 
 export OPS_METRICS_IP=<%= properties.appdynamics_machine_agent.ops_metrics_host %>
 export OPS_METRICS_PORT=<%= properties.appdynamics_machine_agent.ops_metrics_port %>
+export OPS_METRICS_AUTHENTICATE=<%= properties.appdynamics_machine_agent.ops_metrics_authenticate %>
 export OPS_METRICS_JMX_USER=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_user %>
 export OPS_METRICS_JMX_PASSWORD=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_password %>
-export OPS_METRICS_AUTHENTICATE=<%= properties.appdynamics_machine_agent.ops_metrics_authenticate %>
+export OPS_METRICS_SSL_ENABLED=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_credentials.ops_metrics_ssl_enabled %>
+export OPS_METRICS_SSL_CERT=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_credentials.ops_metrics_ssl_cert %>
 export OPS_METRICS_SERVICE_URL="service:jmx:rmi:///jndi/rmi://${OPS_METRICS_IP}:${OPS_METRICS_PORT}/jmxrmi"
 export APPDYNAMICS_CONTROLLER_HOST_NAME=<%= properties.appdynamics_machine_agent.controller_host %>
 export APPDYNAMICS_CONTROLLER_PORT=<%= properties.appdynamics_machine_agent.controller_port %>
@@ -147,10 +149,11 @@ function add_env_vars() {
   cf set-env ${APP_NAME} OPS_METRICS_JMX_USER                 $OPS_METRICS_JMX_USER
   cf set-env ${APP_NAME} OPS_METRICS_JMX_PASSWORD             $OPS_METRICS_JMX_PASSWORD
   cf set-env ${APP_NAME} OPS_METRICS_AUTHENTICATE             $OPS_METRICS_AUTHENTICATE
+  cf set-env ${APP_NAME} OPS_METRICS_SSL_ENABLED             $OPS_METRICS_SSL_ENABLED
   cf set-env ${APP_NAME} JAVA_HOME "/home/vcap/app/.java-buildpack/open_jdk_jre"
-
-  export JAVA_OPTS=" -Dextension.pcf.jmx.serviceURL=${OPS_METRICS_SERVICE_URL} -Dextension.pcf.jmx.username=${OPS_METRICS_JMX_USER} -Dextension.pcf.jmx.password=${OPS_METRICS_JMX_PASSWORD} -Dappdynamics.agent.maxMetrics=5000 "
-
+  
+  export JAVA_OPTS=" -Dextension.pcf.jmx.serviceURL=${OPS_METRICS_SERVICE_URL} -Dextension.pcf.jmx.username=${OPS_METRICS_JMX_USER} -Dappdynamics.agent.maxMetrics=5000 -Dextension.pcf.jmx.password=${OPS_METRICS_JMX_PASSWORD} "
+	
 # Proxy Settings
   export OPS_METRICS_PROXY_ENABLED=<%= properties.appdynamics_machine_agent.web_proxy.proxy_enabled %>
   if [ "${OPS_METRICS_PROXY_ENABLED}" == "true" ]; then
@@ -213,6 +216,12 @@ function push_app() {
   pushd $PACKAGE_PATH
     mkdir -p /var/vcap/data/tmp
     export TMPDIR=/var/vcap/data/tmp
+    cd $TMPDIR
+    mkdir machineagent
+    cd machineagent
+    unzip ${PACKAGE_PATH}/${TARGET_APP}
+    echo "${OPS_METRICS_SSL_CERT}" > jmx_bridge_ssl.cer
+    chmod -r 777 .
 
     # Cleanup any older version of the app
     <% if properties.delete_prev_app_instance%>
@@ -222,7 +231,9 @@ function push_app() {
     #CF_TRACE=true cf push ${APP_NAME}-${APP_VERSION} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c "/home/vcap/app/bin/machine-agent"
     #cf logs ${APP_NAME}-${APP_VERSION} --recent
     chmod 777 ${PACKAGE_PATH}/${TARGET_APP}
-    CF_TRACE=true cf push ${APP_NAME} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c "/home/vcap/app/bin/machine-agent"
+    
+    # CF_TRACE=true cf push ${APP_NAME} -p ${PACKAGE_PATH}/${TARGET_APP} -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c "/home/vcap/app/bin/machine-agent"
+    CF_TRACE=true cf push ${APP_NAME} -p ${TMPDIR}/machineagent -t ${APP_PUSH_TIMEOUT} -m ${APP_PUSH_MEMORY}m --no-start --no-route -c "/home/vcap/app/bin/machine-agent"
     cf logs ${APP_NAME} --recent
   popd
 }

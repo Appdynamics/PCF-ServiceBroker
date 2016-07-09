@@ -44,6 +44,12 @@ properties:
     description: 'JMX user of the Ops Metrics Instance'
   appdynamics_machine_agent.ops_metrics_jmx_password:
     description: 'JMX password of the Ops Metrics Instance'
+  appdynamics_machine_agent.ops_metrics_jmx_credentials.ops_metrics_ssl_enabled:
+    description: 'Enable if JMX Bridge is SSL enabled'
+    default: false
+  appdynamics_machine_agent.ops_metrics_jmx_credentials.ops_metrics_ssl_cert:
+    description: 'JMX Bridge SSL Certificate'
+    default: ''
   appdynamics_machine_agent.web_proxy:
     description: 'Web Proxy config'
   appdynamics_machine_agent.create_open_security_group:

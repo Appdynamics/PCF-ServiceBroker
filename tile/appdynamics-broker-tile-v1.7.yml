@@ -73,6 +73,29 @@ property_blueprints:
         ))\naccount_access_key: (( .properties.analytics_selector.analytics_enabled_option.account_access_key.value
         ))\nhttp_event_endpoint_url: (( .properties.analytics_selector.analytics_enabled_option.http_event_endpoint_url.value
         ))\n"
+- name: ops_metrics_ssl_selector
+  type: selector
+  default: Disable
+  configurable: true
+  option_templates:
+  - name: ops_metrics_ssl_disabled_option
+    select_value: Disable
+    named_manifests:
+    - name: ops_metrics_ssl_snippet
+      manifest: |
+        ops_metrics_ssl_enabled: false
+  - name: ops_metrics_ssl_enabled_option
+    select_value: Enable
+    property_blueprints:
+    - name: ssl_certificate
+      type: text
+      configurable: true
+    named_manifests:
+    - name: ops_metrics_ssl_snippet
+      manifest: |
+        ops_metrics_ssl_enabled: true
+        ops_metrics_ssl_cert: (( .properties.ops_metrics_ssl_selector.ops_metrics_ssl_enabled_option.ssl_certificate.value ))
+
 - name: proxy_selector
   type: selector
   default: Disable
@@ -330,11 +353,22 @@ form_types:
     label: Enable JMX Bridge Authentication
     description: JMX Bridge login with Authentication
   - reference: ".properties.ops_metrics_jmx_user"
-    label: JMX Bridge User Id
-    description: JMX Bridge User Id
+    label: JMX Bridge Username
+    description: JMX Bridge Username
   - reference: ".properties.ops_metrics_jmx_password"
-    label: JMX Bridge Password
+    label: JMX Bridge User Password
     description: JMX Bridge User Password
+  - reference: ".properties.ops_metrics_ssl_selector"
+    label: SSL on JMX Bridge
+    selector_property_inputs:
+    - reference: ".properties.ops_metrics_ssl_selector.ops_metrics_ssl_disabled_option"
+      label: Disabled
+    - reference: ".properties.ops_metrics_ssl_selector.ops_metrics_ssl_enabled_option"
+      label: Enabled
+      property_inputs:
+      - reference: ".properties.ops_metrics_ssl_selector.ops_metrics_ssl_enabled_option.ssl_certificate"
+        label: JMX Bridge SSL Certificate
+        description: Provide JMX Bridge SSL Certificate
   name: appdynamics_machine_agent_app
   label: Machine Agent Extension For PCF JMX Bridge
   description: Machine Agent Configuration
@@ -484,6 +518,7 @@ job_types:
       ops_metrics_authenticate: (( .properties.ops_metrics_authenticate.value ))
       ops_metrics_jmx_user: (( .properties.ops_metrics_jmx_user.value ))
       ops_metrics_jmx_password: (( .properties.ops_metrics_jmx_password.value ))
+      ops_metrics_jmx_credentials: (( .properties.ops_metrics_ssl_selector.selected_option.parsed_manifest(ops_metrics_ssl_snippet) ))
   static_ip: 0
   dynamic_ip: 1
   max_in_flight: 1
