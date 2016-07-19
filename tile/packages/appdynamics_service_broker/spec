@@ -8,3 +8,4 @@ files:
 - templates/all_open.json
 - templates/setupServiceBrokerEnv.sh
 - appdynamics-service-broker/appdynamics-service-broker.jar
+- appdynamics-machine-agent/machineagent-bundle-64bit-linux.zip
