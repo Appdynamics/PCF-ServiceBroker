@@ -221,7 +221,7 @@ function push_app() {
     cd machineagent
     unzip ${PACKAGE_PATH}/${TARGET_APP}
     echo "${OPS_METRICS_SSL_CERT}" > jmx_bridge_ssl.cer
-    chmod -r 777 .
+    chmod -R 777 .
 
     # Cleanup any older version of the app
     <% if properties.delete_prev_app_instance%>
