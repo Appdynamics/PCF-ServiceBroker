@@ -1,24 +1,29 @@
 product: appdynamics-broker
 installation_version: '1.5' # For Ops Manager metadata version. Donot ever change this
-to_version: '1.1.1'  # Desired Latest Tile Version
+to_version: '1.1.2'  # Desired Latest Tile Version
 migrations:
 - from_version: '0.1'  # Old Tile Version
   rules:
   - type: update
     selector: product_version
-    to: '1.1.1'     # Desired Latest Tile Version
+    to: '1.1.2'     # Desired Latest Tile Version
 - from_version: '1.0'  # Old Tile Version
   rules:
   - type: update
     selector: product_version
-    to: '1.1.1'     # Desired Latest Tile Version
+    to: '1.1.2'     # Desired Latest Tile Version
 - from_version: '1.0.1'  # Old Tile Version
   rules:
   - type: update
     selector: product_version
-    to: '1.1.1'     # Desired Latest Tile Version
+    to: '1.1.2'     # Desired Latest Tile Version
 - from_version: '1.1'  # Old Tile Version
   rules:
   - type: update
     selector: product_version
-    to: '1.1.1'     # Desired Latest Tile Version
+    to: '1.1.2'     # Desired Latest Tile Version
+- from_version: '1.1.1'  # Old Tile Version
+  rules:
+  - type: update
+    selector: product_version
+    to: '1.1.2'     # Desired Latest Tile Version
