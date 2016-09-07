@@ -13,7 +13,7 @@ releases:
   file: appdynamics_broker-1.1.2.tgz
 stemcell_criteria:
   os: ubuntu-trusty
-  version: '3146.12'
+  version: '3146.20'
   enable_patch_security_updates: true
 property_blueprints:
 - name: encryption_key

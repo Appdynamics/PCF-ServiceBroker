@@ -60,7 +60,7 @@ export OPS_METRICS_AUTHENTICATE=<%= properties.appdynamics_machine_agent.ops_met
 export OPS_METRICS_JMX_USER=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_user %>
 export OPS_METRICS_JMX_PASSWORD=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_password %>
 export OPS_METRICS_SSL_ENABLED=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_credentials.ops_metrics_ssl_enabled %>
-export OPS_METRICS_SSL_CERT=<%= properties.appdynamics_machine_agent.ops_metrics_jmx_credentials.ops_metrics_ssl_cert %>
+export OPS_METRICS_SSL_CERT="<%= properties.appdynamics_machine_agent.ops_metrics_jmx_credentials.ops_metrics_ssl_cert %>"
 export OPS_METRICS_SERVICE_URL="service:jmx:rmi:///jndi/rmi://${OPS_METRICS_IP}:${OPS_METRICS_PORT}/jmxrmi"
 export APPDYNAMICS_CONTROLLER_HOST_NAME=<%= properties.appdynamics_machine_agent.controller_host %>
 export APPDYNAMICS_CONTROLLER_PORT=<%= properties.appdynamics_machine_agent.controller_port %>
