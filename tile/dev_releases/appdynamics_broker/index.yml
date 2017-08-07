@@ -56,4 +56,6 @@ builds:
     version: '1.2'
   e1f44bba-f97a-4749-933b-d7daa8449c17:
     version: 1.2.1
+  43e2e776-6917-4026-9def-c875904c744f:
+    version: 1.2.2
 format-version: '2'
