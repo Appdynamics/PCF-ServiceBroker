@@ -2,6 +2,6 @@
 builds:
   d210a2b89e1a14d8ac18611196341f387c100d2b:
     version: d210a2b89e1a14d8ac18611196341f387c100d2b
-    sha1: 9399a3f497760f20cd120abf93a7beefded85f49
-    blobstore_id: 2432e081-d0fc-47a8-af04-481955a9f493
+    sha1: 5ee850082e285eac2f6094037514dd4cc47e8f0a
+    blobstore_id: 1f625882-a8e5-4b33-97c5-7fe342d9b8dd
 format-version: '2'

@@ -58,4 +58,8 @@ builds:
     version: 1.2.1
   43e2e776-6917-4026-9def-c875904c744f:
     version: 1.2.2
+  58c2abbc-fbe1-4391-b6a0-0fb72c29f1c3:
+    version: 1.2.3
+  4193b4f8-6d28-4c9c-a97c-471bc529e5b0:
+    version: 1.2.4
 format-version: '2'
