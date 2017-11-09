@@ -2,6 +2,7 @@
 name: deploy-machine-agent
 templates:
   deploy.sh.erb: bin/run
+  cf_config.yml.erb: config/cf_config.yml
 packages:
 - cf_cli
 - appdynamics_machine_agent
@@ -28,6 +29,8 @@ properties:
     description: 'Appdynamics controller port for the Machine agent Application'
   appdynamics_machine_agent.ssl_enabled:
     description: 'SSL Enabled on controller of the Machine agent Application'
+  appdynamics_machine_agent.cf_config:
+    description: 'Cloud Foundry Config Settings'
   appdynamics_machine_agent.tier_name:
     description: 'Tier name of the Machine agent Application'
     default: 'MachineAgentTier'

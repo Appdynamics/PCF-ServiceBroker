@@ -1,4 +1,4 @@
----
+
 name: appdynamics-broker
 product_version: '1.1.2'
 minimum_version_for_upgrade: 0.0.0.0
@@ -36,6 +36,9 @@ property_blueprints:
   configurable: true
 - name: machine_agent_app_name
   type: string
+  configurable: true
+- name: cloudfoundry_config_file
+  type: textbox
   configurable: true
 - name: db_agent_app_name
   type: string
@@ -342,6 +345,9 @@ form_types:
   - reference: ".properties.ssl_enabled"
     label: AppDynamics Controller SSL Enabled
     description: Is AppDynamics Controller SSL Enabled
+  - reference: ".properties.cloudfoundry_config_file"
+    label: Config Settings For CF Extension
+    description: Settings for CloudFoundry
   - reference: ".properties.ops_metrics_host"
     label: JMX Bridge Host IP Address
     description: JMX Bridge Host IP Address
@@ -509,6 +515,7 @@ job_types:
       controller_host: (( .properties.controller_host.value ))
       controller_port: (( .properties.controller_port.value ))
       ssl_enabled: (( .properties.ssl_enabled.value ))
+      cloudfoundry_config_file: (( .properties.cloudfoundry_config_file.value ))
       tier_name: (( .properties.tier_name.value ))
       node_name: (( .properties.node_name.value ))
       web_proxy: (( .properties.proxy_selector.selected_option.parsed_manifest(proxy_snippet) ))

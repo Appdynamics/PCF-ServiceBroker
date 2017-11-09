@@ -3,7 +3,7 @@ exports.migrate = function(input) {
   // strings.  JSON.stringify is an easy way to dump a structure.
   console.log('the properties passed to migrate are: ');
   console.log(JSON.stringify(input));
-  current_version = getCurrentProductVersion(); // Changing a selector option
+  var current_version = getCurrentProductVersion(); // Changing a selector option
   console.log('Current Product Version: '+current_version);
 //  var currentPepperoniValue = input.properties['.properties.example_selector.pizza_option.pepperoni'].value;
 //  input.properties['.properties.example_selector.pizza_option.pepperoni'].value = !currentPepperoniValue;

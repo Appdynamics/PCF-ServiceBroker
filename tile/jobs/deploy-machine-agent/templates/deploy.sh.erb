@@ -67,6 +67,7 @@ export APPDYNAMICS_CONTROLLER_PORT=<%= properties.appdynamics_machine_agent.cont
 export APPDYNAMICS_AGENT_ACCOUNT_NAME=<%= properties.appdynamics_machine_agent.account_name %>
 export APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=<%= properties.appdynamics_machine_agent.account_access_key %>
 export APPDYNAMICS_CONTROLLER_SSL_ENABLED=<%= properties.appdynamics_machine_agent.ssl_enabled %>
+export APPDYNAMICS_CF_CONFIG_ENABLED=<%= properties.appdynamics_machine_agent.cf_config.cf_config_enabled %>
 export PCF_DOMAIN_ID=`echo $DOMAIN | sed -e 's/\./_/g' `
 export APPDYNAMICS_AGENT_TIER_NAME="Tier"
 export APPDYNAMICS_AGENT_NODE_NAME="Node"
@@ -119,7 +120,7 @@ function create_open_security_group() {
     echo "Creating open security group"
 
     cf create-security-group all_open $PACKAGE_PATH/templates/all_open.json
-    cf bind-running-security-group all_open
+    cf bind-security-group all_open $ORG $SPACE
   else
     echo "Not creating open security group"
   fi
@@ -221,6 +222,9 @@ function push_app() {
     cd machineagent
     unzip ${PACKAGE_PATH}/${TARGET_APP}
     echo "${OPS_METRICS_SSL_CERT}" > jmx_bridge_ssl.cer
+    if [ "$APPDYNAMICS_CF_CONFIG_ENABLED" == "true" ]; then
+      cp /var/vcap/jobs/deploy-machine-agent/config/cf_config.yml  $TMPDIR/machineagent/monitors/CloudFoundryMonitor/config.yaml
+    fi
     chmod -R 777 .
 
     # Cleanup any older version of the app
