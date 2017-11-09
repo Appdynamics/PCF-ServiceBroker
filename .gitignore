@@ -5,6 +5,8 @@
 /tile/.dev_builds/*
 /tile/dev_releases/*
 /tile/releases/*
+/tile/.blobs/*
+/tile/.final_builds/*
 
 # Logs 
 *.log
