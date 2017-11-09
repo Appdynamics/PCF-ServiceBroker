@@ -1,6 +1,6 @@
 
 name: appdynamics-broker
-product_version: '1.2.3'
+product_version: '1.2.4'
 minimum_version_for_upgrade: 0.0.0.0
 label: AppDynamics Service Broker
 rank: 50
@@ -9,8 +9,8 @@ icon_image: "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODww
 serial: true
 releases:
 - name: appdynamics_broker
-  version: '1.2.3'
-  file: appdynamics_broker-1.2.3.tgz
+  version: '1.2.4'
+  file: appdynamics_broker-1.2.4.tgz
 stemcell_criteria:
   os: ubuntu-trusty
   version: '3445'
