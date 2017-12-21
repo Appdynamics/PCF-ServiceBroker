@@ -18,7 +18,7 @@ package com.appdynamics.cloudfoundry.appdservicebroker.catalog;
 
 import com.appdynamics.cloudfoundry.appdservicebroker.CredentialsHolder;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,6 +33,7 @@ import java.util.Iterator;
 
 import org.json.simple.parser.ParseException;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public final class Service {
      
     private final Catalog catalog;

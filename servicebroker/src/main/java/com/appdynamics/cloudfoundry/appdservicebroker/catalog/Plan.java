@@ -17,10 +17,12 @@
 package com.appdynamics.cloudfoundry.appdservicebroker.catalog;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.util.Assert;
 
 import java.util.UUID;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 final class Plan {
 
     private final Service service;

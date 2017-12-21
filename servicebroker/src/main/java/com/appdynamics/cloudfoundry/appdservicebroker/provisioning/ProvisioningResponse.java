@@ -17,9 +17,11 @@
 package com.appdynamics.cloudfoundry.appdservicebroker.provisioning;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.net.URI;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 final class ProvisioningResponse {
 
     private final URI dashboardUrl;

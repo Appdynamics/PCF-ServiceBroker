@@ -17,10 +17,12 @@
 package com.appdynamics.cloudfoundry.appdservicebroker.catalog;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.util.Assert;
 
 import java.net.URI;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 final class DashboardClient {
 
     private final Service service;

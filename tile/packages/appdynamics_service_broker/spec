@@ -10,6 +10,6 @@ files:
 - appdynamics-service-broker/appdynamics-service-broker.jar
 - appdynamics-machine-agent/machineagent-bundle-64bit-linux.zip
 - appdynamics-analytics-agent/analytics-agent.zip
-- appdynamics-db-agent/dbagent-4.1.10.0.zip
-- appdynamics-db-agent/dbagent-4.1.8.0.zip
+- appdynamics-db-agent/dbagent-4.2.15.18.zip
+- appdynamics-db-agent/dbagent-4.3.8.2.zip
 - cf_cli/cf-linux-amd64.tgz

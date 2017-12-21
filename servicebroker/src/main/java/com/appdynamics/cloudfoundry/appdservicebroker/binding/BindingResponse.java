@@ -18,10 +18,12 @@ package com.appdynamics.cloudfoundry.appdservicebroker.binding;
 
 import com.appdynamics.cloudfoundry.appdservicebroker.Credentials;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.json.simple.JSONObject;
 
 import java.net.URI;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 final class BindingResponse {
 
     //private final Credentials credentials;

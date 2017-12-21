@@ -1,25 +1,25 @@
 ---
-appdynamics-service-broker/appdynamics-service-broker.jar:
-  object_id: b385011e-e3f6-4818-95eb-c9e7e9ab1f3b
-  sha: 4ff4dc8d170e792d8697f0ef514de71beff3ffc5
-  size: 13332836
 appdynamics-analytics-agent/analytics-agent.zip:
   object_id: 1a9bbdf1-fd97-4428-b709-4dac0692be69
   sha: 5dae0e3321746b019ffd82019ca724d08b90e54a
   size: 15351064
-appdynamics-db-agent/dbagent-4.1.10.0.zip:
-  object_id: 27007c54-3055-4f49-8567-6d0dbaf7051d
-  sha: fcd36a9e5bff032bc3b132a2a8348698a64f46d4
-  size: 40522392
-appdynamics-db-agent/dbagent-4.1.8.0.zip:
-  object_id: 8ab503d6-1bb3-44c3-b108-ecf6c8692f46
-  sha: a1382a5f7cdb21ce9b896cd8b7810e2fd08fd0dc
-  size: 40504800
-appdynamics-machine-agent/machineagent-bundle-64bit-linux.zip:
-  object_id: 688b82a3-c653-4380-8ddf-3808a2ab871d
-  sha: 383d035e99458d4acf0ef89b9d604b1776b412e4
-  size: 136499446
 cf_cli/cf-linux-amd64.tgz:
   object_id: e8b82a73-59ed-4700-a917-1564abb5fef0
   sha: ad4dd01db5e6498bd38583d73c75480c700e1b5f
   size: 6065317
+appdynamics-machine-agent/machineagent-bundle-64bit-linux.zip:
+  object_id: 1fef2290-19cb-43fd-906b-222a7f659287
+  sha: b908098b35cc538e8c334b9b01af86bb2bc2edfa
+  size: 94599952
+appdynamics-service-broker/appdynamics-service-broker.jar:
+  object_id: 60fbaeb2-4ac7-41b6-af5e-abd5a1526717
+  sha: d1f6133c23959e0a2d00c07394616e313f45f0a3
+  size: 13333114
+appdynamics-db-agent/dbagent-4.2.15.18.zip:
+  object_id: 1d3cd268-a969-407a-a0c8-a92bd8fa738e
+  sha: fa3ca6f40fe215b865cf3498c0f468e5e0b8550d
+  size: 39370855
+appdynamics-db-agent/dbagent-4.3.8.2.zip:
+  object_id: 5686aa61-1262-4751-96f4-21fc9ea472e5
+  sha: 44ce94a18d91f82c2219088af50da7ab1c25038c
+  size: 87901899

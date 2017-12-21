@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e -x
+set +e -x
 
   <%
     def grab_app_domain_name
@@ -169,7 +169,7 @@ function restart_app() {
 
 # fix the timing issue arises from the (non-existent) gap between the deploy and register phases
 function wait_till_running() {
-  for i in `seq 1  6`
+  for i in `seq 1  10`
   do
     #CF_TRACE=true cf app ${APP_NAME}-${APP_VERSION} | grep RUNNING | grep ${APP_NAME}-${APP_VERSION}
     CF_TRACE=true cf app ${APP_NAME} | grep RUNNING | grep ${APP_NAME}

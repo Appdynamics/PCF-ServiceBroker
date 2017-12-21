@@ -62,4 +62,12 @@ builds:
     version: 1.2.3
   4193b4f8-6d28-4c9c-a97c-471bc529e5b0:
     version: 1.2.4
+  0f8adfeb-c899-4718-bbae-4dcb8240dbc0:
+    version: 1.2.5
+  2f606ca7-4419-4869-aa85-cb02d6162c14:
+    version: 1.2.6
+  fc73351d-5146-47f9-b9e1-12de165e694f:
+    version: 1.2.8
+  51a768e4-3fe2-4713-b003-d20a6d52861d:
+    version: 1.2.9
 format-version: '2'
