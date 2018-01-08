@@ -15,11 +15,11 @@ appdynamics-service-broker/appdynamics-service-broker.jar:
   object_id: 60fbaeb2-4ac7-41b6-af5e-abd5a1526717
   sha: d1f6133c23959e0a2d00c07394616e313f45f0a3
   size: 13333114
-appdynamics-db-agent/dbagent-4.2.15.18.zip:
-  object_id: 1d3cd268-a969-407a-a0c8-a92bd8fa738e
-  sha: fa3ca6f40fe215b865cf3498c0f468e5e0b8550d
-  size: 39370855
 appdynamics-db-agent/dbagent-4.3.8.2.zip:
   object_id: 5686aa61-1262-4751-96f4-21fc9ea472e5
   sha: 44ce94a18d91f82c2219088af50da7ab1c25038c
   size: 87901899
+appdynamics-db-agent/dbagent-4.2.15.18.zip:
+  object_id: 69c93f9d-3de5-42ab-b938-822240948a58
+  sha: 8e2fd22f5ba60049a4aba5c43f2633d48f3dbf67
+  size: 40265289

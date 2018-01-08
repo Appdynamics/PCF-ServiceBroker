@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # For use to create final release tarball
-VERSION=1.2.9    # change
+VERSION=1.2.10    # change
 CREATE_FINAL_TARBALL=true
 RELEASE_NAME=appdynamics_broker
 

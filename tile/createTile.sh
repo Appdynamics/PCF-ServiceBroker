@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TILE_VERSION=v1.2.9-OpsMgrv1.8-MAv4.2.10.0 # change
+TILE_VERSION=v1.2.10-OpsMgrv1.8-MAv4.2.10.0 # change
 TILE_NAME=AppDynamics-Broker
 TILE_FILE=`pwd`/appdynamics-broker-tile-v1.8.yml
 RELEASE_TARFILE=`pwd`/releases/*/*.tgz
